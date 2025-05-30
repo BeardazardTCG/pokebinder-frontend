@@ -1,3 +1,12 @@
+// /src/app/api/search/route.ts
+import { NextResponse } from "next/server";
+import { Pool } from "pg";
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || 'your_fallback_if_needed',
+  ssl: { rejectUnauthorized: false },
+});
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const rawQuery = searchParams.get('q')?.trim();
@@ -16,14 +25,14 @@ export async function GET(request: Request) {
       WHERE query ILIKE $1
       ORDER BY LENGTH(query)
       LIMIT 100;
-    `,
+      `,
       [`%${rawQuery}%`]
     );
 
     return NextResponse.json({ cards: result.rows });
   } catch (err) {
-    console.error('❌ DB search error:', err);
-    return NextResponse.json({ cards: [], error: 'Query failed' }, { status: 500 });
+    console.error("❌ DB search error:", err);
+    return NextResponse.json({ cards: [], error: "Query failed" }, { status: 500 });
   } finally {
     client.release();
   }
