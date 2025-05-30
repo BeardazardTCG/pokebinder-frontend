@@ -3,13 +3,13 @@ import { NextResponse } from "next/server";
 import { Pool } from "pg";
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'your_fallback_if_needed',
+  connectionString: "postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway",
   ssl: { rejectUnauthorized: false },
 });
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const rawQuery = searchParams.get('q')?.trim();
+  const rawQuery = searchParams.get("q")?.trim();
 
   if (!rawQuery) {
     return NextResponse.json({ cards: [] });
