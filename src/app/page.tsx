@@ -80,7 +80,7 @@ export default function Home() {
             }
           }}
         />
-        <Image src="/pikachu-cap.png" alt="Pikachu" width={100} height={100} className="absolute right-[-45px] top-[-16px] z-10" />
+        <Image src="/pikachu-cap.png" alt="Pikachu" width={140} height={140} className="absolute right-[-45px] top-[-16px] z-10" />
       </div>
 
       <div className="mt-3 text-sm sm:text-base text-yellow-700 bg-white border border-yellow-300 px-4 py-2 rounded-full shadow-sm text-center max-w-xs mx-auto">
@@ -112,7 +112,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {items.map((item, i) => (
               <div key={i} className="bg-white border border-gray-200 rounded-lg px-4 py-2 shadow-sm text-center">
-                <p className="text-sm font-semibold truncate">{item.title}</p>
+                <p className="text-sm font-semibold mb-2 line-clamp-2 h-[3rem] leading-snug overflow-hidden">{item.title}</p>
                 <p className="text-green-700 font-bold text-lg mt-1">£{item.price.toFixed(2)}</p>
                 <a
                   href={item.url}
