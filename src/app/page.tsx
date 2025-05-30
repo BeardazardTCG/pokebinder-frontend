@@ -27,7 +27,7 @@ type SealedItem = {
   warning?: boolean;
 };
 
-function SealedProducts(): JSX.Element {
+function SealedProducts() {
   const [items, setItems] = useState<SealedItem[]>([]);
 
   useEffect(() => {
@@ -49,7 +49,9 @@ function SealedProducts(): JSX.Element {
         🛍️ Sealed Products (Affiliate)
       </h2>
       {items.length === 0 ? (
-        <p className="text-sm italic text-gray-500">No products found. Check API connection or proxy.</p>
+        <p className="text-sm italic text-gray-500">
+          No products found. Check API connection or proxy.
+        </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {items.map((item, i) => (
@@ -93,7 +95,7 @@ function SealedProducts(): JSX.Element {
   );
 }
 
-export default function Home(): JSX.Element {
+export default function Home() {
   const [factIndex, setFactIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
