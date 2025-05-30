@@ -2,12 +2,22 @@
 
 import useSWR from 'swr';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
+type Card = {
+  unique_id: string;
+  card_image_url: string;
+  card_name: string;
+  card_number: string | number;
+  set_logo_url?: string | null;
+  set_name?: string;
+  clean_avg_value?: string | number | null;
+  url_used?: string;
+};
+
 export default function FeaturedCards() {
-  const { data, error } = useSWR('/api/featured', fetcher, {
+  const { data, error } = useSWR<{ cards: Card[] }>('/api/featured', fetcher, {
     revalidateOnMount: true,
     revalidateIfStale: true,
     revalidateOnFocus: true,
@@ -22,12 +32,12 @@ export default function FeaturedCards() {
   }
 
   const visibleCards = data.cards
-    .filter((card: any) => card && card.card_image_url && card.card_name)
+    .filter((card) => card && card.card_image_url && card.card_name)
     .slice(0, 4); // show 4 cards max
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 w-full">
-      {visibleCards.map((card: any) => (
+      {visibleCards.map((card) => (
         <div
           key={card.unique_id}
           className="bg-white w-full rounded-2xl shadow-md hover:shadow-xl transition-all p-6 text-center flex flex-col items-center"
@@ -55,8 +65,8 @@ export default function FeaturedCards() {
           )}
 
           <p className="text-green-600 font-bold text-xl mb-3">
-            {card.clean_avg_value != null && !isNaN(parseFloat(card.clean_avg_value))
-              ? `£${parseFloat(card.clean_avg_value).toFixed(2)}`
+            {card.clean_avg_value != null && !isNaN(Number(card.clean_avg_value))
+              ? `£${Number(card.clean_avg_value).toFixed(2)}`
               : '£—'}
           </p>
 
@@ -75,7 +85,3 @@ export default function FeaturedCards() {
     </div>
   );
 }
-
-
-
-
