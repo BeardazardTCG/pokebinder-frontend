@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { getCardFromDB } from '@/lib/db';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { slug } = params;
   const card = await getCardFromDB(slug).catch(() => null);
 
