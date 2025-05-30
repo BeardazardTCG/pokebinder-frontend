@@ -17,7 +17,7 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config) => {
+  webpack: (config: any) => {  // <-- Added explicit type here
     config.resolve.fallback = {
       ...config.resolve.fallback,
       dns: false,
