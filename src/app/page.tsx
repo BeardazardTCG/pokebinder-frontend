@@ -108,9 +108,10 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6">
+    <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6 bg-white text-black">
       <div className="flex flex-col items-center w-full relative -mt-12">
         <div className="relative inline-block w-full max-w-[600px] mx-auto">
+          {/* Desktop BETA badge */}
           <Image
             src="/beta-testing.png"
             alt="Beta Testing Stamp"
@@ -119,6 +120,7 @@ export default function Home() {
             style={{ height: "auto" }}
             className="absolute top-[85px] right-0 rotate-[-20deg] opacity-90 z-30 hidden sm:block"
           />
+          {/* Logo */}
           <Image
             src="/pokebinder-logo.png"
             alt="PokeBinder Logo"
@@ -126,6 +128,15 @@ export default function Home() {
             height={420}
             style={{ height: "auto" }}
             className="mx-auto mb-6"
+          />
+          {/* Mobile BETA badge */}
+          <Image
+            src="/beta-testing.png"
+            alt="Beta Testing Stamp"
+            width={120}
+            height={40}
+            style={{ height: "auto" }}
+            className="block sm:hidden mx-auto mt-[-20px] rotate-[-12deg] opacity-90 z-30"
           />
         </div>
 
@@ -151,14 +162,16 @@ export default function Home() {
               }
             }}
           />
+          {/* Pikachu - Desktop */}
           <Image
             src="/pikachu-cap.png"
             alt="Pikachu"
-            width={180}
-            height={180}
+            width={100}
+            height={100}
             style={{ height: "auto" }}
-            className="hidden sm:block absolute -right-24 -top-12"
+            className="hidden sm:block absolute -left-24 top-1"
           />
+          {/* Fun Fact bubble */}
           <div className="absolute top-full mt-2 w-full text-center sm:top-[-3rem] sm:right-0 sm:translate-x-20 sm:-translate-y-1 sm:max-w-xs z-10 bg-white border border-gray-300 text-black text-xs font-semibold px-4 py-2 rounded-xl shadow-md">
             {funFacts[factIndex]}
           </div>
@@ -204,4 +217,3 @@ export default function Home() {
     </main>
   );
 }
-
