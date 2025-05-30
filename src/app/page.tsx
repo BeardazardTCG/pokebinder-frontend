@@ -109,91 +109,94 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6 bg-white text-black">
-      {/* Force light mode on all devices */}
+      {/* 🔆 Force light mode always */}
       <style>{`html, body { background-color: #fff; color: #000; color-scheme: light; }`}</style>
 
-      <div className="flex flex-col items-center w-full relative -mt-12">
-        <div className="relative inline-block w-full max-w-[600px] mx-auto">
-          {/* Desktop BETA badge */}
-          <Image
-            src="/beta-testing.png"
-            alt="Beta Testing Stamp"
-            width={160}
-            height={50}
-            style={{ height: "auto" }}
-            className="absolute top-[85px] right-0 rotate-[-20deg] opacity-90 z-30 hidden sm:block"
-          />
-          {/* Logo */}
-          <Image
-            src="/pokebinder-logo.png"
-            alt="PokeBinder Logo"
-            width={420}
-            height={420}
-            style={{ height: "auto" }}
-            className="mx-auto mb-6"
-          />
-          {/* Mobile BETA badge */}
-          <Image
-            src="/beta-testing.png"
-            alt="Beta Testing Stamp"
-            width={120}
-            height={40}
-            style={{ height: "auto" }}
-            className="block sm:hidden mx-auto mt-[-20px] rotate-[-12deg] opacity-90 z-30"
-          />
-        </div>
-
-        <div className="relative flex items-center w-[90%] max-w-[900px]">
-          <Image
-            src="/pokeball-icon-v2.png"
-            alt="Search Icon"
-            width={28}
-            height={28}
-            style={{ height: "auto" }}
-            className="absolute left-4 top-4"
-          />
-          <input
-            type="text"
-            name="search"
-            placeholder="Search cards (e.g. Charizard EX)..."
-            className="w-full pl-12 pr-4 py-4 text-lg rounded-full border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && searchTerm.trim()) {
-                router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
-              }
-            }}
-          />
-        </div>
-
-        {/* Fun Fact bubble */}
-        <div className="absolute top-full mt-2 w-full text-center sm:top-[-3rem] sm:right-0 sm:translate-x-20 sm:-translate-y-1 sm:max-w-xs z-10 bg-white border border-gray-300 text-black text-xs font-semibold px-4 py-2 rounded-xl shadow-md">
-          {funFacts[factIndex]}
-        </div>
-
-        {/* Pikachu under fun facts (desktop only) */}
-        <div className="hidden sm:block mt-6">
-          <Image
-            src="/pikachu-cap.png"
-            alt="Pikachu"
-            width={100}
-            height={100}
-            style={{ height: "auto" }}
-            className="mx-auto"
-          />
-        </div>
-
-        <div className="mt-2 text-sm text-gray-500">
-          Try: <Link href="/card/g1-11" className="text-blue-600 hover:underline">Charizard EX</Link>,{" "}
-          <Link href="/card/base1-10" className="text-blue-600 hover:underline">Mewtwo</Link>
-        </div>
+      {/* LOGO + BETA */}
+      <div className="relative inline-block w-full max-w-[600px] mx-auto">
+        {/* Desktop BETA badge */}
+        <Image
+          src="/beta-testing.png"
+          alt="Beta Testing Stamp"
+          width={160}
+          height={50}
+          style={{ height: "auto" }}
+          className="absolute top-[85px] right-0 rotate-[-20deg] opacity-90 z-30 hidden sm:block"
+        />
+        {/* Logo */}
+        <Image
+          src="/pokebinder-logo.png"
+          alt="PokeBinder Logo"
+          width={420}
+          height={420}
+          style={{ height: "auto" }}
+          className="mx-auto mb-6"
+        />
+        {/* Mobile BETA badge */}
+        <Image
+          src="/beta-testing.png"
+          alt="Beta Testing Stamp"
+          width={120}
+          height={40}
+          style={{ height: "auto" }}
+          className="block sm:hidden mx-auto mt-[-20px] rotate-[-12deg] opacity-90 z-30"
+        />
       </div>
 
+      {/* SEARCH BAR + ICON + PIKACHU */}
+      <div className="relative flex items-center w-[90%] max-w-[900px]">
+        {/* Pokéball icon */}
+        <Image
+          src="/pokeball-icon-v2.png"
+          alt="Search Icon"
+          width={28}
+          height={28}
+          style={{ height: "auto" }}
+          className="absolute left-4 top-4"
+        />
+        {/* Input */}
+        <input
+          type="text"
+          name="search"
+          placeholder="Search cards (e.g. Charizard EX)..."
+          className="w-full pl-12 pr-24 py-4 text-lg rounded-full border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && searchTerm.trim()) {
+              router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+            }
+          }}
+        />
+        {/* Pikachu to the right */}
+        <Image
+          src="/pikachu-cap.png"
+          alt="Pikachu"
+          width={60}
+          height={60}
+          style={{ height: "auto" }}
+          className="hidden sm:block absolute right-[-70px] top-2"
+        />
+      </div>
+
+      {/* FUN FACTS */}
+      <div className="mt-3 text-center text-yellow-600 font-medium text-sm sm:text-base">
+        {funFacts[factIndex]}
+      </div>
+
+      {/* SUGGESTED LINKS */}
+      <div className="mt-2 text-sm text-gray-500">
+        Try: <Link href="/card/g1-11" className="text-blue-600 hover:underline">Charizard EX</Link>,{" "}
+        <Link href="/card/base1-10" className="text-blue-600 hover:underline">Mewtwo</Link>
+      </div>
+
+      {/* STATS */}
       <LiveScrapeStats />
       <hr className="w-full max-w-3xl border-t border-gray-200" />
 
+      {/* MAIN CONTENT SPLIT */}
       <div className="flex flex-col-reverse lg:flex-row justify-between items-start w-full max-w-[1600px] px-8 mt-12 gap-16">
+        {/* COMING SOON */}
         <div className="w-full lg:w-[30%] min-w-[280px] bg-yellow-200 border border-yellow-400 p-6 rounded-xl shadow-md relative">
           <h2 className="text-md font-bold mb-3 text-gray-800">Coming Soon to PokéBinder</h2>
           <ul className="text-sm text-gray-800 space-y-3">
@@ -209,6 +212,7 @@ export default function Home() {
           </button>
         </div>
 
+        {/* FEATURED + SEALED */}
         <div className="w-full lg:w-[70%]">
           <h2 className="text-lg font-bold mb-4 text-orange-600 text-left">🔥 Featured Cards</h2>
           <FeaturedCards />
@@ -216,6 +220,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* FOOTER */}
       <footer className="text-xs text-gray-500 text-center mt-12">
         <p>🔧 Hand-coded in the UK using PostgreSQL, Railway, Next.js, and live eBay + TCG scrapes.</p>
         <p>💡 Built by collectors. Built for collectors. No suits. No shortcuts.</p>
