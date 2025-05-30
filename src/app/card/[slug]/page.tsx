@@ -23,9 +23,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-// Changed params typing to any to satisfy Next.js PageProps constraint
-export default async function CardPage({ params }: any) {
-  const slug: string = params.slug;
+export default async function CardPage(props: any) {
+  const slug = props.params.slug;
   const card = await getCardFromDB(slug).catch(() => null);
 
   if (!card) {
@@ -33,11 +32,11 @@ export default async function CardPage({ params }: any) {
   }
 
   const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
-    `${card.card_name} ${card.card_number}`
+    card.card_name + ' ' + card.card_number
   )}`;
   const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(
-    `${card.card_name}-${card.card_number}`
-  )}&mpre=${encodeURIComponent(baseUrl)}`;
+    card.card_name
+  )}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
 
   return (
     <main className="max-w-5xl mx-auto p-6">
