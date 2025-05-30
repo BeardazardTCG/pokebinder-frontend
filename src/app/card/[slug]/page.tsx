@@ -2,8 +2,8 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { getCardFromDB } from '@/lib/db';
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const { slug } = params;
   const card = await getCardFromDB(slug).catch(() => null);
 
   if (!card) {
@@ -30,12 +30,18 @@ export default async function CardPage({ params }: { params: { slug: string } })
     return <div className="p-8 text-red-600 text-xl">Card not found.</div>;
   }
 
-  const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(card.card_name + ' ' + card.card_number)}`;
-  const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(card.card_name)}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
+  const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
+    card.card_name + ' ' + card.card_number
+  )}`;
+  const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(
+    card.card_name
+  )}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
 
   return (
     <main className="max-w-5xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">{card.card_name} ({card.card_number})</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        {card.card_name} ({card.card_number})
+      </h1>
 
       <div className="grid md:grid-cols-2 gap-8 items-start">
         <Image
@@ -61,20 +67,24 @@ export default async function CardPage({ params }: { params: { slug: string } })
           </p>
 
           <div className="flex items-center gap-4 mt-4">
-  <Image src="/ebay-logo.svg" alt="eBay Logo" width={90} height={32} className="object-contain" />
-  <a
-    href={affiliateUrl}
-    className="bg-[#e53238] text-white text-lg px-6 py-2 rounded font-bold hover:bg-[#c11b1f] transition"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    View on eBay
-  </a>
-</div>
-
+            <Image
+              src="/ebay-logo.svg"
+              alt="eBay Logo"
+              width={90}
+              height={32}
+              className="object-contain"
+            />
+            <a
+              href={affiliateUrl}
+              className="bg-[#e53238] text-white text-lg px-6 py-2 rounded font-bold hover:bg-[#c11b1f] transition"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on eBay
+            </a>
+          </div>
         </div>
       </div>
     </main>
   );
 }
-
