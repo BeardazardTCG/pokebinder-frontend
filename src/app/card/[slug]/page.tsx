@@ -23,19 +23,21 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function CardPage({ params }: { params: { slug: string } }) {
-  const card = await getCardFromDB(params.slug).catch(() => null);
+// Changed params typing to any to satisfy Next.js PageProps constraint
+export default async function CardPage({ params }: any) {
+  const slug: string = params.slug;
+  const card = await getCardFromDB(slug).catch(() => null);
 
   if (!card) {
     return <div className="p-8 text-red-600 text-xl">Card not found.</div>;
   }
 
   const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
-    card.card_name + ' ' + card.card_number
+    `${card.card_name} ${card.card_number}`
   )}`;
   const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(
-    card.card_name
-  )}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
+    `${card.card_name}-${card.card_number}`
+  )}&mpre=${encodeURIComponent(baseUrl)}`;
 
   return (
     <main className="max-w-5xl mx-auto p-6">
@@ -45,8 +47,8 @@ export default async function CardPage({ params }: { params: { slug: string } })
 
       <div className="grid md:grid-cols-2 gap-8 items-start">
         <Image
-          src={card.card_image_url}
-          alt={card.card_name}
+          src={card.card_image_url || '/placeholder.png'}
+          alt={card.card_name || 'Card image'}
           width={400}
           height={560}
           className="rounded-xl shadow-lg mx-auto"
@@ -63,7 +65,7 @@ export default async function CardPage({ params }: { params: { slug: string } })
           </div>
 
           <p className="text-xl font-semibold">
-            🔥 Live Market Estimate: £{card.price?.toFixed(2) ?? 'N/A'}
+            🔥 Live Market Estimate: £{card.price != null ? card.price.toFixed(2) : 'N/A'}
           </p>
 
           <div className="flex items-center gap-4 mt-4">
