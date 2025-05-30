@@ -108,7 +108,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6">
+    <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6 bg-white text-black">
       <div className="flex flex-col items-center w-full relative -mt-12">
         <div className="relative inline-block">
           <Image
@@ -129,37 +129,43 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative flex items-center w-[80%] max-w-[900px]">
-          <Image
-            src="/pokeball-icon-v2.png"
-            alt="Search Icon"
-            width={28}
-            height={28}
-            style={{ height: "auto" }}
-            className="absolute left-4 top-4"
-          />
-          <input
-            type="text"
-            name="search"
-            placeholder="Search cards (e.g. Charizard EX)..."
-            className="w-full pl-12 pr-4 py-4 text-lg rounded-full border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && searchTerm.trim()) {
-                router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
-              }
-            }}
-          />
-          <Image
-            src="/pikachu-cap.png"
-            alt="Pikachu"
-            width={180}
-            height={180}
-            style={{ height: "auto" }}
-            className="absolute -right-24 -top-12 hidden sm:block"
-          />
-          <div className="absolute right-0 -top-12 translate-x-20 -translate-y-1 max-w-xs z-10 bg-white border border-gray-300 text-black text-xs font-semibold px-4 py-2 rounded-xl shadow-md">
+        {/* Pikachu only shows on large screens */}
+        <Image
+          src="/pikachu-cap.png"
+          alt="Pikachu"
+          width={180}
+          height={180}
+          style={{ height: "auto" }}
+          className="absolute -right-24 -top-12 hidden sm:block"
+        />
+
+        <div className="relative flex flex-col items-center w-full max-w-[900px] px-4">
+          <div className="relative w-full">
+            <Image
+              src="/pokeball-icon-v2.png"
+              alt="Search Icon"
+              width={28}
+              height={28}
+              style={{ height: "auto" }}
+              className="absolute left-4 top-4"
+            />
+            <input
+              type="text"
+              name="search"
+              placeholder="Search cards (e.g. Charizard EX)..."
+              className="w-full pl-12 pr-4 py-4 text-lg rounded-full border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchTerm.trim()) {
+                  router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+                }
+              }}
+            />
+          </div>
+
+          {/* Fun facts repositioned for mobile */}
+          <div className="mt-3 sm:absolute sm:right-0 sm:-top-12 sm:translate-x-20 sm:-translate-y-1 max-w-xs z-10 bg-white border border-gray-300 text-black text-xs font-semibold px-4 py-2 rounded-xl shadow-md">
             {funFacts[factIndex]}
           </div>
         </div>
