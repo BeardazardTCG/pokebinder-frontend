@@ -1,18 +1,6 @@
-// /src/app/api/search/route.ts
-export const runtime = 'nodejs';
-
-import { NextResponse } from 'next/server';
-import { Pool } from 'pg';
-
-const pool = new Pool({
-  connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
-  ssl: { rejectUnauthorized: false },
-});
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const rawQuery = decodeURIComponent(searchParams.get('q') || '').trim().toLowerCase();
-  const terms = rawQuery.split(/\s+/);
+  const rawQuery = searchParams.get('q')?.trim();
 
   if (!rawQuery) {
     return NextResponse.json({ cards: [] });
@@ -25,15 +13,11 @@ export async function GET(request: Request) {
       `
       SELECT unique_id, card_name, card_number, set_name, set_logo_url, card_image_url, sold_ebay_median
       FROM mastercard_v2
-      WHERE 
-        LOWER(card_name) LIKE ANY($1::text[])
-        AND (
-          LOWER(set_name) LIKE ANY($1::text[])
-          OR card_number_raw LIKE ANY($1::text[])
-        )
-      LIMIT 50;
+      WHERE query ILIKE $1
+      ORDER BY LENGTH(query)
+      LIMIT 100;
     `,
-      [terms.map(t => `%${t}%`)]
+      [`%${rawQuery}%`]
     );
 
     return NextResponse.json({ cards: result.rows });
