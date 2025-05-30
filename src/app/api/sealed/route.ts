@@ -27,9 +27,9 @@ export async function GET() {
         const itemBlock = $("li.s-item")
           .filter((_, el) => {
             const title = $(el).find(".s-item__title").text().toLowerCase();
-            const href = $(el).find("a.s-item__link").attr("href") || "";
+            const href = $(el).find("a.s-item__link").attr("href") ?? "";
             return (
-              title &&
+              Boolean(title) &&
               !title.includes("shop on ebay") &&
               href.includes("/itm/") &&
               !href.includes("123456") &&
@@ -42,7 +42,7 @@ export async function GET() {
           .first();
 
         const title = itemBlock.find(".s-item__title").text().trim();
-        const rawUrl = itemBlock.find("a.s-item__link").attr("href")?.split("?")[0] || "";
+        const rawUrl = itemBlock.find("a.s-item__link").attr("href")?.split("?")[0] ?? "";
 
         // fallback: regex scan for image URL directly from raw HTML
         const match = html.match(/https:\/\/i\.ebayimg\.com\S+?s-l\d+\.webp/);
