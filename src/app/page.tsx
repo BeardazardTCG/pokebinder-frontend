@@ -157,7 +157,7 @@ export default function Home() {
             width={180}
             height={180}
             style={{ height: "auto" }}
-            className="absolute -right-24 -top-12"
+            className="absolute -right-24 -top-12 hidden sm:block"
           />
           <div className="absolute right-0 -top-12 translate-x-20 -translate-y-1 max-w-xs z-10 bg-white border border-gray-300 text-black text-xs font-semibold px-4 py-2 rounded-xl shadow-md">
             {funFacts[factIndex]}
@@ -173,8 +173,8 @@ export default function Home() {
       <LiveScrapeStats />
       <hr className="w-full max-w-3xl border-t border-gray-200" />
 
-      <div className="flex flex-row justify-between items-start w-full max-w-[1600px] px-8 mt-12 gap-16">
-        <div className="w-[30%] min-w-[280px] bg-yellow-200 border border-yellow-400 p-6 rounded-xl shadow-md relative">
+      <div className="flex flex-col-reverse lg:flex-row justify-between items-start w-full max-w-[1600px] px-8 mt-12 gap-16">
+        <div className="w-full lg:w-[30%] min-w-[280px] bg-yellow-200 border border-yellow-400 p-6 rounded-xl shadow-md relative">
           <h2 className="text-md font-bold mb-3 text-gray-800">Coming Soon to PokéBinder</h2>
           <ul className="text-sm text-gray-800 space-y-3">
             <li>🟤 Full English Pokémon card DB</li>
@@ -189,7 +189,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="w-[70%]">
+        <div className="w-full lg:w-[70%]">
           <h2 className="text-lg font-bold mb-4 text-orange-600 text-left">🔥 Featured Cards</h2>
           <FeaturedCards />
           <SealedProducts />
