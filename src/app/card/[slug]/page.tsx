@@ -34,9 +34,11 @@ export default async function CardPage(props: any) {
   const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
     card.card_name + ' ' + card.card_number
   )}`;
+
+  // ✅ FIXED: No double-encoding of the eBay URL
   const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(
     card.card_name
-  )}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
+  )}-${card.card_number}&mpre=${baseUrl}`;
 
   return (
     <main className="max-w-6xl mx-auto p-6">
