@@ -15,7 +15,7 @@ type Card = {
   sold_ebay_median: number | null;
 };
 
-export default function SearchResultsPage() {
+export default function SearchPageClient() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [results, setResults] = useState<Card[]>([]);
@@ -50,9 +50,14 @@ export default function SearchResultsPage() {
 
                 <div className="mt-3 space-y-1 text-center">
                   <p className="font-bold text-lg">{card.card_name}</p>
-                  <p className="text-sm text-gray-500">{card.set_name} #{card.card_number}</p>
+                  <p className="text-sm text-gray-500">
+                    {card.set_name} #{card.card_number}
+                  </p>
                   <p className="text-sm text-green-700">
-                    🔥 Live Market Estimate: £{card.sold_ebay_median != null ? card.sold_ebay_median.toFixed(2) : 'N/A'}
+                    🔥 Live Market Estimate: £
+                    {typeof card.sold_ebay_median === "number"
+                      ? card.sold_ebay_median.toFixed(2)
+                      : "N/A"}
                   </p>
                   <button className="mt-1 bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-1 rounded-full font-semibold">
                     Buy Now
@@ -66,4 +71,3 @@ export default function SearchResultsPage() {
     </main>
   );
 }
-
