@@ -31,13 +31,11 @@ export default async function CardPage(props: any) {
     return <div className="p-8 text-red-600 text-xl">Card not found.</div>;
   }
 
-  // ✅ FIXED: Only encode full URL once
+  // ✅ FINAL: Clean search URL with campid, no rover
   const safeQuery = `${card.card_name} ${card.card_number}`.replace(/[^a-zA-Z0-9\s-]/g, '');
-  const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${safeQuery}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa bundle lot&_in_kw=3`;
-
-  const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(
-    card.card_name
-  )}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
+  const affiliateUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
+    safeQuery
+  )}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa bundle lot&_in_kw=3&campid=5339108925`;
 
   return (
     <main className="max-w-6xl mx-auto p-6">

@@ -42,7 +42,7 @@ export async function GET() {
           .first();
 
         const title = itemBlock.find(".s-item__title").text().trim();
-        const rawUrl = itemBlock.find("a.s-item__link").attr("href")?.split("?")[0] ?? "";
+        const rawUrl = itemBlock.find("a.s-item__link").attr("href") ?? "";
 
         // fallback: regex scan for image URL directly from raw HTML
         const match = html.match(/https:\/\/i\.ebayimg\.com\S+?s-l\d+\.webp/);
@@ -63,6 +63,7 @@ export async function GET() {
           };
         }
 
+        // ✅ SAFELY append campid param depending on existing query string
         const fullUrl = rawUrl.includes("?")
           ? `${rawUrl}&campid=${CAMP_ID}`
           : `${rawUrl}?campid=${CAMP_ID}`;
