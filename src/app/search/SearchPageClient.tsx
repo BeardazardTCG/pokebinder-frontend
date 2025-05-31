@@ -31,7 +31,11 @@ export default function SearchPageClient() {
 
   if (isLoading) return <div className="p-8 text-center">Loading...</div>;
   if (error)
-    return <div className="p-8 text-red-600 text-xl">Search failed. Please try again later.</div>;
+    return (
+      <div className="p-8 text-red-600 text-xl text-center">
+        Search failed. Please try again later.
+      </div>
+    );
 
   const cards = data?.cards || [];
 
@@ -49,38 +53,47 @@ export default function SearchPageClient() {
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-10">
-      <h1 className="text-2xl font-bold mb-6">Results for “{query}”</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <main className="max-w-7xl mx-auto px-6 py-10">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center text-gray-800">
+        Results for “<span className="italic text-black/80">{query}</span>”
+      </h1>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {cards.map((card: any) => (
           <Link
             key={card.unique_id}
             href={`/card/${card.unique_id}`}
-            className="group border rounded-xl p-3 shadow hover:shadow-lg transition"
+            className="group border rounded-xl p-3 shadow hover:shadow-lg hover:border-blue-400 transition bg-white hover:bg-gray-50"
           >
             <Image
               src={card.card_image_url}
               alt={card.card_name}
-              width={200}
-              height={280}
-              className="mx-auto rounded"
+              width={240}
+              height={340}
+              className="mx-auto rounded-xl shadow-sm group-hover:scale-[1.02] transition"
             />
             <div className="mt-3 text-sm text-center">
-              <div className="font-semibold">{card.card_name}</div>
-              <div className="text-gray-500">#{card.card_number}</div>
-              <div className="flex justify-center items-center mt-1 space-x-2 text-xs">
-                <Image
-                  src={card.set_logo_url}
-                  alt={card.set_name}
-                  width={24}
-                  height={24}
-                />
-                <span>{card.set_name}</span>
+              <div className="font-bold text-gray-900 truncate">{card.card_name}</div>
+              <div className="text-gray-500 text-xs">#{card.card_number}</div>
+
+              <div className="flex justify-center items-center mt-1 gap-1 text-xs text-gray-600">
+                {card.set_logo_url && (
+                  <Image
+                    src={card.set_logo_url}
+                    alt={card.set_name}
+                    width={22}
+                    height={22}
+                  />
+                )}
+                <span className="truncate">{card.set_name}</span>
               </div>
-              <div className="mt-1 text-green-600 font-medium">
-                {card.sold_ebay_median
-                  ? `£${parseFloat(card.sold_ebay_median).toFixed(2)}`
-                  : "No recent price"}
+
+              <div className="mt-1 font-semibold text-sm">
+                {card.sold_ebay_median ? (
+                  <span className="text-green-700">£{parseFloat(card.sold_ebay_median).toFixed(2)}</span>
+                ) : (
+                  <span className="text-gray-400 italic">No recent price</span>
+                )}
               </div>
             </div>
           </Link>
