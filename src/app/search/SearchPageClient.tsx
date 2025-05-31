@@ -12,7 +12,7 @@ type Card = {
   set_name: string;
   set_logo_url: string | null;
   card_image_url: string | null;
-  sold_ebay_median: number | null;
+  clean_avg_value: number | null;
 };
 
 export default function SearchPageClient() {
@@ -55,8 +55,8 @@ export default function SearchPageClient() {
                   </p>
                   <p className="text-sm text-green-700">
                     🔥 Live Market Estimate: £
-                    {typeof card.sold_ebay_median === "number"
-                      ? card.sold_ebay_median.toFixed(2)
+                    {!isNaN(Number(card.clean_avg_value))
+                      ? Number(card.clean_avg_value).toFixed(2)
                       : "N/A"}
                   </p>
                   <button className="mt-1 bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-1 rounded-full font-semibold">
@@ -71,3 +71,4 @@ export default function SearchPageClient() {
     </main>
   );
 }
+
