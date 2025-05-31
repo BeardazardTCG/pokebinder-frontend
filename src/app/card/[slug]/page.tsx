@@ -31,8 +31,9 @@ export default async function CardPage(props: any) {
     return <div className="p-8 text-red-600 text-xl">Card not found.</div>;
   }
 
-  // ✅ CORRECT URL CONSTRUCTION — FIXED
-  const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${card.card_name} ${card.card_number}`;
+  // ✅ USE SCRAPER-ALIGNED QUERY
+  const safeQuery = `${card.card_name} ${card.card_number}`.replace(/[^a-zA-Z0-9\s-]/g, '');
+  const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(safeQuery)}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa%20bundle%20lot&_in_kw=3`;
 
   const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(
     card.card_name
@@ -105,4 +106,3 @@ export default async function CardPage(props: any) {
     </main>
   );
 }
-
