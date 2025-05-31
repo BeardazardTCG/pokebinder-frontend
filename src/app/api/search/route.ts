@@ -20,7 +20,14 @@ export async function GET(request: Request) {
   try {
     const result = await client.query(
       `
-      SELECT unique_id, card_name, card_number, set_name, set_logo_url, card_image_url, sold_ebay_median
+      SELECT 
+        unique_id,
+        card_name,
+        card_number,
+        set_name,
+        set_logo_url,
+        card_image_url,
+        clean_avg_value  -- ✅ ADDED HERE
       FROM mastercard_v2
       WHERE query ILIKE $1
       ORDER BY LENGTH(query)
