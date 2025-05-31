@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import useSWR from "swr";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,12 +9,21 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function SearchPageClient() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const query = searchParams.get("q") || "";
-
   const { data, error, isLoading } = useSWR(
     query ? `/api/search?q=${encodeURIComponent(query)}` : null,
     fetcher
   );
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const input = form.querySelector("input") as HTMLInputElement;
+    if (input?.value.trim()) {
+      router.push(`/search?q=${encodeURIComponent(input.value.trim())}`);
+    }
+  };
 
   if (!query) {
     return (
@@ -54,10 +63,41 @@ export default function SearchPageClient() {
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center text-gray-800">
-        Results for “<span className="italic text-black/80">{query}</span>”
-      </h1>
+      {/* Logo and header */}
+      <div className="flex flex-col items-center mb-6">
+        <Image
+          src="/pokebinder-logo.png"
+          alt="PokeBinder Logo"
+          width={200}
+          height={200}
+          className="mb-2"
+        />
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
+          Results for <span className="italic text-black/80">“{query}”</span>
+        </h1>
+      </div>
 
+      {/* Search Bar Again */}
+      <form
+        onSubmit={handleSearch}
+        className="flex justify-center mb-8 w-full max-w-2xl mx-auto"
+      >
+        <input
+          type="text"
+          name="search"
+          placeholder="Search again..."
+          defaultValue={query}
+          className="w-full px-4 py-2 rounded-full border border-gray-300 shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+        >
+          Search
+        </button>
+      </form>
+
+      {/* Results Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {cards.map((card: any) => (
           <Link
@@ -90,7 +130,9 @@ export default function SearchPageClient() {
 
               <div className="mt-1 font-semibold text-sm">
                 {card.sold_ebay_median ? (
-                  <span className="text-green-700">£{parseFloat(card.sold_ebay_median).toFixed(2)}</span>
+                  <span className="text-green-700">
+                    £{parseFloat(card.sold_ebay_median).toFixed(2)}
+                  </span>
                 ) : (
                   <span className="text-gray-400 italic">No recent price</span>
                 )}
