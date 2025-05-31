@@ -43,10 +43,12 @@ export default function SearchPageClient() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {results.map((card) => {
-            // ✅ Generate a scraper-aligned eBay affiliate link
-            const safeQuery = `${card.card_name} ${card.card_number}`.replace(/[^a-zA-Z0-9\s-]/g, "");
-            const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(safeQuery)}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa%20bundle%20lot&_in_kw=3`;
-            const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(card.card_name)}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
+            // ✅ FIXED: Only encode full URL once
+            const safeQuery = `${card.card_name} ${card.card_number}`.replace(/[^a-zA-Z0-9\s-]/g, '');
+            const baseUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${safeQuery}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa bundle lot&_in_kw=3`;
+            const affiliateUrl = `https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&pub=5575564066&toolid=10001&campid=5339108925&customid=${encodeURIComponent(
+              card.card_name
+            )}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
 
             return (
               <div

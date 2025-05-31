@@ -63,7 +63,9 @@ export async function GET() {
           };
         }
 
-        const fullUrl = `${rawUrl}?campid=${CAMP_ID}`;
+        const fullUrl = rawUrl.includes("?")
+          ? `${rawUrl}&campid=${CAMP_ID}`
+          : `${rawUrl}?campid=${CAMP_ID}`;
 
         return {
           title,
@@ -81,8 +83,3 @@ export async function GET() {
 
   return NextResponse.json(allItems.filter(Boolean));
 }
-
-
-
-
-
