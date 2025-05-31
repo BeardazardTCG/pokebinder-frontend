@@ -39,72 +39,91 @@ export default async function CardPage(props: any) {
   )}-${card.card_number}&mpre=${encodeURIComponent(baseUrl)}`;
 
   return (
-    <main className="max-w-5xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        {card.card_name} ({card.card_number})
-      </h1>
+    <>
+      <div className="relative w-full max-w-3xl mx-auto text-center mt-8">
+        <Image src="/pokebinder-logo.png" alt="PokeBinder Logo" width={200} height={200} className="mx-auto mb-2" />
+        <Image src="/beta-testing.png" alt="Beta Stamp" width={120} height={40} className="absolute top-0 right-[-30px] rotate-[-20deg] hidden sm:block" />
+        <div className="relative mt-4">
+          <Image src="/pokeball-icon-v2.png" alt="Search Icon" width={24} height={24} className="absolute left-4 top-3" />
+          <input
+            type="text"
+            placeholder="Search cards (e.g. Charizard EX)..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const val = (e.target as HTMLInputElement).value;
+                if (val.trim()) window.location.href = `/search?q=${encodeURIComponent(val.trim())}`;
+              }
+            }}
+            className="w-full pl-12 pr-6 py-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+      </div>
 
-      <div className="grid md:grid-cols-2 gap-8 items-start">
-        <Image
-          src={card.card_image_url || '/placeholder.png'}
-          alt={card.card_name || 'Card image'}
-          width={400}
-          height={560}
-          className="rounded-xl shadow-lg mx-auto"
-        />
-
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
+      <main className="max-w-6xl mx-auto p-6">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold mb-2">
+            {card.card_name} <span className="text-gray-500">#{card.card_number}</span>
+          </h1>
+          <div className="flex justify-center items-center gap-4 flex-wrap">
             {card.set_symbol_url && (
-              <Image src={card.set_symbol_url} alt="Set Symbol" width={40} height={40} />
+              <Image src={card.set_symbol_url} alt="Set Symbol" width={32} height={32} />
             )}
             {card.set_logo_url && (
-              <Image src={card.set_logo_url} alt="Set Logo" width={140} height={40} />
+              <Image src={card.set_logo_url} alt="Set Logo" width={120} height={36} />
             )}
           </div>
+        </div>
 
-          <p className="text-xl font-semibold">
-            🔥 Live Market Estimate: £{card.price != null ? card.price.toFixed(2) : 'N/A'}
-          </p>
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+          <Image
+            src={card.card_image_url || '/placeholder.png'}
+            alt={card.card_name || 'Card image'}
+            width={400}
+            height={560}
+            className="rounded-xl shadow-xl mx-auto"
+          />
 
-          <div className="flex items-center gap-4 mt-4">
-            <Image
-              src="/ebay-logo.svg"
-              alt="eBay Logo"
-              width={90}
-              height={32}
-              className="object-contain"
-            />
+          <div className="space-y-6">
+            <p className="text-2xl font-semibold text-green-700">
+              🔥 Live Market Estimate: £{card.price != null ? card.price.toFixed(2) : 'N/A'}
+            </p>
+
             <a
               href={affiliateUrl}
-              className="bg-[#e53238] text-white text-lg px-6 py-2 rounded font-bold hover:bg-[#c11b1f] transition"
+              className="inline-block bg-red-600 hover:bg-red-700 text-white text-lg px-5 py-2 rounded-lg font-bold transition"
               target="_blank"
               rel="noopener noreferrer"
             >
-              View on eBay
+              Buy Now on eBay
             </a>
-          </div>
 
-          <div className="mt-10 bg-blue-50 border border-blue-300 rounded-xl p-6 text-sm shadow-inner">
-            <h2 className="text-lg font-semibold mb-2">🧠 Smart Suggestions (Coming Soon)</h2>
-            <p>
-              You’ll soon get AI-powered card bundles, trends, and collecting tips based on market activity.
-            </p>
-          </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 shadow">
+              <h2 className="text-lg font-bold mb-1">🧠 Smart Suggestions (Coming Soon)</h2>
+              <p className="text-sm text-gray-700">
+                Get recommended bundles, insights, and collecting strategies from live data and market trends.
+              </p>
+            </div>
 
-          <div className="mt-4 bg-yellow-50 border border-yellow-300 rounded-xl p-6 text-sm shadow-inner">
-            <h2 className="text-lg font-semibold mb-2">📈 Trend Tracker</h2>
-            <p>
-              Watch this card’s price movement over time and receive alerts when it spikes or dips.
-            </p>
-          </div>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 shadow">
+              <h2 className="text-lg font-bold mb-1">📊 Trend Tracker</h2>
+              <p className="text-sm text-gray-700">
+                Track this card’s value over time and get notified on spikes, dips, or trend shifts.
+              </p>
+            </div>
 
-          <div className="mt-4 text-center text-xs text-gray-500 italic">
-            🚀 Coming soon: Bundle Builder, Auto-List to eBay, Deck Optimizer + More
+            <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 shadow">
+              <h2 className="text-lg font-bold mb-1">🚀 Upcoming Premium Tools</h2>
+              <ul className="text-sm text-gray-700 list-disc list-inside mt-2 space-y-1">
+                <li>🔧 Bundle Builder – auto-suggest card combinations to sell together</li>
+                <li>⚙️ Auto-List to eBay – 1-click daily relisting based on price shifts</li>
+                <li>🧪 Deck Optimizer – rank your cards for competitive play</li>
+                <li>🌍 Global Arbitrage – uncover price gaps across regions</li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 

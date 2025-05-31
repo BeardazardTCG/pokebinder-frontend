@@ -1,146 +1,90 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import useSWR from "swr";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+type Card = {
+  unique_id: string;
+  card_name: string;
+  card_number: string;
+  set_name: string;
+  set_logo_url: string | null;
+  card_image_url: string | null;
+  sold_ebay_median: number | null;
+};
 
-export default function SearchPageClient() {
+export default function SearchResultsPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const query = searchParams.get("q") || "";
-  const { data, error, isLoading } = useSWR(
-    query ? `/api/search?q=${encodeURIComponent(query)}` : null,
-    fetcher
-  );
+  const [results, setResults] = useState<Card[]>([]);
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const input = form.querySelector("input") as HTMLInputElement;
-    if (input?.value.trim()) {
-      router.push(`/search?q=${encodeURIComponent(input.value.trim())}`);
+  useEffect(() => {
+    if (query) {
+      fetch(`/api/search?q=${encodeURIComponent(query)}`)
+        .then((res) => res.json())
+        .then((data) => setResults(data.cards || []))
+        .catch((err) => console.error("❌ Search fetch error:", err));
     }
-  };
-
-  if (!query) {
-    return (
-      <div className="p-8 text-red-600 text-xl text-center">
-        No search term provided.
-        <div className="mt-4">
-          <Link href="/" className="text-blue-600 hover:underline">
-            Go Back Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  if (isLoading) return <div className="p-8 text-center">Loading...</div>;
-  if (error)
-    return (
-      <div className="p-8 text-red-600 text-xl text-center">
-        Search failed. Please try again later.
-      </div>
-    );
-
-  const cards = data?.cards || [];
-
-  if (cards.length === 0) {
-    return (
-      <div className="p-8 text-red-600 text-xl text-center">
-        No search results found.
-        <div className="mt-4">
-          <Link href="/" className="text-blue-600 hover:underline">
-            Go Back Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  }, [query]);
 
   return (
-    <main className="max-w-7xl mx-auto px-6 py-10">
-      {/* Logo and header */}
-      <div className="flex flex-col items-center mb-6">
-        <Image
-          src="/pokebinder-logo.png"
-          alt="PokeBinder Logo"
-          width={200}
-          height={200}
-          className="mb-2"
-        />
-        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
-          Results for <span className="italic text-black/80">“{query}”</span>
-        </h1>
+    <>
+      <div className="relative w-full max-w-3xl mx-auto text-center mt-8">
+        <Image src="/pokebinder-logo.png" alt="PokeBinder Logo" width={200} height={200} className="mx-auto mb-2" />
+        <Image src="/beta-testing.png" alt="Beta Stamp" width={120} height={40} className="absolute top-0 right-[-30px] rotate-[-20deg] hidden sm:block" />
+        <div className="relative mt-4">
+          <Image src="/pokeball-icon-v2.png" alt="Search Icon" width={24} height={24} className="absolute left-4 top-3" />
+          <input
+            type="text"
+            defaultValue={query}
+            placeholder="Search cards (e.g. Charizard EX)..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const val = (e.target as HTMLInputElement).value;
+                if (val.trim()) window.location.href = `/search?q=${encodeURIComponent(val.trim())}`;
+              }
+            }}
+            className="w-full pl-12 pr-6 py-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
       </div>
 
-      {/* Search Bar Again */}
-      <form
-        onSubmit={handleSearch}
-        className="flex justify-center mb-8 w-full max-w-2xl mx-auto"
-      >
-        <input
-          type="text"
-          name="search"
-          placeholder="Search again..."
-          defaultValue={query}
-          className="w-full px-4 py-2 rounded-full border border-gray-300 shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          type="submit"
-          className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700"
-        >
-          Search
-        </button>
-      </form>
+      <main className="max-w-6xl mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-6 text-center">Results for "{query}"</h1>
 
-      {/* Results Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-        {cards.map((card: any) => (
-          <Link
-            key={card.unique_id}
-            href={`/card/${card.unique_id}`}
-            className="group border rounded-xl p-3 shadow hover:shadow-lg hover:border-blue-400 transition bg-white hover:bg-gray-50"
-          >
-            <Image
-              src={card.card_image_url}
-              alt={card.card_name}
-              width={240}
-              height={340}
-              className="mx-auto rounded-xl shadow-sm group-hover:scale-[1.02] transition"
-            />
-            <div className="mt-3 text-sm text-center">
-              <div className="font-bold text-gray-900 truncate">{card.card_name}</div>
-              <div className="text-gray-500 text-xs">#{card.card_number}</div>
-
-              <div className="flex justify-center items-center mt-1 gap-1 text-xs text-gray-600">
-                {card.set_logo_url && (
+        {results.length === 0 ? (
+          <p className="text-center text-gray-500">No results found.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {results.map((card) => (
+              <Link href={`/card/${card.unique_id}`} key={card.unique_id}>
+                <div className="bg-white rounded-xl shadow-md p-4 hover:shadow-xl transition">
                   <Image
-                    src={card.set_logo_url}
-                    alt={card.set_name}
-                    width={22}
-                    height={22}
+                    src={card.card_image_url || "/placeholder.png"}
+                    alt={card.card_name}
+                    width={300}
+                    height={420}
+                    className="rounded-xl mx-auto"
                   />
-                )}
-                <span className="truncate">{card.set_name}</span>
-              </div>
 
-              <div className="mt-1 font-semibold text-sm">
-                {card.sold_ebay_median ? (
-                  <span className="text-green-700">
-                    £{parseFloat(card.sold_ebay_median).toFixed(2)}
-                  </span>
-                ) : (
-                  <span className="text-gray-400 italic">No recent price</span>
-                )}
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </main>
+                  <div className="mt-3 space-y-1 text-center">
+                    <p className="font-bold text-lg">{card.card_name}</p>
+                    <p className="text-sm text-gray-500">{card.set_name} #{card.card_number}</p>
+                    <p className="text-sm text-green-700">
+                      🔥 Live Market Estimate: £{card.sold_ebay_median != null ? card.sold_ebay_median.toFixed(2) : 'N/A'}
+                    </p>
+                    <button className="mt-1 bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-1 rounded-full font-semibold">
+                      Buy Now
+                    </button>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </main>
+    </>
   );
 }
