@@ -84,8 +84,27 @@ export default async function CardPage(props: any) {
               View on eBay
             </a>
           </div>
+
+          <div className="mt-10 bg-blue-50 border border-blue-300 rounded-xl p-6 text-sm shadow-inner">
+            <h2 className="text-lg font-semibold mb-2">🧠 Smart Suggestions (Coming Soon)</h2>
+            <p>
+              You’ll soon get AI-powered card bundles, trends, and collecting tips based on market activity.
+            </p>
+          </div>
+
+          <div className="mt-4 bg-yellow-50 border border-yellow-300 rounded-xl p-6 text-sm shadow-inner">
+            <h2 className="text-lg font-semibold mb-2">📈 Trend Tracker</h2>
+            <p>
+              Watch this card’s price movement over time and receive alerts when it spikes or dips.
+            </p>
+          </div>
+
+          <div className="mt-4 text-center text-xs text-gray-500 italic">
+            🚀 Coming soon: Bundle Builder, Auto-List to eBay, Deck Optimizer + More
+          </div>
         </div>
       </div>
     </main>
   );
 }
+
