@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getCardFromDB } from '@/lib/db';
+import FlagButton from '@/components/FlagButton';
 
 export default async function CardPage({ params }: any) {
   const slug = params.slug;
@@ -46,12 +47,7 @@ export default async function CardPage({ params }: any) {
             <p className="text-xs text-gray-600 mt-2 italic">
               Based on recent verified sales. No slabs, bundles, or outliers.
             </p>
-            <button
-              className="mt-4 text-xs text-gray-500 hover:text-red-600 underline underline-offset-2"
-              onClick={() => alert('Thanks for flagging! Our team will review shortly.')}
-            >
-              ⚠️ Flag incorrect value or listing
-            </button>
+            <FlagButton />
           </div>
 
           <a
@@ -109,4 +105,5 @@ export default async function CardPage({ params }: any) {
     </main>
   );
 }
+
 
