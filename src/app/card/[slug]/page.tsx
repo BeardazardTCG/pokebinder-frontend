@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { getCardFromDB } from '@/lib/db';
-import { useState } from 'react';
+
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { slug } = params;
