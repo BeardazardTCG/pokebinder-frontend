@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { getCardFromDB } from '@/lib/db';
-
+import FlagButton from '@/components/FlagButton'; // Import directly
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { slug } = params;
@@ -69,12 +69,7 @@ export default async function CardPage({ params }: any) {
             <p className="text-xs text-gray-600 mt-2 italic">
               Based on clean median eBay sales — excludes slabs, bundles, and outliers.
             </p>
-            <button
-              className="mt-4 text-xs text-gray-500 hover:text-red-600 underline underline-offset-2"
-              onClick={() => alert('Thanks for flagging! We’ll review this shortly.')}
-            >
-              ⚠️ Flag an issue with this card
-            </button>
+            <FlagButton />
           </div>
 
           <a
