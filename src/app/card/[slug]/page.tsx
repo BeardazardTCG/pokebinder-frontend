@@ -1,9 +1,11 @@
 // src/app/card/[slug]/page.tsx
 
+"use client";
+
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { getCardFromDB } from '@/lib/db';
-import FlagButton from '@/components/FlagButton'; // Import directly
+import Link from 'next/link';
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { slug } = params;
@@ -38,20 +40,19 @@ export default async function CardPage({ params }: any) {
   const affiliateUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(safeQuery)}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa bundle lot&_in_kw=3&campid=5339108925`;
 
   return (
-    <main className="max-w-5xl mx-auto p-6">
-      <div className="text-center mb-6">
+    <main className="max-w-6xl mx-auto p-6">
+      <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-1">
           {card.card_name} <span className="text-gray-500">#{card.card_number}</span>
         </h1>
-        <p className="text-sm text-gray-500 italic mb-3">{card.set_name}</p>
-
+        <p className="text-sm text-gray-500 italic mb-2">{card.set_name}</p>
         <div className="flex justify-center items-center gap-3">
           {card.set_symbol_url && <Image src={card.set_symbol_url} alt="Set Symbol" width={32} height={32} />}
           {card.set_logo_url && <Image src={card.set_logo_url} alt="Set Logo" width={120} height={36} />}
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 items-start">
+      <div className="grid md:grid-cols-2 gap-10 items-start">
         <Image
           src={card.card_image_url || '/placeholder.png'}
           alt={card.card_name || 'Card image'}
@@ -64,12 +65,17 @@ export default async function CardPage({ params }: any) {
           <div className="bg-green-50 border border-green-300 p-5 rounded-xl shadow">
             <h2 className="text-xl font-bold mb-2">🔥 Live Market Estimate</h2>
             <p className="text-3xl font-extrabold text-green-700">
-              £{card.price != null ? card.price.toFixed(2) : 'N/A'}
+              £{card.price != null ? parseFloat(card.price).toFixed(2) : 'N/A'}
             </p>
             <p className="text-xs text-gray-600 mt-2 italic">
-              Based on clean median eBay sales — excludes slabs, bundles, and outliers.
+              Based on recent verified sales. No slabs, bundles, or outliers.
             </p>
-            <FlagButton />
+            <button
+              className="mt-4 text-xs text-gray-500 hover:text-red-600 underline underline-offset-2"
+              onClick={() => alert('Thanks for flagging! Our team will review shortly.')}
+            >
+              ⚠️ Flag incorrect value or listing
+            </button>
           </div>
 
           <a
@@ -83,24 +89,49 @@ export default async function CardPage({ params }: any) {
 
           <div className="bg-white border border-gray-300 rounded-xl p-5 shadow">
             <details>
-              <summary className="font-semibold cursor-pointer text-sm">How do we calculate this price?</summary>
+              <summary className="font-semibold cursor-pointer text-sm">How is this price calculated?</summary>
               <p className="text-xs text-gray-600 mt-2">
-                We track real eBay sales using strict keyword filters. Median price is calculated after removing slabs, bundles, damaged cards, and extreme outliers. This gives a clean daily average of what collectors are actually paying.
+                We track verified eBay sales using strict filters. Median values are cleaned of slabs, job lots, damaged cards, and wild outliers. What you see is what the market’s actually paying.
               </p>
             </details>
           </div>
 
-          <div className="bg-gray-100 border border-gray-300 rounded-xl p-5 shadow opacity-60">
-            <h2 className="text-lg font-bold mb-1">📈 Price Trend Chart (Pro)</h2>
-            <p className="text-sm text-gray-700">Track this card’s price over time. Coming soon with PokéBinder Pro.</p>
+          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 shadow">
+            <h2 className="text-lg font-bold mb-1">🚀 Smart Suggestions (Coming Soon)</h2>
+            <p className="text-sm text-gray-700">
+              Bundling tips, sell timing, and AI-powered collector strategy — tailored per card.
+            </p>
           </div>
 
-          <div className="bg-gray-100 border border-gray-300 rounded-xl p-5 shadow opacity-60">
-            <h2 className="text-lg font-bold mb-1">🔍 Live Listings Table (Pro)</h2>
-            <p className="text-sm text-gray-700">See current listings, lowest price, match quality. Available with Pro plan.</p>
+          <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 shadow">
+            <h2 className="text-lg font-bold mb-1">📈 Price Trends (Pro)</h2>
+            <p className="text-sm text-gray-700">
+              See this card’s value over time and get notified on spikes or dips.
+            </p>
           </div>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 shadow">
+            <h2 className="text-lg font-bold mb-1">🔄 Auto-List to eBay (Pro)</h2>
+            <p className="text-sm text-gray-700">
+              1-click relisting based on daily market shifts. Stay ahead, hands-free.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">🔍 More from {card.set_name}</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {/* Placeholder cards — future dynamic component */}
+          {[1, 2, 3, 4].map((n) => (
+            <div key={n} className="bg-white p-3 rounded-xl border shadow text-center">
+              <Image src={card.card_image_url || '/placeholder.png'} alt="Similar Card" width={180} height={250} className="mx-auto" />
+              <p className="text-xs text-gray-600 mt-2">Sample Card #{n}</p>
+            </div>
+          ))}
         </div>
       </div>
     </main>
   );
 }
+
