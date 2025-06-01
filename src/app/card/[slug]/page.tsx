@@ -1,6 +1,9 @@
+// src/app/card/[slug]/page.tsx
+
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { getCardFromDB } from '@/lib/db';
+import { useState } from 'react';
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { slug } = params;
@@ -8,52 +11,47 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 
   if (!card) {
     return {
-      title: 'Card Not Found | CardCatch',
+      title: 'Card Not Found | PokéBinder',
       description: 'No card data available.',
       openGraph: { images: [] },
     };
   }
 
   return {
-    title: `${card.card_name} ${card.card_number} | CardCatch`,
-    description: card.set_name || '',
+    title: `${card.card_name} #${card.card_number} | PokéBinder`,
+    description: `${card.set_name} – Live Market Tracker`,
     openGraph: {
       images: [card.card_image_url || ''],
     },
   };
 }
 
-export default async function CardPage(props: any) {
-  const slug = props.params.slug;
+export default async function CardPage({ params }: any) {
+  const slug = params.slug;
   const card = await getCardFromDB(slug).catch(() => null);
 
   if (!card) {
     return <div className="p-8 text-red-600 text-xl">Card not found.</div>;
   }
 
-  // ✅ FINAL: Clean search URL with campid, no rover
   const safeQuery = `${card.card_name} ${card.card_number}`.replace(/[^a-zA-Z0-9\s-]/g, '');
-  const affiliateUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
-    safeQuery
-  )}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa bundle lot&_in_kw=3&campid=5339108925`;
+  const affiliateUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(safeQuery)}&LH_BIN=1&LH_PrefLoc=1&_ex_kw=psa bundle lot&_in_kw=3&campid=5339108925`;
 
   return (
-    <main className="max-w-6xl mx-auto p-6">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-2">
+    <main className="max-w-5xl mx-auto p-6">
+      <div className="text-center mb-6">
+        <h1 className="text-4xl font-bold mb-1">
           {card.card_name} <span className="text-gray-500">#{card.card_number}</span>
         </h1>
-        <div className="flex justify-center items-center gap-4 flex-wrap">
-          {card.set_symbol_url && (
-            <Image src={card.set_symbol_url} alt="Set Symbol" width={32} height={32} />
-          )}
-          {card.set_logo_url && (
-            <Image src={card.set_logo_url} alt="Set Logo" width={120} height={36} />
-          )}
+        <p className="text-sm text-gray-500 italic mb-3">{card.set_name}</p>
+
+        <div className="flex justify-center items-center gap-3">
+          {card.set_symbol_url && <Image src={card.set_symbol_url} alt="Set Symbol" width={32} height={32} />}
+          {card.set_logo_url && <Image src={card.set_logo_url} alt="Set Logo" width={120} height={36} />}
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-10 items-start">
+      <div className="grid md:grid-cols-2 gap-8 items-start">
         <Image
           src={card.card_image_url || '/placeholder.png'}
           alt={card.card_name || 'Card image'}
@@ -63,45 +61,51 @@ export default async function CardPage(props: any) {
         />
 
         <div className="space-y-6">
-          <p className="text-2xl font-semibold text-green-700">
-            🔥 Live Market Estimate: £{card.price != null ? card.price.toFixed(2) : 'N/A'}
-          </p>
+          <div className="bg-green-50 border border-green-300 p-5 rounded-xl shadow">
+            <h2 className="text-xl font-bold mb-2">🔥 Live Market Estimate</h2>
+            <p className="text-3xl font-extrabold text-green-700">
+              £{card.price != null ? card.price.toFixed(2) : 'N/A'}
+            </p>
+            <p className="text-xs text-gray-600 mt-2 italic">
+              Based on clean median eBay sales — excludes slabs, bundles, and outliers.
+            </p>
+            <button
+              className="mt-4 text-xs text-gray-500 hover:text-red-600 underline underline-offset-2"
+              onClick={() => alert('Thanks for flagging! We’ll review this shortly.')}
+            >
+              ⚠️ Flag an issue with this card
+            </button>
+          </div>
 
           <a
             href={affiliateUrl}
-            className="inline-block bg-red-600 hover:bg-red-700 text-white text-lg px-5 py-2 rounded-lg font-bold transition"
             target="_blank"
             rel="noopener noreferrer"
+            className="block bg-red-600 hover:bg-red-700 text-white text-lg text-center py-3 rounded-xl font-bold shadow-md transition"
           >
-            Buy Now on eBay
+            Buy Now on eBay 🔗
           </a>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 shadow">
-            <h2 className="text-lg font-bold mb-1">🧠 Smart Suggestions (Coming Soon)</h2>
-            <p className="text-sm text-gray-700">
-              Get recommended bundles, insights, and collecting strategies from live data and market trends.
-            </p>
+          <div className="bg-white border border-gray-300 rounded-xl p-5 shadow">
+            <details>
+              <summary className="font-semibold cursor-pointer text-sm">How do we calculate this price?</summary>
+              <p className="text-xs text-gray-600 mt-2">
+                We track real eBay sales using strict keyword filters. Median price is calculated after removing slabs, bundles, damaged cards, and extreme outliers. This gives a clean daily average of what collectors are actually paying.
+              </p>
+            </details>
           </div>
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 shadow">
-            <h2 className="text-lg font-bold mb-1">📊 Trend Tracker</h2>
-            <p className="text-sm text-gray-700">
-              Track this card’s value over time and get notified on spikes, dips, or trend shifts.
-            </p>
+          <div className="bg-gray-100 border border-gray-300 rounded-xl p-5 shadow opacity-60">
+            <h2 className="text-lg font-bold mb-1">📈 Price Trend Chart (Pro)</h2>
+            <p className="text-sm text-gray-700">Track this card’s price over time. Coming soon with PokéBinder Pro.</p>
           </div>
 
-          <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 shadow">
-            <h2 className="text-lg font-bold mb-1">🚀 Upcoming Premium Tools</h2>
-            <ul className="text-sm text-gray-700 list-disc list-inside mt-2 space-y-1">
-              <li>🔧 Bundle Builder – auto-suggest card combinations to sell together</li>
-              <li>⚙️ Auto-List to eBay – 1-click daily relisting based on price shifts</li>
-              <li>🧪 Deck Optimizer – rank your cards for competitive play</li>
-              <li>🌍 Global Arbitrage – uncover price gaps across regions</li>
-            </ul>
+          <div className="bg-gray-100 border border-gray-300 rounded-xl p-5 shadow opacity-60">
+            <h2 className="text-lg font-bold mb-1">🔍 Live Listings Table (Pro)</h2>
+            <p className="text-sm text-gray-700">See current listings, lowest price, match quality. Available with Pro plan.</p>
           </div>
         </div>
       </div>
     </main>
   );
 }
-
