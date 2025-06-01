@@ -1,32 +1,8 @@
 // src/app/card/[slug]/page.tsx
 
-"use client";
-
 import Image from 'next/image';
-import { Metadata } from 'next';
-import { getCardFromDB } from '@/lib/db';
 import Link from 'next/link';
-
-export async function generateMetadata({ params }: any): Promise<Metadata> {
-  const { slug } = params;
-  const card = await getCardFromDB(slug).catch(() => null);
-
-  if (!card) {
-    return {
-      title: 'Card Not Found | PokéBinder',
-      description: 'No card data available.',
-      openGraph: { images: [] },
-    };
-  }
-
-  return {
-    title: `${card.card_name} #${card.card_number} | PokéBinder`,
-    description: `${card.set_name} – Live Market Tracker`,
-    openGraph: {
-      images: [card.card_image_url || ''],
-    },
-  };
-}
+import { getCardFromDB } from '@/lib/db';
 
 export default async function CardPage({ params }: any) {
   const slug = params.slug;
@@ -54,7 +30,7 @@ export default async function CardPage({ params }: any) {
 
       <div className="grid md:grid-cols-2 gap-10 items-start">
         <Image
-          src={card.card_image_url || '/placeholder.png'}
+          src={card.card_image_url}
           alt={card.card_name || 'Card image'}
           width={400}
           height={560}
@@ -122,10 +98,9 @@ export default async function CardPage({ params }: any) {
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-4">🔍 More from {card.set_name}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {/* Placeholder cards — future dynamic component */}
           {[1, 2, 3, 4].map((n) => (
             <div key={n} className="bg-white p-3 rounded-xl border shadow text-center">
-              <Image src={card.card_image_url || '/placeholder.png'} alt="Similar Card" width={180} height={250} className="mx-auto" />
+              <Image src={card.card_image_url} alt="Similar Card" width={180} height={250} className="mx-auto" />
               <p className="text-xs text-gray-600 mt-2">Sample Card #{n}</p>
             </div>
           ))}
