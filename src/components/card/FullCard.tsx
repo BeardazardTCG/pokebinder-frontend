@@ -11,7 +11,6 @@ type FullCardProps = {
     clean_avg_value?: number;
     price?: number;
     set_name?: string;
-    ebay_buy_link?: string;
     sold_date?: string;
     median_price?: number;
     average_price?: number;
@@ -27,6 +26,9 @@ export default function FullCard(props: FullCardProps) {
   }
 
   const price = card.clean_avg_value ?? card.price ?? null;
+  const ebaySearchUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
+    `${card.card_name} ${card.card_number || ''}`
+  )}&_ipg=240&_sop=12&_dmd=1&_sacat=0&LH_BIN=1&_trkparms=campaign%3D5339108925`;
 
   return (
     <div className="flex flex-col items-start gap-6 rounded-xl bg-white p-6 shadow lg:flex-row border border-zinc-200 ring-1 ring-zinc-100">
@@ -45,7 +47,7 @@ export default function FullCard(props: FullCardProps) {
       {/* COLUMN 2: CARD DETAILS */}
       <div className="flex w-full max-w-[340px] flex-col gap-4 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800">
         
-        {/* NAME + STATIC ICON */}
+        {/* NAME + ICON */}
         <div className="relative rounded-xl border border-zinc-200 bg-white px-4 py-4 shadow-sm">
           <h1 className="text-2xl leading-tight font-extrabold text-zinc-800">
             {card.card_name}
@@ -101,19 +103,15 @@ export default function FullCard(props: FullCardProps) {
         </div>
 
         {/* BUY NOW BUTTON */}
-        {card.card_name && (
-  <a
-    href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
-      card.card_name + ' ' + card.card_number
-    )}&_ipg=240&_sop=12&_dmd=1&_sacat=0&LH_BIN=1&_trkparms=campaign%3D5339108925`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex flex-col items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-semibold text-white shadow hover:bg-red-700"
-  >
-    <img src="/Assets/logos/ebay logo.png" alt="eBay" className="h-8 w-8 object-contain" />
-    <span>Buy Now on eBay</span>
-  </a>
-)}
+        <a
+          href={ebaySearchUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-semibold text-white shadow hover:bg-red-700"
+        >
+          <img src="/Assets/logos/ebay logo.png" alt="eBay" className="h-8 w-8 object-contain" />
+          <span>Buy Now on eBay</span>
+        </a>
 
         {/* PRICE EXPLANATION */}
         <div className="rounded-lg border border-zinc-200 bg-white p-4 shadow-sm">
