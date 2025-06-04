@@ -102,7 +102,7 @@ export async function getMoreFromSet(setCode: string, excludeId: string) {
   }
 }
 
-// === Fuzzy multi-field search for HalfCard ===
+// === Fuzzy card search (OR logic for more hits) ===
 export async function getSearchResults(query: string) {
   const client = await pool.connect();
   try {
@@ -111,10 +111,12 @@ export async function getSearchResults(query: string) {
       .split(/[\s\-\/]+/)
       .filter(Boolean);
 
-    if (keywords.length < 2) {
-      console.warn("🔍 Not enough keywords for fuzzy search");
+    if (!keywords.length) {
+      console.warn("🔍 No usable keywords in query");
       return [];
     }
+
+    const fuzzyKeywords = keywords.map(k => `%${k}%`);
 
     const sql = `
       SELECT 
@@ -128,14 +130,12 @@ export async function getSearchResults(query: string) {
         price_range_seen_max
       FROM mastercard_v2
       WHERE
-        (LOWER(card_name) LIKE ANY ($1::text[]))
-        AND
-        (LOWER(set_name) LIKE ANY ($1::text[])
-         OR card_number LIKE ANY ($1::text[]))
+        LOWER(card_name) LIKE ANY ($1::text[])
+        OR LOWER(set_name) LIKE ANY ($1::text[])
+        OR card_number LIKE ANY ($1::text[])
       LIMIT 50
     `;
 
-    const fuzzyKeywords = keywords.map(k => `%${k}%`);
     const result = await client.query(sql, [fuzzyKeywords]);
 
     return result.rows.map(card => ({
