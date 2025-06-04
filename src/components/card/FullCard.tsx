@@ -30,6 +30,7 @@ export default function FullCard(props: FullCardProps) {
 
   return (
     <div className="flex flex-col items-start gap-6 rounded-xl bg-white p-6 shadow lg:flex-row border border-zinc-200 ring-1 ring-zinc-100">
+      
       {/* COLUMN 1: CARD IMAGE */}
       <div className="w-[240px] rounded-lg bg-black p-2 sm:w-[320px] md:w-[360px]">
         <div className="overflow-hidden rounded-xl shadow-xl transition-transform duration-300 hover:scale-105 hover:rotate-1">
@@ -43,16 +44,17 @@ export default function FullCard(props: FullCardProps) {
 
       {/* COLUMN 2: CARD DETAILS */}
       <div className="flex w-full max-w-[340px] flex-col gap-4 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800">
-        {/* NAME + TYPE ICON */}
+        
+        {/* NAME + STATIC ICON */}
         <div className="relative rounded-xl border border-zinc-200 bg-white px-4 py-4 shadow-sm">
           <h1 className="text-2xl leading-tight font-extrabold text-zinc-800">
             {card.card_name}
           </h1>
           <img
-  src={`/Assets/icons/pokeball-icon-v2.png`}
-  alt={card.type || 'Type'}
-  className="absolute top-[1.125rem] right-3 h-7 w-7 object-contain drop-shadow"
-/>
+            src="/Assets/icons/pokeball-icon-v2.png"
+            alt="Pokémon Icon"
+            className="absolute top-[1.125rem] right-3 h-7 w-7 object-contain drop-shadow"
+          />
         </div>
 
         {/* MARKET OVERVIEW */}
@@ -100,15 +102,14 @@ export default function FullCard(props: FullCardProps) {
 
         {/* BUY NOW BUTTON */}
         <a
-  href={card.ebay_buy_link || '#'}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="flex flex-col items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-semibold text-white shadow hover:bg-red-700"
->
-  <img src="/Assets/logos/ebay logo.png" alt="eBay" className="h-8 w-8 object-contain" />
-  <span>Buy Now on eBay</span>
-</a>
-
+          href={card.ebay_buy_link || '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-semibold text-white shadow hover:bg-red-700"
+        >
+          <img src="/Assets/logos/ebay logo.png" alt="eBay" className="h-8 w-8 object-contain" />
+          <span>Buy Now on eBay</span>
+        </a>
 
         {/* PRICE EXPLANATION */}
         <div className="rounded-lg border border-zinc-200 bg-white p-4 shadow-sm">
@@ -124,20 +125,20 @@ export default function FullCard(props: FullCardProps) {
 
       {/* COLUMN 3: PRO FEATURES + ACTIONS */}
       <div className="flex w-full max-w-[320px] flex-col gap-0 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800">
-<div className="flex items-center justify-between w-full mb-3 px-1">
-  <img
-    src="/Assets/logos/pokebinder-logo.png"
-    alt="PokéBinder"
-    className="h-20 w-auto object-contain"
-  />
-  {card.set_logo_url && (
-    <img
-      src={card.set_logo_url}
-      alt="Set Logo"
-      className="h-10 w-auto object-contain rounded shadow-sm"
-    />
-  )}
-</div>
+        <div className="flex items-center justify-between w-full mb-3 px-1">
+          <img
+            src="/Assets/logos/pokebinder-logo.png"
+            alt="PokéBinder"
+            className="h-20 w-auto object-contain"
+          />
+          {card.set_logo_url && (
+            <img
+              src={card.set_logo_url}
+              alt="Set Logo"
+              className="h-10 w-auto object-contain rounded shadow-sm"
+            />
+          )}
+        </div>
 
         <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm">
           <strong className="mb-1 block">🚀 Smart Suggestions (Pro)</strong>
@@ -162,7 +163,10 @@ export default function FullCard(props: FullCardProps) {
             📦 Add to Inventory
           </button>
           <label className="flex items-center gap-2 text-zinc-600">
-            <input type="checkbox" className="h-4 w-4 rounded border-zinc-300 text-red-600 focus:ring-red-500" />
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-zinc-300 text-red-600 focus:ring-red-500"
+            />
             🚩 Flag this card (we’ll review quietly)
           </label>
         </div>
