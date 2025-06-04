@@ -11,7 +11,7 @@ type Props = {
   };
 };
 
-export default async function CardPage({ params }: Props) {
+export default async function CardPage({ params }: any) {
   const slug = params.slug;
   const card = await getCardFromDB(slug).catch(() => null);
 
