@@ -3,14 +3,15 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import FullCard from '@/components/card/FullCard';
 import MoreFromSetGrid from '@/components/card/MoreFromSetGrid';
+import { type InferGetServerSidePropsType } from 'next';
 
-type PageProps = {
+type Props = {
   params: {
     slug: string;
   };
 };
 
-export default async function CardPage({ params }: PageProps) {
+export default async function CardPage({ params }: Props) {
   const slug = params.slug;
   const card = await getCardFromDB(slug).catch(() => null);
 
@@ -35,3 +36,4 @@ export default async function CardPage({ params }: PageProps) {
     </>
   );
 }
+
