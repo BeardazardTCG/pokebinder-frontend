@@ -46,6 +46,8 @@ export async function getCardFromDB(uniqueId: string) {
     const card = latest.rows[0];
 
     return {
+      unique_id: card.unique_id,
+      set_code: card.set_code,
       card_name: card.card_name,
       card_number: card.card_number,
       card_image_url: card.card_image_url,
