@@ -2,7 +2,7 @@
 
 import BaseLayout from '@/components/layout/BaseLayout';
 import HalfCard from '@/components/card/halfcard';
-import { getSearchResults } from '@/lib/search';
+import { getSearchResults } from '@/lib/db';
 
 export default async function SearchPage({ searchParams }: any) {
   const query = searchParams?.q || '';
