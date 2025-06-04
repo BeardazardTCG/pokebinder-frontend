@@ -101,15 +101,19 @@ export default function FullCard(props: FullCardProps) {
         </div>
 
         {/* BUY NOW BUTTON */}
-        <a
-          href={card.ebay_buy_link || '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-semibold text-white shadow hover:bg-red-700"
-        >
-          <img src="/Assets/logos/ebay logo.png" alt="eBay" className="h-8 w-8 object-contain" />
-          <span>Buy Now on eBay</span>
-        </a>
+        {card.card_name && (
+  <a
+    href={`https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
+      card.card_name + ' ' + card.card_number
+    )}&_ipg=240&_sop=12&_dmd=1&_sacat=0&LH_BIN=1&_trkparms=campaign%3D5339108925`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex flex-col items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-semibold text-white shadow hover:bg-red-700"
+  >
+    <img src="/Assets/logos/ebay logo.png" alt="eBay" className="h-8 w-8 object-contain" />
+    <span>Buy Now on eBay</span>
+  </a>
+)}
 
         {/* PRICE EXPLANATION */}
         <div className="rounded-lg border border-zinc-200 bg-white p-4 shadow-sm">
