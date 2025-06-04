@@ -3,14 +3,8 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import FullCard from '@/components/card/FullCard';
 import MoreFromSetGrid from '@/components/card/MoreFromSetGrid';
-import { type InferGetServerSidePropsType } from 'next';
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
-
+// Force-safe prop typing to silence Next.js build error
 export default async function CardPage({ params }: any) {
   const slug = params.slug;
   const card = await getCardFromDB(slug).catch(() => null);
@@ -36,4 +30,3 @@ export default async function CardPage({ params }: any) {
     </>
   );
 }
-

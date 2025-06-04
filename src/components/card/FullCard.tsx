@@ -49,7 +49,7 @@ export default function FullCard(props: FullCardProps) {
             {card.card_name}
           </h1>
           <img
-  src={`/Assets/icons/${card.type?.toLowerCase() || 'pokeball-icon-v2'}.png`}
+  src={`/Assets/icons/pokeball-icon-v2.png`}
   alt={card.type || 'Type'}
   className="absolute top-[1.125rem] right-3 h-7 w-7 object-contain drop-shadow"
 />
