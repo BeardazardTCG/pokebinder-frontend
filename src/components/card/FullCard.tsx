@@ -12,9 +12,10 @@ type FullCardProps = {
     price?: number;
     set_name?: string;
     sold_date?: string;
-    median_price?: number;
     average_price?: number;
-    sale_count?: number;
+    verified_sales_logged?: number;
+    price_range_seen_min?: number;
+    price_range_seen_max?: number;
   };
 };
 
@@ -76,13 +77,13 @@ export default function FullCard(props: FullCardProps) {
           </div>
           <div className="flex justify-between">
             <span>🧾 Verified Sales Logged</span>
-            <span>{card.sale_count ?? '–'}</span>
+            <span>{card.verified_sales_logged ?? '–'}</span>
           </div>
-          {card.sale_count && card.sale_count > 1 && card.median_price ? (
+          {card.price_range_seen_min !== undefined && card.price_range_seen_max !== undefined ? (
             <div className="flex justify-between">
               <span>💸 Price Range Seen</span>
               <span>
-                £{(card.median_price * 0.9).toFixed(2)}–£{(card.median_price * 1.1).toFixed(2)}
+                £{card.price_range_seen_min.toFixed(2)}–£{card.price_range_seen_max.toFixed(2)}
               </span>
             </div>
           ) : (
