@@ -4,7 +4,13 @@ import Footer from '@/components/layout/Footer';
 import FullCard from '@/components/card/FullCard';
 import MoreFromSetGrid from '@/components/card/MoreFromSetGrid';
 
-export default async function CardPage({ params }: { params: { slug: string } }) {
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export default async function CardPage({ params }: PageProps) {
   const slug = params.slug;
   const card = await getCardFromDB(slug).catch(() => null);
 
