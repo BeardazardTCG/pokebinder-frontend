@@ -1,16 +1,19 @@
 // src/app/search/page.tsx
 
-import BaseLayout from '@/components/layout/BaseLayout';
-import HalfCard from '@/components/card/halfcard';
-import { getSearchResults } from '@/lib/db';
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import HalfCard from '@/components/card/HalfCard'
+import { getSearchResults } from '@/lib/db'
 
 export default async function SearchPage({ searchParams }: any) {
-  const query = searchParams?.q || '';
-  const results = await getSearchResults(query);
+  const query = searchParams?.q || ''
+  const results = await getSearchResults(query)
 
   return (
-    <BaseLayout>
-      <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="min-h-screen flex flex-col bg-white text-zinc-800">
+      <Header />
+
+      <main className="flex-grow max-w-7xl mx-auto px-4 py-6">
         <h1 className="text-2xl font-bold mb-4">Search Results</h1>
         {query && (
           <p className="text-sm text-zinc-500 mb-6">
@@ -27,7 +30,9 @@ export default async function SearchPage({ searchParams }: any) {
         ) : (
           <p className="text-zinc-400 italic">No results found.</p>
         )}
-      </div>
-    </BaseLayout>
-  );
+      </main>
+
+      <Footer />
+    </div>
+  )
 }
