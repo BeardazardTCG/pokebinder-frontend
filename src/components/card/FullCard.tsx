@@ -36,7 +36,7 @@ export default function FullCard(props: FullCardProps) {
 
   return (
     <div className="flex flex-col items-start gap-6 rounded-xl bg-white p-6 shadow lg:flex-row border border-zinc-200 ring-1 ring-zinc-100">
-
+      
       {/* COLUMN 1: CARD IMAGE */}
       <div className="w-[240px] rounded-lg bg-black p-2 sm:w-[320px] md:w-[360px]">
         <div className="overflow-hidden rounded-xl shadow-xl transition-transform duration-300 hover:scale-105 hover:rotate-1">
@@ -50,7 +50,7 @@ export default function FullCard(props: FullCardProps) {
 
       {/* COLUMN 2: CARD DETAILS */}
       <div className="flex w-full max-w-[340px] flex-col gap-4 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800">
-
+        
         {/* NAME + ICON */}
         <div className="relative rounded-xl border border-zinc-200 bg-white px-4 py-4 shadow-sm">
           <h1 className="text-2xl leading-tight font-extrabold text-zinc-800">
@@ -80,9 +80,9 @@ export default function FullCard(props: FullCardProps) {
           </div>
           <div className="flex justify-between">
             <span>🧾 Verified Sales Logged</span>
-            <span>{card.verified_sales_logged ?? '–'}</span>
+            <span>{typeof card.verified_sales_logged === 'number' ? card.verified_sales_logged : '–'}</span>
           </div>
-          {card.price_range_seen_min !== null && card.price_range_seen_max !== null ? (
+          {typeof card.price_range_seen_min === 'number' && typeof card.price_range_seen_max === 'number' ? (
             <div className="flex justify-between">
               <span>💸 Price Range Seen</span>
               <span>
@@ -101,7 +101,7 @@ export default function FullCard(props: FullCardProps) {
         <div className="rounded-xl border border-pink-200 bg-pink-100 px-4 py-3 shadow-sm">
           <p className="text-xs text-zinc-500">✨ PokéBinder Value</p>
           <p className="text-lg font-bold text-green-700">
-            £{price !== null ? price.toFixed(2) : 'N/A'}
+            £{typeof price === 'number' ? price.toFixed(2) : 'N/A'}
           </p>
           <p className="text-xs text-zinc-500">Our clean daily estimate based on verified sales</p>
         </div>
