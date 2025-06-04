@@ -4,18 +4,21 @@ import Image from 'next/image';
 
 type FullCardProps = {
   card?: {
+    unique_id?: string;
+    set_code?: string;
     card_name?: string;
     card_number?: string;
     card_image_url?: string;
     set_logo_url?: string;
-    clean_avg_value?: number;
-    price?: number;
+    clean_avg_value?: number | null;
+    price?: number | null;
     set_name?: string;
     sold_date?: string;
-    average_price?: number;
-    verified_sales_logged?: number;
-    price_range_seen_min?: number;
-    price_range_seen_max?: number;
+    median_price?: number | null;
+    average_price?: number | null;
+    verified_sales_logged?: number | null;
+    price_range_seen_min?: number | null;
+    price_range_seen_max?: number | null;
   };
 };
 
@@ -33,7 +36,7 @@ export default function FullCard(props: FullCardProps) {
 
   return (
     <div className="flex flex-col items-start gap-6 rounded-xl bg-white p-6 shadow lg:flex-row border border-zinc-200 ring-1 ring-zinc-100">
-      
+
       {/* COLUMN 1: CARD IMAGE */}
       <div className="w-[240px] rounded-lg bg-black p-2 sm:w-[320px] md:w-[360px]">
         <div className="overflow-hidden rounded-xl shadow-xl transition-transform duration-300 hover:scale-105 hover:rotate-1">
@@ -47,7 +50,7 @@ export default function FullCard(props: FullCardProps) {
 
       {/* COLUMN 2: CARD DETAILS */}
       <div className="flex w-full max-w-[340px] flex-col gap-4 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800">
-        
+
         {/* NAME + ICON */}
         <div className="relative rounded-xl border border-zinc-200 bg-white px-4 py-4 shadow-sm">
           <h1 className="text-2xl leading-tight font-extrabold text-zinc-800">
@@ -79,7 +82,7 @@ export default function FullCard(props: FullCardProps) {
             <span>🧾 Verified Sales Logged</span>
             <span>{card.verified_sales_logged ?? '–'}</span>
           </div>
-          {card.price_range_seen_min !== undefined && card.price_range_seen_max !== undefined ? (
+          {card.price_range_seen_min !== null && card.price_range_seen_max !== null ? (
             <div className="flex justify-between">
               <span>💸 Price Range Seen</span>
               <span>
