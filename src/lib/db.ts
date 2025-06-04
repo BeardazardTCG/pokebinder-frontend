@@ -1,3 +1,11 @@
+import { Pool } from 'pg';
+
+const pool = new Pool({
+  connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
+  ssl: { rejectUnauthorized: false },
+});
+
+// === Fetch main card by unique_id ===
 export async function getCardFromDB(uniqueId: string) {
   console.log("🔄 getCardFromDB(): uniqueId =", uniqueId);
 
@@ -14,7 +22,7 @@ export async function getCardFromDB(uniqueId: string) {
         m.set_name,
         m.set_logo_url,
         m.set_symbol_url,
-        m.clean_avg_value AS price,
+        m.clean_avg_value,
         m.verified_sales_logged,
         m.price_range_seen_min,
         m.price_range_seen_max,
@@ -38,17 +46,54 @@ export async function getCardFromDB(uniqueId: string) {
     const card = latest.rows[0];
 
     return {
-      ...card,
-      price: card.price !== null ? parseFloat(card.price) : null,
-      median_price: card.median_price !== null ? parseFloat(card.median_price) : null,
+      card_name: card.card_name,
+      card_number: card.card_number,
+      card_image_url: card.card_image_url,
+      set_logo_url: card.set_logo_url,
+      clean_avg_value: card.clean_avg_value !== null ? parseFloat(card.clean_avg_value) : null,
+      price: card.clean_avg_value !== null ? parseFloat(card.clean_avg_value) : null,
+      set_name: card.set_name,
+      sold_date: card.sold_date,
       average_price: card.average_price !== null ? parseFloat(card.average_price) : null,
+      median_price: card.median_price !== null ? parseFloat(card.median_price) : null,
       verified_sales_logged: card.verified_sales_logged !== null ? parseInt(card.verified_sales_logged) : null,
       price_range_seen_min: card.price_range_seen_min !== null ? parseFloat(card.price_range_seen_min) : null,
       price_range_seen_max: card.price_range_seen_max !== null ? parseFloat(card.price_range_seen_max) : null,
-      sold_date: card.sold_date,
     };
   } catch (err) {
     console.error('🔥 DB Fetch Error in getCardFromDB:', err);
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
+// === Fetch 4 more cards from the same set ===
+export async function getMoreFromSet(setCode: string, excludeId: string) {
+  const client = await pool.connect();
+  try {
+    const res = await client.query(
+      `
+      SELECT 
+        unique_id,
+        card_name,
+        card_number,
+        card_image_url,
+        clean_avg_value AS price
+      FROM mastercard_v2
+      WHERE set_code = $1 AND unique_id != $2
+      ORDER BY RANDOM()
+      LIMIT 4
+      `,
+      [setCode, excludeId]
+    );
+
+    return res.rows.map(card => ({
+      ...card,
+      price: card.price !== null ? parseFloat(card.price) : null,
+    }));
+  } catch (err) {
+    console.error('🔥 DB Fetch Error in getMoreFromSet:', err);
     throw err;
   } finally {
     client.release();
