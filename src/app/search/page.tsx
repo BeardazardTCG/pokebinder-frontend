@@ -2,7 +2,7 @@
 
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import HalfCard from '@/components/card/HalfCard'
+import HalfCard from '@/components/card/halfCard'
 import { getSearchResults } from '@/lib/db'
 
 export default async function SearchPage({ searchParams }: any) {
