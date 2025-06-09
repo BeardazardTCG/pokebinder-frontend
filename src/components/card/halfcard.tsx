@@ -6,6 +6,7 @@ interface HalfCardProps {
   card_name: string;
   card_number: string;
   set_name: string;
+  set_logo_url: string;
   card_image_url: string;
   clean_avg_value: number | null;
   price_range_seen_min: number | null;
@@ -17,26 +18,25 @@ export default function HalfCard({
   card_name,
   card_number,
   set_name,
+  set_logo_url,
   card_image_url,
   clean_avg_value,
   price_range_seen_min,
   price_range_seen_max,
 }: HalfCardProps) {
-  const setLogoUrl = `https://cdn.pokebinder.co.uk/set-logos/${set_name.replace(/\s+/g, '-').toLowerCase()}.png`;
-
   return (
     <Link
       href={`/card/${unique_id}`}
-      className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden"
+      className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow hover:shadow-md hover:border-orange-300 transition duration-200 overflow-hidden"
     >
       <div className="flex flex-col items-center p-4">
-        <div className="bg-white p-1 rounded-xl border border-zinc-100 shadow group-hover:shadow-md">
+        <div className="bg-white p-1 rounded-xl border border-zinc-100 shadow-sm group-hover:shadow-md">
           <Image
             src={card_image_url}
             alt={card_name}
             width={200}
             height={280}
-            className="object-contain rounded-md drop-shadow-sm"
+            className="object-contain rounded-md drop-shadow"
           />
         </div>
 
@@ -47,7 +47,7 @@ export default function HalfCard({
 
           <div className="flex justify-center items-center gap-2 mt-1">
             <Image
-              src={setLogoUrl}
+              src={set_logo_url}
               alt={set_name}
               width={22}
               height={22}
