@@ -105,54 +105,63 @@ export async function getMoreFromSet(setCode: string, excludeId: string) {
   }
 }
 
-// === Smart 2-of-3 card search ===
+// === Hybrid search: 2-of-3 match if multiple words, OR match-any if only 1 keyword ===
 export async function getSearchResults(query: string) {
   const client = await pool.connect();
   try {
-    const raw = query.toLowerCase().trim();
-    const parts = raw.split(/[\s\-\/]+/).filter(Boolean);
+    const keywords = query.toLowerCase().split(/[\s\-\/]+/).filter(Boolean);
 
-    if (!parts.length) return [];
-
-    let nameParts: string[] = [];
-    let numberPart: string | null = null;
-
-    for (const p of parts) {
-      if (/^\d{1,3}$/.test(p)) {
-        numberPart = p;
-      } else {
-        nameParts.push(p);
-      }
+    if (!keywords.length) {
+      console.warn("🔍 No usable keywords in query");
+      return [];
     }
 
-    const fuzzyName = nameParts.map(n => `%${n}%`);
-    const fuzzySet = fuzzyName;
-    const fuzzyNumber = numberPart ? [`%${numberPart}%`] : [];
+    const fuzzyKeywords = keywords.map(k => `%${k}%`);
 
-    const result = await client.query(
-      `
-      SELECT 
-        unique_id,
-        card_name,
-        card_number,
-        set_name,
-        card_image_url,
-        clean_avg_value,
-        price_range_seen_min,
-        price_range_seen_max
-      FROM mastercard_v2
-      WHERE (
-        (LOWER(card_name) LIKE ANY ($1))
-        ::int +
-        (LOWER(set_name) LIKE ANY ($2))
-        ::int +
-        (card_number LIKE ANY ($3))
-        ::int
-      ) >= 2
-      LIMIT 50
-      `,
-      [fuzzyName, fuzzySet, fuzzyNumber.length ? fuzzyNumber : ['']]
-    );
+    let sql;
+
+    if (keywords.length === 1) {
+      // Simple fallback: match any 1 field
+      sql = `
+        SELECT 
+          unique_id,
+          card_name,
+          card_number,
+          set_name,
+          card_image_url,
+          clean_avg_value,
+          price_range_seen_min,
+          price_range_seen_max
+        FROM mastercard_v2
+        WHERE
+          LOWER(card_name) LIKE ANY ($1::text[])
+          OR LOWER(set_name) LIKE ANY ($1::text[])
+          OR card_number LIKE ANY ($1::text[])
+        LIMIT 50
+      `;
+    } else {
+      // Stricter logic: must match 2 out of 3 fields
+      sql = `
+        SELECT 
+          unique_id,
+          card_name,
+          card_number,
+          set_name,
+          card_image_url,
+          clean_avg_value,
+          price_range_seen_min,
+          price_range_seen_max
+        FROM mastercard_v2
+        WHERE (
+          (LOWER(card_name) LIKE ANY ($1::text[])::boolean)::int +
+          (LOWER(set_name) LIKE ANY ($1::text[])::boolean)::int +
+          (card_number LIKE ANY ($1::text[])::boolean)::int
+        ) >= 2
+        LIMIT 50
+      `;
+    }
+
+    const result = await client.query(sql, [fuzzyKeywords]);
 
     return result.rows.map(card => ({
       unique_id: card.unique_id,
