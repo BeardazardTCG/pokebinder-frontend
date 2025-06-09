@@ -105,7 +105,7 @@ export async function getMoreFromSet(setCode: string, excludeId: string) {
   }
 }
 
-// === Fuzzy card search (OR logic for more hits) ===
+// === Smarter 2-of-3 matching card search ===
 export async function getSearchResults(query: string) {
   const client = await pool.connect();
   try {
@@ -114,12 +114,12 @@ export async function getSearchResults(query: string) {
       .split(/[\s\-\/]+/)
       .filter(Boolean);
 
-    if (!keywords.length) {
-      console.warn("🔍 No usable keywords in query");
+    if (keywords.length < 2) {
+      console.warn("🔍 Not enough usable keywords in query");
       return [];
     }
 
-    const fuzzyKeywords = keywords.map(k => `%${k}%`);
+    const fuzzy = keywords.map(k => `%${k}%`);
 
     const sql = `
       SELECT 
@@ -130,16 +130,23 @@ export async function getSearchResults(query: string) {
         card_image_url,
         clean_avg_value,
         price_range_seen_min,
-        price_range_seen_max
+        price_range_seen_max,
+        (
+          (CASE WHEN LOWER(card_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
+          (CASE WHEN LOWER(set_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
+          (CASE WHEN card_number LIKE ANY ($1::text[]) THEN 1 ELSE 0 END)
+        ) AS match_score
       FROM mastercard_v2
-      WHERE
-        LOWER(card_name) LIKE ANY ($1::text[])
-        OR LOWER(set_name) LIKE ANY ($1::text[])
-        OR card_number LIKE ANY ($1::text[])
+      WHERE (
+        (CASE WHEN LOWER(card_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
+        (CASE WHEN LOWER(set_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
+        (CASE WHEN card_number LIKE ANY ($1::text[]) THEN 1 ELSE 0 END)
+      ) >= 2
+      ORDER BY match_score DESC
       LIMIT 50
     `;
 
-    const result = await client.query(sql, [fuzzyKeywords]);
+    const result = await client.query(sql, [fuzzy]);
 
     return result.rows.map(card => ({
       unique_id: card.unique_id,
