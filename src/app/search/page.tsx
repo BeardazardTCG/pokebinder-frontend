@@ -2,15 +2,11 @@
 
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
-import SidebarBuyBox from '@/components/card/SidebarBuyBox';
+import SidebarBuyBox from '@/components/search/SidebarBuyBox';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
-interface SearchPageProps {
-  searchParams: { q: string };
-}
-
-export default async function SearchPage({ searchParams }: SearchPageProps) {
+export default async function Page({ searchParams }: { searchParams: Record<string, string> }) {
   const query = searchParams.q || '';
   const results = await getSearchResults(query);
 
