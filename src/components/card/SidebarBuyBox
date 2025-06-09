@@ -1,1 +1,24 @@
+// /components/search/SidebarBuyBox.tsx
+interface Props {
+  query: string;
+  side: 'left' | 'right';
+}
+
+export default function SidebarBuyBox({ query, side }: Props) {
+  return (
+    <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 shadow-sm text-sm">
+      <h4 className="font-semibold mb-2">
+        🔍 Buy Now: {query.charAt(0).toUpperCase() + query.slice(1)}
+      </h4>
+      <ul className="space-y-2">
+        <li>• Charizard EX – £22.99</li>
+        <li>• Charizard GX – £18.50</li>
+        <li>• SM158 Promo – £29.00</li>
+      </ul>
+      <p className="mt-3 text-xs text-orange-600 italic">
+        Real listings will appear here soon!
+      </p>
+    </div>
+  );
+}
 
