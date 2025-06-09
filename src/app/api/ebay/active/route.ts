@@ -2,7 +2,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import cheerio from 'cheerio';
-import fetch from 'node-fetch';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -13,7 +12,7 @@ export async function GET(req: NextRequest) {
   }
 
   const encoded = encodeURIComponent(query);
-  const ebayUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encoded}&_sop=1&_ipg=50&_in_kw=4&LH_BIN=1&rt=nc&LH_PrefLoc=1&LH_Complete=0&LH_Sold=0&LH_ItemCondition=3000&LH_Quantity=1&LH_TitleDesc=0&LH_ViewType=Gallery`;
+  const ebayUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encoded}&_sop=1&_ipg=50&_in_kw=4&LH_BIN=1&rt=nc&LH_PrefLoc=1`;
 
   try {
     const res = await fetch(ebayUrl);
@@ -29,12 +28,7 @@ export async function GET(req: NextRequest) {
       const image = $(el).find('.s-item__image-img').attr('src');
 
       if (title && priceText && url && image) {
-        items.push({
-          title,
-          price: priceText,
-          url,
-          image,
-        });
+        items.push({ title, price: priceText, url, image });
       }
     });
 
