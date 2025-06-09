@@ -105,23 +105,32 @@ export async function getMoreFromSet(setCode: string, excludeId: string) {
   }
 }
 
-// === Smarter 2-of-3 matching card search ===
+// === Smart 2-of-3 card search ===
 export async function getSearchResults(query: string) {
   const client = await pool.connect();
   try {
-    const keywords = query
-      .toLowerCase()
-      .split(/[\s\-\/]+/)
-      .filter(Boolean);
+    const raw = query.toLowerCase().trim();
+    const parts = raw.split(/[\s\-\/]+/).filter(Boolean);
 
-    if (keywords.length < 2) {
-      console.warn("🔍 Not enough usable keywords in query");
-      return [];
+    if (!parts.length) return [];
+
+    let nameParts: string[] = [];
+    let numberPart: string | null = null;
+
+    for (const p of parts) {
+      if (/^\d{1,3}$/.test(p)) {
+        numberPart = p;
+      } else {
+        nameParts.push(p);
+      }
     }
 
-    const fuzzy = keywords.map(k => `%${k}%`);
+    const fuzzyName = nameParts.map(n => `%${n}%`);
+    const fuzzySet = fuzzyName;
+    const fuzzyNumber = numberPart ? [`%${numberPart}%`] : [];
 
-    const sql = `
+    const result = await client.query(
+      `
       SELECT 
         unique_id,
         card_name,
@@ -130,23 +139,20 @@ export async function getSearchResults(query: string) {
         card_image_url,
         clean_avg_value,
         price_range_seen_min,
-        price_range_seen_max,
-        (
-          (CASE WHEN LOWER(card_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
-          (CASE WHEN LOWER(set_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
-          (CASE WHEN card_number LIKE ANY ($1::text[]) THEN 1 ELSE 0 END)
-        ) AS match_score
+        price_range_seen_max
       FROM mastercard_v2
       WHERE (
-        (CASE WHEN LOWER(card_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
-        (CASE WHEN LOWER(set_name) LIKE ANY ($1::text[]) THEN 1 ELSE 0 END) +
-        (CASE WHEN card_number LIKE ANY ($1::text[]) THEN 1 ELSE 0 END)
+        (LOWER(card_name) LIKE ANY ($1))
+        ::int +
+        (LOWER(set_name) LIKE ANY ($2))
+        ::int +
+        (card_number LIKE ANY ($3))
+        ::int
       ) >= 2
-      ORDER BY match_score DESC
       LIMIT 50
-    `;
-
-    const result = await client.query(sql, [fuzzy]);
+      `,
+      [fuzzyName, fuzzySet, fuzzyNumber.length ? fuzzyNumber : ['']]
+    );
 
     return result.rows.map(card => ({
       unique_id: card.unique_id,
