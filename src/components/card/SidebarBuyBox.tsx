@@ -1,50 +1,80 @@
-// FILE: /app/search/page.tsx
+'use client';
 
-import { getSearchResults } from '@/lib/db';
-import HalfCard from '@/components/card/HalfCard';
-import SidebarBuyBox from '@/components/search/SidebarBuyBox';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
-interface SearchPageProps {
-  searchParams: { q: string };
+interface EbayItem {
+  title: string;
+  price: string;
+  url: string;
+  image: string;
 }
 
-export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const query = searchParams.q || '';
-  const results = await getSearchResults(query);
+interface Props {
+  query: string;
+  side: 'left' | 'right';
+}
+
+export default function SidebarBuyBox({ query, side }: Props) {
+  const [items, setItems] = useState<EbayItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchEbayItems() {
+      try {
+        const ebayQuery = encodeURIComponent(query);
+        const res = await fetch(`/api/ebay/active?q=${ebayQuery}`);
+        const data = await res.json();
+        setItems(data.items || []);
+      } catch (err) {
+        console.error('SidebarBuyBox fetch failed:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (query.trim().length > 0) {
+      fetchEbayItems();
+    }
+  }, [query]);
+
+  if (loading || !query.trim()) return null;
+  if (items.length === 0) return null;
 
   return (
-    <>
-      <Header />
-
-      <main className="px-4 pb-10">
-        <h1 className="text-2xl font-bold text-center mb-1">Search Results</h1>
-        <p className="text-center text-sm text-zinc-500 mb-6">
-          Showing results for: <strong>{query}</strong>
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-6 max-w-7xl mx-auto">
-          {/* Left Sidebar */}
-          <div className="hidden md:block">
-            <SidebarBuyBox query={query} side="left" />
-          </div>
-
-          {/* Main Results Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {results.map((card) => (
-              <HalfCard key={card.unique_id} {...card} />
-            ))}
-          </div>
-
-          {/* Right Sidebar */}
-          <div className="hidden md:block">
-            <SidebarBuyBox query={query} side="right" />
-          </div>
-        </div>
-      </main>
-
-      <Footer />
-    </>
+    <aside className="sticky top-20 space-y-4">
+      <div className="bg-white border border-orange-200 rounded-xl p-4 shadow-sm text-sm w-full max-w-[240px]">
+        <h4 className="font-semibold text-orange-600 mb-3">
+          🔥 Live eBay Listings
+        </h4>
+        {items.slice(0, 4).map((item, i) => (
+          <a
+            key={i}
+            href={`${item.url}&campid=5339108925`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block mb-3 hover:opacity-90 transition"
+          >
+            <div className="flex items-center gap-2">
+              <Image
+                src={item.image}
+                alt={item.title}
+                width={50}
+                height={50}
+                className="object-contain rounded-sm border border-zinc-200 bg-white"
+              />
+              <div className="flex-1">
+                <p className="text-xs font-medium text-zinc-700 leading-tight line-clamp-2">
+                  {item.title}
+                </p>
+                <p className="text-xs text-green-600 font-bold mt-0.5">
+                  £{item.price}
+                </p>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </aside>
   );
 }
