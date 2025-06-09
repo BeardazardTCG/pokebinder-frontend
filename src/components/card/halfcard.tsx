@@ -27,16 +27,16 @@ export default function HalfCard({
   return (
     <Link
       href={`/card/${unique_id}`}
-      className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow hover:shadow-md hover:border-orange-300 transition duration-200 overflow-hidden"
+      className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden"
     >
       <div className="flex flex-col items-center p-4">
-        <div className="bg-white p-1 rounded-xl border border-zinc-100 shadow-sm group-hover:shadow-md">
+        <div className="bg-white p-1 rounded-xl border border-zinc-100 shadow group-hover:shadow-md">
           <Image
             src={card_image_url}
             alt={card_name}
             width={200}
             height={280}
-            className="object-contain rounded-md drop-shadow"
+            className="object-contain rounded-md drop-shadow-sm"
           />
         </div>
 
