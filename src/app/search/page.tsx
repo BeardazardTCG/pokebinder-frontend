@@ -1,3 +1,5 @@
+// FILE: /app/search/page.tsx
+
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
