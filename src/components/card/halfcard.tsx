@@ -4,8 +4,8 @@ import Link from 'next/link';
 interface HalfCardProps {
   unique_id: string;
   card_name: string;
-  set_name: string;
   card_number: string;
+  set_name: string;
   card_image_url: string;
   clean_avg_value: number | null;
   price_range_seen_min: number | null;
@@ -15,49 +15,39 @@ interface HalfCardProps {
 export default function HalfCard({
   unique_id,
   card_name,
-  set_name,
   card_number,
+  set_name,
   card_image_url,
   clean_avg_value,
   price_range_seen_min,
   price_range_seen_max,
 }: HalfCardProps) {
   return (
-    <Link
-      href={`/card/${unique_id}`}
-      className="w-full max-w-xl border rounded-2xl shadow p-4 flex items-center gap-4 transition hover:shadow-md bg-white"
-    >
-      <div className="relative w-24 h-32 flex-shrink-0">
+    <Link href={`/card/${unique_id}`} className="block rounded-2xl border border-zinc-300 bg-white shadow hover:shadow-md transition duration-200 overflow-hidden">
+      <div className="flex flex-col items-center p-4">
         <Image
           src={card_image_url}
           alt={card_name}
-          fill
+          width={200}
+          height={280}
           className="object-contain rounded-xl"
         />
-      </div>
-      <div className="flex flex-col flex-grow justify-between">
-        <div>
-          <h3 className="text-lg font-bold text-zinc-800 leading-tight">
+        <div className="mt-4 w-full text-center">
+          <h3 className="text-lg font-semibold leading-tight text-zinc-800 truncate">
             {card_name}
           </h3>
-          <p className="text-sm text-zinc-600">
-            {set_name} &bull; #{card_number}
+          <p className="text-sm text-zinc-500">
+            {set_name} • #{card_number}
           </p>
-        </div>
-        <div className="mt-2 text-sm text-zinc-700">
-          {clean_avg_value !== null ? (
-            <>
-              <p className="font-semibold">
-                🔥 Live Market Estimate: £{clean_avg_value.toFixed(2)}
-              </p>
-              {price_range_seen_min !== null && price_range_seen_max !== null && (
-                <p className="text-xs text-zinc-500">
-                  Range: £{price_range_seen_min.toFixed(2)}–£{price_range_seen_max.toFixed(2)}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="italic text-zinc-400">No price data yet</p>
+          {clean_avg_value !== null && (
+            <div className="mt-2 text-orange-600 font-medium text-base">
+              🔥 Live Market Estimate: £{clean_avg_value.toFixed(2)}
+            </div>
+          )}
+          {(price_range_seen_min !== null && price_range_seen_max !== null) && (
+            <p className="text-xs text-zinc-400">
+              Range: £{price_range_seen_min.toFixed(2)}–£{price_range_seen_max.toFixed(2)}
+            </p>
           )}
         </div>
       </div>
