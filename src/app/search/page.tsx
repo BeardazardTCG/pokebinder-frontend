@@ -2,7 +2,7 @@
 
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
-import SidebarBuyBox from '@/components/card/SidebarBuyBox';
+import SidebarBuyBox from '@/components/search/SidebarBuyBox';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-export default async function Page({ searchParams }: { searchParams: URLSearchParams }) {
-  const query = searchParams.get('q') || '';
+export default async function Page({ searchParams }: { searchParams: { q?: string } }) {
+  const query = searchParams.q ?? '';
   const results = await getSearchResults(query);
 
   return (
