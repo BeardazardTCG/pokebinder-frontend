@@ -62,7 +62,7 @@ export async function getCardFromDB(uniqueId: string) {
       verified_sales_logged: card.verified_sales_logged !== null ? parseInt(card.verified_sales_logged) : null,
       price_range_seen_min: card.price_range_seen_min !== null ? parseFloat(card.price_range_seen_min) : null,
       price_range_seen_max: card.price_range_seen_max !== null ? parseFloat(card.price_range_seen_max) : null,
-      type: card.type ?? null, // ✅ <-- new field added
+      type: card.type ?? null,
     };
   } catch (err) {
     console.error('🔥 DB Fetch Error in getCardFromDB:', err);
@@ -71,7 +71,6 @@ export async function getCardFromDB(uniqueId: string) {
     client.release();
   }
 }
-
 
 // === Fetch 4 more cards from the same set ===
 export async function getMoreFromSet(setCode: string, excludeId: string) {
@@ -121,13 +120,13 @@ export async function getSearchResults(query: string) {
     let sql;
 
     if (keywords.length === 1) {
-      // Simple fallback: match any 1 field
       sql = `
         SELECT 
           unique_id,
           card_name,
           card_number,
           set_name,
+          set_logo_url,
           card_image_url,
           clean_avg_value,
           price_range_seen_min,
@@ -140,13 +139,13 @@ export async function getSearchResults(query: string) {
         LIMIT 50
       `;
     } else {
-      // Stricter logic: must match 2 out of 3 fields
       sql = `
         SELECT 
           unique_id,
           card_name,
           card_number,
           set_name,
+          set_logo_url,
           card_image_url,
           clean_avg_value,
           price_range_seen_min,
@@ -169,6 +168,7 @@ export async function getSearchResults(query: string) {
       set_name: card.set_name,
       card_number: card.card_number,
       card_image_url: card.card_image_url,
+      set_logo_url: card.set_logo_url ?? null,
       clean_avg_value: card.clean_avg_value !== null ? parseFloat(card.clean_avg_value) : null,
       price_range_seen_min: card.price_range_seen_min !== null ? parseFloat(card.price_range_seen_min) : null,
       price_range_seen_max: card.price_range_seen_max !== null ? parseFloat(card.price_range_seen_max) : null,
