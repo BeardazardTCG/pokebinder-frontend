@@ -22,6 +22,8 @@ export default function HalfCard({
   price_range_seen_min,
   price_range_seen_max,
 }: HalfCardProps) {
+  const setLogoUrl = `https://cdn.pokebinder.co.uk/set-logos/${set_name.replace(/\s+/g, '-').toLowerCase()}.png`;
+
   return (
     <Link href={`/card/${unique_id}`} className="block rounded-2xl border border-zinc-300 bg-white shadow hover:shadow-md transition duration-200 overflow-hidden">
       <div className="flex flex-col items-center p-4">
@@ -30,17 +32,24 @@ export default function HalfCard({
           alt={card_name}
           width={200}
           height={280}
-          className="object-contain rounded-xl"
+          className="object-contain rounded-xl border border-zinc-200 shadow-sm"
         />
         <div className="mt-4 w-full text-center">
-          <h3 className="text-lg font-semibold leading-tight text-zinc-800 truncate">
+          <h3 className="text-lg font-bold leading-tight text-zinc-800 truncate">
             {card_name}
           </h3>
-          <p className="text-sm text-zinc-500">
-            {set_name} • #{card_number}
-          </p>
+          <div className="flex justify-center items-center gap-2 mt-1">
+            <Image
+              src={setLogoUrl}
+              alt={set_name}
+              width={20}
+              height={20}
+              className="object-contain"
+            />
+            <p className="text-sm text-zinc-500">#{card_number}</p>
+          </div>
           {clean_avg_value !== null && (
-            <div className="mt-2 text-orange-600 font-medium text-base">
+            <div className="mt-2 text-orange-600 font-semibold text-base">
               🔥 Live Market Estimate: £{clean_avg_value.toFixed(2)}
             </div>
           )}
@@ -54,3 +63,4 @@ export default function HalfCard({
     </Link>
   );
 }
+
