@@ -1,78 +1,77 @@
-import Image from 'next/image';
-import Link from 'next/link';
+export async function getSearchResults(query: string) {
+  const client = await pool.connect();
+  try {
+    const keywords = query.toLowerCase().split(/[\s\-\/]+/).filter(Boolean);
 
-interface HalfCardProps {
-  unique_id: string;
-  card_name: string;
-  card_number: string;
-  set_name: string;
-  set_logo_url: string | null;
-  card_image_url: string;
-  clean_avg_value: number | null;
-  price_range_seen_min: number | null;
-  price_range_seen_max: number | null;
-}
+    if (!keywords.length) {
+      console.warn("🔍 No usable keywords in query");
+      return [];
+    }
 
-export default function HalfCard({
-  unique_id,
-  card_name,
-  card_number,
-  set_name,
-  set_logo_url,
-  card_image_url,
-  clean_avg_value,
-  price_range_seen_min,
-  price_range_seen_max,
-}: HalfCardProps) {
-  return (
-    <Link
-      href={`/card/${unique_id}`}
-      className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden w-full max-w-[240px]"
-    >
-      <div className="flex flex-col items-center p-4">
-        <div className="bg-white p-1 rounded-xl border border-zinc-100 shadow group-hover:shadow-md">
-          <Image
-            src={card_image_url}
-            alt={card_name}
-            width={200}
-            height={280}
-            className="object-contain rounded-md drop-shadow-sm"
-          />
-        </div>
+    const fuzzyKeywords = keywords.map(k => `%${k}%`);
 
-        <div className="mt-3 w-full text-center">
-          <h3 className="text-base font-bold leading-snug text-zinc-800 group-hover:text-orange-700 transition break-words min-h-[2.5rem]">
-            {card_name}
-          </h3>
+    let sql;
 
-          <div className="flex justify-center items-center gap-1 mt-1 mb-1">
-            {set_logo_url ? (
-              <Image
-                src={set_logo_url}
-                alt={set_name}
-                width={20}
-                height={20}
-                className="object-contain drop-shadow-sm"
-              />
-            ) : (
-              <span className="text-xs text-zinc-400 italic">No Logo</span>
-            )}
-            <p className="text-xs text-zinc-500 font-medium">#{card_number}</p>
-          </div>
+    if (keywords.length === 1) {
+      // Simple fallback: match any 1 field
+      sql = `
+        SELECT 
+          unique_id,
+          card_name,
+          card_number,
+          set_name,
+          set_logo_url,  -- ✅ now included
+          card_image_url,
+          clean_avg_value,
+          price_range_seen_min,
+          price_range_seen_max
+        FROM mastercard_v2
+        WHERE
+          LOWER(card_name) LIKE ANY ($1::text[])
+          OR LOWER(set_name) LIKE ANY ($1::text[])
+          OR card_number LIKE ANY ($1::text[])
+        LIMIT 50
+      `;
+    } else {
+      // Stricter logic: must match 2 out of 3 fields
+      sql = `
+        SELECT 
+          unique_id,
+          card_name,
+          card_number,
+          set_name,
+          set_logo_url,  -- ✅ now included
+          card_image_url,
+          clean_avg_value,
+          price_range_seen_min,
+          price_range_seen_max
+        FROM mastercard_v2
+        WHERE (
+          (LOWER(card_name) LIKE ANY ($1::text[])::boolean)::int +
+          (LOWER(set_name) LIKE ANY ($1::text[])::boolean)::int +
+          (card_number LIKE ANY ($1::text[])::boolean)::int
+        ) >= 2
+        LIMIT 50
+      `;
+    }
 
-          {clean_avg_value !== null && (
-            <div className="text-orange-600 font-semibold text-sm mt-1">
-              🔥 Live Market Estimate: £{clean_avg_value.toFixed(2)}
-            </div>
-          )}
+    const result = await client.query(sql, [fuzzyKeywords]);
 
-          {price_range_seen_min !== null && price_range_seen_max !== null && (
-            <p className="text-[11px] text-zinc-400 mt-0.5">
-              Range: £{price_range_seen_min.toFixed(2)}–£{price_range_seen_max.toFixed(2)}
-            </p>
-          )}
-        </div>
-      </div>
-    </Link>
-  );
+    return result.rows.map(card => ({
+      unique_id: card.unique_id,
+      card_name: card.card_name,
+      set_name: card.set_name,
+      card_number: card.card_number,
+      card_image_url: card.card_image_url,
+      set_logo_url: card.set_logo_url ?? null, // ✅ now passed to frontend
+      clean_avg_value: card.clean_avg_value !== null ? parseFloat(card.clean_avg_value) : null,
+      price_range_seen_min: card.price_range_seen_min !== null ? parseFloat(card.price_range_seen_min) : null,
+      price_range_seen_max: card.price_range_seen_max !== null ? parseFloat(card.price_range_seen_max) : null,
+    }));
+  } catch (err) {
+    console.error("🔥 DB Fetch Error in getSearchResults:", err);
+    return [];
+  } finally {
+    client.release();
+  }
 }
