@@ -6,7 +6,7 @@ interface HalfCardProps {
   card_name: string;
   card_number: string;
   set_name: string;
-  set_logo_url: string;
+  set_logo_url: string | null;
   card_image_url: string;
   clean_avg_value: number | null;
   price_range_seen_min: number | null;
@@ -46,13 +46,15 @@ export default function HalfCard({
           </h3>
 
           <div className="flex justify-center items-center gap-2 mt-1">
-            <Image
-              src={set_logo_url}
-              alt={set_name}
-              width={22}
-              height={22}
-              className="object-contain drop-shadow-sm"
-            />
+            {set_logo_url && (
+              <Image
+                src={set_logo_url}
+                alt={set_name}
+                width={22}
+                height={22}
+                className="object-contain drop-shadow-sm"
+              />
+            )}
             <p className="text-xs text-zinc-500 font-medium">#{card_number}</p>
           </div>
 
