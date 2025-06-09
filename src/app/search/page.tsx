@@ -2,12 +2,18 @@
 
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
-import SidebarBuyBox from '@/components/card/SidebarBuyBox';
+import SidebarBuyBox from '@/components/search/SidebarBuyBox';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { Metadata } from 'next';
 
-export default async function Page({ searchParams }: { searchParams: Record<string, string> }) {
-  const query = searchParams.q || '';
+export const metadata: Metadata = {
+  title: 'Search Results | PokéBinder',
+  description: 'See live market prices and listings for your favourite Pokémon cards.',
+};
+
+export default async function Page({ searchParams }: { searchParams: URLSearchParams }) {
+  const query = searchParams.get('q') || '';
   const results = await getSearchResults(query);
 
   return (
