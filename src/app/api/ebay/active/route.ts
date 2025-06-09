@@ -15,7 +15,13 @@ export async function GET(req: NextRequest) {
   const ebayUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encoded}&_sop=1&_ipg=50&_in_kw=4&LH_BIN=1&rt=nc&LH_PrefLoc=1`;
 
   try {
-    const res = await fetch(ebayUrl);
+    const res = await fetch(ebayUrl, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+      },
+    });
+
     const html = await res.text();
     const $ = cheerio.load(html);
 
