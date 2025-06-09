@@ -1,7 +1,7 @@
 // FILE: /src/app/api/ebay/active/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
