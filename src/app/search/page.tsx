@@ -1,5 +1,3 @@
-// FILE: /app/search/page.tsx
-
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
@@ -12,8 +10,8 @@ export const metadata: Metadata = {
   description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-export default async function Page({ searchParams }: { searchParams: { q?: string } }) {
-  const query = searchParams.q ?? '';
+export default async function Page({ searchParams }: any) {
+  const query = searchParams?.q ?? '';
   const results = await getSearchResults(query);
 
   return (
