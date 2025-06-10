@@ -88,13 +88,13 @@ export default function Home() {
         <Image src="/pikachu-cap.png" alt="Pikachu" width={140} height={140} className="absolute right-[-45px] top-[-16px] z-10 animate-bounce-slow" />
       </div>
 
-      <div className="mt-3 text-sm sm:text-base text-yellow-700 bg-yellow-100 border border-yellow-300 px-4 py-2 rounded-full shadow text-center max-w-xs mx-auto transition-opacity duration-300">
-        {funFacts[factIndex]}
-      </div>
-
       <div className="mt-2 text-sm text-gray-600 text-center">
         Try: <Link href="/card/g1-11" className="bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-xs sm:text-sm shadow hover:bg-blue-200 transition">Charizard EX</Link>,
         <Link href="/card/base1-10" className="ml-2 bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-xs sm:text-sm shadow hover:bg-blue-200 transition">Mewtwo</Link>
+      </div>
+
+      <div className="mt-3 text-sm sm:text-base text-yellow-700 bg-yellow-100 border border-yellow-300 px-4 py-2 rounded-full shadow text-center max-w-xs mx-auto min-h-[3rem] flex items-center justify-center text-balance text-wrap text-pretty">
+        {funFacts[factIndex]}
       </div>
 
       {/* SCRAPE STATS */}
@@ -163,4 +163,6 @@ export default function Home() {
       </footer>
     </main>
   );
+}
+
 }
