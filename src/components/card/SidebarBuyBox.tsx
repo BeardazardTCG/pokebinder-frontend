@@ -3,8 +3,6 @@
 'use client';
 
 import Image from 'next/image';
-import { Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface Props {
   query: string;
@@ -14,11 +12,10 @@ interface Props {
 export default function SidebarBuyBox({ query, side }: Props) {
   if (!query.trim()) return null;
 
-  // Clean and enhance query with basic refinements
   const refinedQuery = query
     .toLowerCase()
     .replace(/\b(promo|lot|bundle|psa|proxy)\b/g, '')
-    .replace(/\s+/g, ' ') // normalize spacing
+    .replace(/\s+/g, ' ')
     .trim() + ' card';
 
   const ebayUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
@@ -28,19 +25,11 @@ export default function SidebarBuyBox({ query, side }: Props) {
   return (
     <aside className="sticky top-20">
       <div className="relative bg-white border-2 border-orange-200 rounded-3xl p-5 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out w-full max-w-[240px] group overflow-hidden">
-        {/* Decorative Glow */}
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-orange-100 rounded-full blur-2xl opacity-30 group-hover:opacity-50 transition-all duration-300"></div>
 
         <div className="flex items-center justify-between mb-3 relative z-10">
           <h4 className="font-bold text-orange-700 text-sm tracking-wide flex items-center gap-1">
-            <motion.span
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="inline-block"
-            >
-              <Sparkles className="w-4 h-4 text-orange-500" />
-            </motion.span>
-            eBay Buy Now
+            🔥 eBay Buy Now
           </h4>
           <Image src="/Assets/icons/ebay.webp" alt="eBay" width={24} height={24} />
         </div>
