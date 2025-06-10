@@ -31,7 +31,7 @@ export default function SidebarBuyBox({ query, side }: Props) {
           <h4 className="font-bold text-orange-700 text-sm tracking-wide flex items-center gap-1">
             🔥 eBay Buy Now
           </h4>
-          <Image src="/Assets/icons/ebay.webp" alt="eBay" width={24} height={24} />
+          <Image src="/Assets/icons/ebay.png" alt="eBay" width={24} height={24} />
         </div>
 
         <p className="text-xs text-zinc-600 leading-snug mb-4 relative z-10">
