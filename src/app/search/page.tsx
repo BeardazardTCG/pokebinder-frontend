@@ -20,20 +20,22 @@ export default async function Page({ searchParams }: any) {
     <>
       <Header />
 
-      <main className="px-4 pb-10">
-        <h1 className="text-2xl font-bold text-center mb-1">Search Results</h1>
-        <p className="text-center text-sm text-zinc-500 mb-6">
-          Showing results for: <strong>{query}</strong>
+      <main className="px-4 pb-16 pt-6 bg-[#fefefe]">
+        <h1 className="text-3xl font-extrabold text-center mb-2 text-zinc-800">
+          Search Results
+        </h1>
+        <p className="text-center text-sm text-zinc-500 mb-8">
+          Showing results for: <strong className="text-orange-600">{query}</strong>
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
           {/* Left Sidebar */}
           <div className="hidden md:block">
             <SidebarBuyBox query={query} side="left" />
           </div>
 
           {/* Main Results Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
             {results.map((card) => (
               <HalfCard key={card.unique_id} {...card} />
             ))}
