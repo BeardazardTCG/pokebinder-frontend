@@ -30,7 +30,7 @@ export default function SidebarBuyBox({ query, side }: Props) {
           <h4 className="font-bold text-orange-700 text-sm tracking-wide flex items-center gap-1">
             🔥 eBay Buy Now
           </h4>
-          <Image src="/Assets/icons/ebay.png" alt="eBay" width={24} height={24} />
+          <Image src="/Assets/logos/ebay logo.png" alt="eBay" width={28} height={28} />
         </div>
 
         <p className="text-xs text-zinc-600 leading-snug mb-4 relative z-10">
@@ -57,7 +57,7 @@ export default function SidebarBuyBox({ query, side }: Props) {
           <img
             src="/Assets/logos/pokebinder-logo.png"
             alt="PokéBinder"
-            className="h-10 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
           <div className="rotate-6 bg-yellow-300 px-2 py-1 text-xs font-bold text-zinc-800 shadow rounded">
             🚧 Coming Soon
@@ -86,13 +86,6 @@ export default function SidebarBuyBox({ query, side }: Props) {
           <button className="w-full rounded-lg border border-green-500 bg-green-50 px-4 py-2 font-medium text-green-700 shadow-sm hover:bg-green-100">
             📦 Add to Inventory
           </button>
-          <label className="flex items-center gap-2 text-zinc-600">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-zinc-300 text-red-600 focus:ring-red-500"
-            />
-            🚩 Flag this card (we’ll review quietly)
-          </label>
         </div>
 
         <div className="mt-4 rounded-lg border border-indigo-300 bg-indigo-50 p-3 text-sm text-zinc-700 shadow-sm">
