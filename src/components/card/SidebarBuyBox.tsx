@@ -1,14 +1,6 @@
+// FILE: /src/components/card/SidebarBuyBox.tsx
+
 'use client';
-
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-
-interface EbayItem {
-  title: string;
-  price: string;
-  url: string;
-  image: string;
-}
 
 interface Props {
   query: string;
@@ -16,64 +8,29 @@ interface Props {
 }
 
 export default function SidebarBuyBox({ query, side }: Props) {
-  const [items, setItems] = useState<EbayItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  if (!query.trim()) return null;
 
-  useEffect(() => {
-    async function fetchEbayItems() {
-      try {
-        const ebayQuery = encodeURIComponent(query);
-        const res = await fetch(`/api/ebay/active?q=${ebayQuery}`);
-        const data = await res.json();
-        setItems(data.items || []);
-      } catch (err) {
-        console.error('SidebarBuyBox fetch failed:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (query.trim().length > 0) {
-      fetchEbayItems();
-    }
-  }, [query]);
-
-  if (loading || !query.trim()) return null;
-  if (items.length === 0) return null;
+  const ebayUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
+    query
+  )}&_sop=1&_ipg=50&_in_kw=4&LH_BIN=1&rt=nc&LH_PrefLoc=1&campid=5339108925`;
 
   return (
-    <aside className="sticky top-20 space-y-4">
+    <aside className="sticky top-20">
       <div className="bg-white border border-orange-200 rounded-xl p-4 shadow-sm text-sm w-full max-w-[240px]">
         <h4 className="font-semibold text-orange-600 mb-3">
-          🔥 Live eBay Listings
+          🔍 eBay Buy Now
         </h4>
-        {items.slice(0, 4).map((item, i) => (
-          <a
-            key={i}
-            href={`${item.url}&campid=5339108925`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block mb-3 hover:opacity-90 transition"
-          >
-            <div className="flex items-center gap-2">
-              <Image
-                src={item.image}
-                alt={item.title}
-                width={50}
-                height={50}
-                className="object-contain rounded-sm border border-zinc-200 bg-white"
-              />
-              <div className="flex-1">
-                <p className="text-xs font-medium text-zinc-700 leading-tight line-clamp-2">
-                  {item.title}
-                </p>
-                <p className="text-xs text-green-600 font-bold mt-0.5">
-                  £{item.price}
-                </p>
-              </div>
-            </div>
-          </a>
-        ))}
+        <p className="text-sm text-zinc-600 mb-4">
+          Browse current Buy It Now listings for <strong>{query}</strong>.
+        </p>
+        <a
+          href={ebayUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-orange-500 text-white font-semibold px-4 py-2 rounded-xl shadow hover:bg-orange-600 transition"
+        >
+          🛒 View on eBay
+        </a>
       </div>
     </aside>
   );
