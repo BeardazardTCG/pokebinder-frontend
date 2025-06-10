@@ -113,31 +113,32 @@ export default function Home() {
       </section>
 
       {/* SEALED PRODUCTS */}
-      <section className="w-full max-w-6xl px-4 mt-12">
-        <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
-        <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {items.map((item, i) => (
-              <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 shadow-md text-center flex flex-col justify-between h-full hover:shadow-lg hover:scale-[1.01] transition-transform">
-                <p className="text-sm font-semibold mb-2 line-clamp-2 h-[3rem] leading-snug overflow-hidden text-gray-800">
-                  {item.title}
-                </p>
-                <p className="text-green-700 font-bold text-lg mt-1">
-                  £{item.price.toFixed(2)}
-                </p>
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block mt-4 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm"
-                >
-                  Buy on eBay
-                </a>
-              </div>
-            ))}
-          </div>
+<section className="w-full max-w-6xl px-4 mt-12">
+  <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
+  <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {items.map((item, i) => (
+        <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 shadow-md text-center flex flex-col justify-between h-full hover:shadow-lg hover:scale-[1.01] transition-transform">
+          <p className="text-sm font-semibold mb-2 overflow-hidden text-ellipsis line-clamp-3 leading-snug text-gray-800 h-[4.5rem]">
+            {item.title}
+          </p>
+          <p className="text-green-700 font-bold text-lg mt-1">
+            £{item.price.toFixed(2)}
+          </p>
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-4 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm"
+          >
+            Buy on eBay
+          </a>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* COMING SOON NOTE */}
       <section className="w-full lg:w-[30%] min-w-[280px] bg-yellow-100 border-2 border-yellow-400 p-6 rounded-xl shadow-md relative rotate-[-2deg] mt-12">
