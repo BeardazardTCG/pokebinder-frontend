@@ -1,5 +1,3 @@
-// FILE: /src/components/card/SidebarBuyBox.tsx
-
 'use client';
 
 import Image from 'next/image';
@@ -23,8 +21,9 @@ export default function SidebarBuyBox({ query, side }: Props) {
   )}&_sop=1&_ipg=50&_in_kw=4&LH_BIN=1&rt=nc&LH_PrefLoc=1&campid=5339108925`;
 
   return (
-    <aside className="sticky top-20">
-      <div className="relative bg-white border-2 border-orange-200 rounded-3xl p-5 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out w-full max-w-[240px] group overflow-hidden">
+    <aside className="sticky top-20 flex flex-col gap-6 w-full max-w-[280px]">
+      {/* === eBay Buy Now Box === */}
+      <div className="relative bg-white border-2 border-orange-200 rounded-3xl p-5 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out group overflow-hidden">
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-orange-100 rounded-full blur-2xl opacity-30 group-hover:opacity-50 transition-all duration-300"></div>
 
         <div className="flex items-center justify-between mb-3 relative z-10">
@@ -51,6 +50,21 @@ export default function SidebarBuyBox({ query, side }: Props) {
           Affiliate link – helps support PokéBinder ❤️
         </p>
       </div>
-    </aside>
-  );
-}
+
+      {/* === Column 3: Pro Features === */}
+      <div className="flex flex-col gap-4 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800">
+        <div className="mb-2 flex items-center justify-between">
+          <img
+            src="/Assets/logos/pokebinder-logo.png"
+            alt="PokéBinder"
+            className="h-10 w-auto object-contain"
+          />
+          <div className="rotate-6 bg-yellow-300 px-2 py-1 text-xs font-bold text-zinc-800 shadow rounded">
+            🚧 Coming Soon
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm">
+          <strong className="mb-1 block">🚀 Smart Suggestions (Pro)</strong>
+          Bundling tips, sell timing, and AI-powered collector strategy.
+        </
