@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import SearchBar from '@/components/SearchBar';
 import FeaturedCards from '@/components/FeaturedCards';
 import LiveScrapeStats from '@/components/LiveScrapeStats';
 import Footer from '@/components/layout/Footer';
@@ -36,7 +35,14 @@ export default function HomePage() {
               className="animate-bounce"
             />
           </div>
-          <SearchBar />
+          <form action="/search" method="GET" className="w-full">
+            <input
+              name="q"
+              type="text"
+              placeholder="Search cards by name, set, or number..."
+              className="w-full rounded-full border border-zinc-300 px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            />
+          </form>
         </div>
 
         {/* Fun Fact Bubble */}
