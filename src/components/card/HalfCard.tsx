@@ -45,21 +45,21 @@ export default function HalfCard({
             {card_name}
           </h3>
 
-          <div className="flex justify-center items-center gap-2 mt-2 mb-1">
-  {set_logo_url ? (
-    <Image
-      src={set_logo_url}
-      alt={set_name}
-      width={28}
-      height={28}
-      className="object-contain drop-shadow-sm"
-    />
-  ) : (
-    <span className="text-xs text-zinc-400 italic">No Logo</span>
-  )}
-  <p className="text-sm text-zinc-600 font-medium">#{card_number}</p>
-</div>
+          {set_logo_url ? (
+            <div className="mt-2 mb-1 flex justify-center">
+              <Image
+                src={set_logo_url}
+                alt={set_name}
+                width={48}
+                height={48}
+                className="object-contain drop-shadow-sm"
+              />
+            </div>
+          ) : (
+            <div className="mt-2 mb-1 text-xs text-zinc-400 italic">No Logo</div>
+          )}
 
+          <p className="text-sm text-zinc-600 font-medium mb-1">#{card_number}</p>
 
           {clean_avg_value !== null && (
             <div className="text-orange-600 font-semibold text-sm mt-1">
