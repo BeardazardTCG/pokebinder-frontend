@@ -33,8 +33,14 @@ export default function SearchPage() {
   return (
     <>
       <Header />
-      <main className="flex max-w-7xl mx-auto px-4 pt-10 pb-20">
-        <div className="w-full lg:w-3/4 pr-6">
+      <main className="flex max-w-7xl mx-auto px-4 pt-10 pb-20 gap-6">
+        {/* Left Sidebar */}
+        <div className="hidden lg:block w-1/5 sticky top-28 self-start">
+          <SidebarBuyBox query={query} side="left" />
+        </div>
+
+        {/* Main Content */}
+        <div className="w-full lg:w-3/5">
           <h1 className="text-2xl font-bold text-zinc-800 mb-6">
             Search Results for: <span className="text-yellow-600">{query}</span>
           </h1>
@@ -45,7 +51,7 @@ export default function SearchPage() {
             <p className="text-sm text-zinc-400 italic">No matching cards found. Try a different search.</p>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {results.map((card) => (
               <HalfCard
                 key={card.unique_id}
@@ -63,7 +69,8 @@ export default function SearchPage() {
           </div>
         </div>
 
-        <div className="hidden lg:block w-1/4">
+        {/* Right Sidebar */}
+        <div className="hidden lg:block w-1/5 sticky top-28 self-start">
           <SidebarBuyBox query={query} side="right" />
         </div>
       </main>
