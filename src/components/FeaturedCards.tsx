@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import useSWR from 'swr';
 import Image from 'next/image';
@@ -36,21 +36,21 @@ export default function FeaturedCards() {
     .slice(0, 4); // show 4 cards max
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
       {visibleCards.map((card) => (
         <div
           key={card.unique_id}
-          className="bg-white w-full rounded-2xl shadow-md hover:shadow-xl transition-all p-6 text-center flex flex-col items-center"
+          className="bg-white w-full rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform p-4 text-center flex flex-col justify-between items-center h-full border border-gray-100"
         >
           <Image
             src={card.card_image_url}
             alt={card.card_name}
             width={200}
             height={280}
-            className="rounded object-contain mb-4"
+            className="rounded object-contain mb-4 drop-shadow-sm"
             unoptimized
           />
-          <p className="font-mono text-base text-gray-700 mb-1">#{card.card_number}</p>
+          <p className="font-mono text-sm text-gray-600 mb-1">#{card.card_number}</p>
 
           {card.set_logo_url && !card.set_logo_url.includes("null") ? (
             <Image
@@ -64,7 +64,7 @@ export default function FeaturedCards() {
             <p className="mb-3 text-xs italic text-gray-400">[No set logo]</p>
           )}
 
-          <p className="text-green-600 font-bold text-xl mb-3">
+          <p className="text-green-700 font-bold text-lg mb-3">
             {card.clean_avg_value != null && !isNaN(Number(card.clean_avg_value))
               ? `£${Number(card.clean_avg_value).toFixed(2)}`
               : '£—'}
@@ -75,7 +75,7 @@ export default function FeaturedCards() {
               href={card.url_used}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-4 py-2 rounded-md shadow-md text-sm font-semibold bg-yellow-300 text-black hover:bg-yellow-400 transition-all"
+              className="inline-block mt-auto px-4 py-2 rounded-full shadow text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 text-black transition"
             >
               🛒 Buy Now
             </a>
