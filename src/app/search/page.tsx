@@ -47,7 +47,18 @@ export default function SearchPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {results.map((card) => (
-              <HalfCard key={card.unique_id} card={card} />
+              <HalfCard
+                key={card.unique_id}
+                unique_id={card.unique_id}
+                card_name={card.card_name}
+                card_number={card.card_number}
+                set_name={card.set_name}
+                set_logo_url={card.set_logo_url}
+                card_image_url={card.card_image_url}
+                clean_avg_value={card.clean_avg_value}
+                price_range_seen_min={card.price_range_seen_min}
+                price_range_seen_max={card.price_range_seen_max}
+              />
             ))}
           </div>
         </div>
