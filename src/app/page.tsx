@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import TopSocialBanner from '@/components/layout/TopSocialBanner';
+import TopSocialBanner from '@/components/card/TopSocialBanner';
 import LiveScrapeStats from "@/components/LiveScrapeStats";
 import FeaturedCards from "@/components/FeaturedCards";
 
