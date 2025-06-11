@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
+import SignupPrompt from '@/components/SignupPrompt';
 
 type FullCardProps = {
   card?: {
@@ -25,6 +27,7 @@ type FullCardProps = {
 
 export default function FullCard(props: FullCardProps) {
   const card = props.card;
+  const [showSignup, setShowSignup] = useState(false); // ✅ toggle for Notify Me
 
   if (!card || !card.card_name) {
     return <div className="p-4 text-red-600">Card data is missing or incomplete.</div>;
@@ -184,12 +187,21 @@ export default function FullCard(props: FullCardProps) {
         <div className="mt-4 rounded-lg border border-indigo-300 bg-indigo-50 p-3 text-sm text-zinc-700 shadow-sm">
           🔐 <strong>Be first to access PokéBinder Pro</strong>
           <p className="mt-1 text-xs">Sign up now to get early access when Pro tools launch.</p>
-          <button className="mt-2 w-full rounded-md bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700 text-sm font-medium shadow">
-            🔔 Notify Me
-          </button>
+
+          {showSignup ? (
+            <div className="mt-3">
+              <SignupPrompt />
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowSignup(true)}
+              className="mt-2 w-full rounded-md bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700 text-sm font-medium shadow"
+            >
+              🔔 Notify Me
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
