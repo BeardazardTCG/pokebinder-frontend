@@ -1,11 +1,10 @@
 import { getCardFromDB, getMoreFromSet } from '@/lib/db';
-import TopSocialBanner from '@/components/card/TopSocialBanner';
+import TopSocialBanner from '@/components/card/TopSocialBanner'; // ✅ Leave as-is
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import FullCard from '@/components/card/FullCard';
 import MoreFromSetGrid from '@/components/card/MoreFromSetGrid';
 
-// Force-safe prop typing to silence Next.js build error
 export default async function CardPage({ params }: any) {
   const slug = params.slug;
   const card = await getCardFromDB(slug).catch(() => null);
@@ -18,6 +17,7 @@ export default async function CardPage({ params }: any) {
 
   return (
     <>
+      <TopSocialBanner /> {/* ✅ Inserted here, no file move */}
       <Header />
       <main className="px-4 py-6 bg-white min-h-screen max-w-7xl mx-auto">
         <FullCard card={card} />
