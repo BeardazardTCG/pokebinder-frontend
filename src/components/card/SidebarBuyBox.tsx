@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
+import SignupPrompt from '@/components/SignupPrompt';
 
 interface Props {
   query: string;
@@ -8,13 +10,16 @@ interface Props {
 }
 
 export default function SidebarBuyBox({ query, side }: Props) {
+  const [showSignup, setShowSignup] = useState(false);
+
   if (!query.trim()) return null;
 
-  const refinedQuery = query
-    .toLowerCase()
-    .replace(/\b(promo|lot|bundle|psa|proxy)\b/g, '')
-    .replace(/\s+/g, ' ')
-    .trim() + ' card';
+  const refinedQuery =
+    query
+      .toLowerCase()
+      .replace(/\b(promo|lot|bundle|psa|proxy)\b/g, '')
+      .replace(/\s+/g, ' ')
+      .trim() + ' card';
 
   const ebayUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
     refinedQuery
@@ -91,9 +96,19 @@ export default function SidebarBuyBox({ query, side }: Props) {
         <div className="mt-4 rounded-lg border border-indigo-300 bg-indigo-50 p-3 text-sm text-zinc-700 shadow-sm">
           🔐 <strong>Be first to access PokéBinder Pro</strong>
           <p className="mt-1 text-xs">Sign up now to get early access when Pro tools launch.</p>
-          <button className="mt-2 w-full rounded-md bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700 text-sm font-medium shadow">
-            🔔 Notify Me
-          </button>
+
+          {showSignup ? (
+            <div className="mt-3">
+              <SignupPrompt />
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowSignup(true)}
+              className="mt-2 w-full rounded-md bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700 text-sm font-medium shadow"
+            >
+              🔔 Notify Me
+            </button>
+          )}
         </div>
       </div>
     </div>
