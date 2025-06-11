@@ -5,19 +5,19 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
+export { pool }; // ✅ this fixes the notify.ts error
+
 // === Hybrid search: 2-of-3 match if multiple words, OR match-any if only 1 keyword ===
 export async function getSearchResults(query: string) {
   const client = await pool.connect();
   try {
     const keywords = query.toLowerCase().split(/[\s\-\/]+/).filter(Boolean);
-
     if (!keywords.length) {
       console.warn("🔍 No usable keywords in query");
       return [];
     }
 
     const fuzzyKeywords = keywords.map(k => `%${k}%`);
-
     let sql;
 
     if (keywords.length === 1) {
