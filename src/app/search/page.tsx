@@ -3,7 +3,7 @@
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
-import TopSocialBanner from '@/components/card/TopSocialBanner';
+import TopSocialBanner from '@/components/card/TopSocialBanner'; // ✅ Correct path
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
@@ -19,6 +19,7 @@ export default async function Page({ searchParams }: any) {
 
   return (
     <>
+      <TopSocialBanner /> {/* ✅ Inserted at the top */}
       <Header />
 
       <main className="px-4 pb-16 pt-6 bg-[#fefefe]">
