@@ -1,46 +1,56 @@
 // FILE: /app/updates/page.tsx
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { Metadata } from 'next';
 import Link from 'next/link';
+import TopSocialBanner from '@/components/card/TopSocialBanner';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Updates | PokéBinder',
-  description: 'Stay up to date with the latest PokéBinder news, features, and releases.',
+  description: 'New features, fixes, and updates as they happen.',
 };
 
+const updatesDirectory = path.join(process.cwd(), 'src/updates');
+
 export default function UpdatesPage() {
-  const updatesDir = path.join(process.cwd(), 'updates');
-  const files = fs.readdirSync(updatesDir);
-  const posts = files.map((fileName) => {
-    const slug = fileName.replace('.md', '');
-    const fullPath = path.join(updatesDir, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data } = matter(fileContents);
+  const files = fs.readdirSync(updatesDirectory);
+
+  const posts = files.map((filename) => {
+    const filePath = path.join(updatesDirectory, filename);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data, content } = matter(fileContents);
     return {
-      title: data.title || slug,
-      date: data.date || 'No date',
-      slug,
+      title: data.title || filename.replace(/\.md$/, ''),
+      date: new Date(data.date).toLocaleDateString('en-GB'),
+      content,
     };
   });
 
-  const sortedPosts = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-extrabold text-zinc-800 mb-4 text-center">PokéBinder Updates</h1>
-      <p className="text-center text-zinc-500 mb-10">New features, fixes, and updates as they happen.</p>
+    <>
+      <TopSocialBanner />
+      <Header />
+      <main className="max-w-3xl mx-auto px-4 py-12">
+        <h1 className="text-4xl font-extrabold mb-4 text-center">PokéBinder Updates</h1>
+        <p className="text-center text-gray-500 mb-10">
+          New features, fixes, and updates as they happen.
+        </p>
 
-      <ul className="space-y-6">
-        {sortedPosts.map(({ title, date, slug }) => (
-          <li key={slug}>
-            <Link href={`/updates/${slug}`} className="block p-4 border border-zinc-200 rounded-lg hover:bg-zinc-50">
-              <h2 className="text-xl font-semibold text-orange-600">{title}</h2>
-              <p className="text-sm text-zinc-500">{new Date(date).toLocaleDateString()}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+        <div className="space-y-10">
+          {posts.map((post, idx) => (
+            <div key={idx} className="bg-white p-6 rounded-xl shadow">
+              <h2 className="text-2xl font-bold text-orange-600 mb-1">{post.title}</h2>
+              <p className="text-sm text-gray-500 mb-4">{post.date}</p>
+              <p className="text-gray-700 whitespace-pre-line">{post.content}</p>
+            </div>
+          ))}
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }
