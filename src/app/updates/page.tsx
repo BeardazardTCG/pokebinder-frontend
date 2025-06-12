@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: 'New features, fixes, and updates as they happen.',
 };
 
-const updatesDirectory = path.join(process.cwd(), 'src/updates');
+const updatesDirectory = path.join(process.cwd(), '/updates');
 
 export default function UpdatesPage() {
   const files = fs.readdirSync(updatesDirectory);
