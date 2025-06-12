@@ -6,10 +6,16 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
 
+type SearchParams = {
+  q?: string;
+};
+
 export async function generateMetadata({
+  params,
   searchParams,
 }: {
-  searchParams: { q?: string };
+  params: {};
+  searchParams: SearchParams;
 }): Promise<Metadata> {
   const query = searchParams.q?.trim() || '';
   const clean = query.replace(/[^a-zA-Z0-9 ]/g, '');
@@ -54,7 +60,7 @@ export async function generateMetadata({
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: { q?: string };
+  searchParams: SearchParams;
 }) {
   const query = searchParams?.q ?? '';
   const results = await getSearchResults(query);
