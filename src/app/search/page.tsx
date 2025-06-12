@@ -1,25 +1,63 @@
-// FILE: /app/search/page.tsx
-
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
-import TopSocialBanner from '@/components/card/TopSocialBanner'; // ✅ Correct path
+import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Search Results | PokéBinder',
-  description: 'See live market prices and listings for your favourite Pokémon cards.',
+type Props = {
+  searchParams: { q?: string };
 };
 
-export default async function Page({ searchParams }: any) {
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const query = searchParams.q?.trim() || '';
+  const clean = query.replace(/[^a-zA-Z0-9 ]/g, '');
+
+  const title = clean
+    ? `Search Results for "${clean}" | PokéBinder`
+    : 'Search Results | PokéBinder';
+
+  const desc = clean
+    ? `See UK market data and live listings for Pokémon cards matching "${clean}".`
+    : 'See live market prices and listings for your favourite Pokémon cards.';
+
+  return {
+    title,
+    description: desc,
+    openGraph: {
+      title,
+      description: desc,
+      url: `https://www.pokebinder.co.uk/search?q=${encodeURIComponent(clean)}`,
+      type: 'website',
+      images: [
+        {
+          url: 'https://www.pokebinder.co.uk/pokebinder-logo.png',
+          width: 540,
+          height: 540,
+          alt: 'PokéBinder Logo',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: desc,
+      images: ['https://www.pokebinder.co.uk/pokebinder-logo.png'],
+    },
+    alternates: {
+      canonical: `https://www.pokebinder.co.uk/search?q=${encodeURIComponent(clean)}`,
+    },
+  };
+}
+
+export default async function Page({ searchParams }: Props) {
   const query = searchParams?.q ?? '';
   const results = await getSearchResults(query);
 
   return (
     <>
-      <TopSocialBanner /> {/* ✅ Inserted at the top */}
+      <TopSocialBanner />
       <Header />
 
       <main className="px-4 pb-16 pt-6 bg-[#fefefe]">
@@ -31,19 +69,16 @@ export default async function Page({ searchParams }: any) {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
-          {/* Left Sidebar */}
           <div className="hidden md:block">
             <SidebarBuyBox query={query} side="left" />
           </div>
 
-          {/* Main Results Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
             {results.map((card) => (
               <HalfCard key={card.unique_id} {...card} />
             ))}
           </div>
 
-          {/* Right Sidebar */}
           <div className="hidden md:block">
             <SidebarBuyBox query={query} side="right" />
           </div>
