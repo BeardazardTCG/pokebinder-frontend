@@ -4,7 +4,6 @@ import FeaturedCards from "@/components/FeaturedCards";
 import SignupPrompt from "@/components/SignupPrompt";
 import Footer from "@/components/layout/Footer";
 import LiveScrapeStats from "@/components/LiveScrapeStats";
-import TopSocialBanner from "@/components/card/TopSocialBanner";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
