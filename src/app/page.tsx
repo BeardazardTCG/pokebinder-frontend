@@ -1,5 +1,13 @@
 import HomeClient from "@/components/HomeClient";
-import type { Metadata } from "next";
+import SetLogoSlider from "@/components/SetLogoSlider";
+import FeaturedCards from "@/components/FeaturedCards";
+import SealedProducts from "@/components/SealedProducts";
+import SignupPrompt from "@/components/SignupPrompt";
+import ComingSoon from "@/components/ComingSoon";
+import Footer from "@/components/Footer";
+import LiveScrapeStats from "@/components/LiveScrapeStats";
+import TopSocialBanner from "@/components/card/TopSocialBanner";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "PokéBinder | UK Pokémon Card Prices & Collector Tools",
@@ -31,5 +39,17 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <HomeClient />;
+  return (
+    <>
+      <TopSocialBanner />
+      <HomeClient />
+      <LiveScrapeStats />
+      <SetLogoSlider />
+      <FeaturedCards />
+      <SealedProducts />
+      <SignupPrompt />
+      <ComingSoon />
+      <Footer />
+    </>
+  );
 }
