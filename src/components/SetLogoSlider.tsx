@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
@@ -15,7 +17,7 @@ export default function SetLogoSlider() {
 
   useEffect(() => {
     async function fetchSets() {
-      const res = await fetch('/api/latestsets'); // 🔄 Assumes you have an endpoint for latest sets
+      const res = await fetch('/api/latestsets');
       const data = await res.json();
       setSets(data);
     }
