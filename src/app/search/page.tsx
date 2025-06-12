@@ -1,3 +1,5 @@
+// FILE: src/app/search/page.tsx
+
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
@@ -6,63 +8,17 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
 
-type SearchParams = {
-  q?: string;
+export const metadata: Metadata = {
+  title: 'Search Results | PokéBinder',
+  description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: {
-  params: {};
-  searchParams: SearchParams;
-}): Promise<Metadata> {
-  const query = searchParams.q?.trim() || '';
-  const clean = query.replace(/[^a-zA-Z0-9 ]/g, '');
+type Props = {
+  searchParams?: { q?: string };
+};
 
-  const title = clean
-    ? `Search Results for "${clean}" | PokéBinder`
-    : 'Search Results | PokéBinder';
-
-  const desc = clean
-    ? `See UK market data and live listings for Pokémon cards matching "${clean}".`
-    : 'See live market prices and listings for your favourite Pokémon cards.';
-
-  return {
-    title,
-    description: desc,
-    openGraph: {
-      title,
-      description: desc,
-      url: `https://www.pokebinder.co.uk/search?q=${encodeURIComponent(clean)}`,
-      type: 'website',
-      images: [
-        {
-          url: 'https://www.pokebinder.co.uk/pokebinder-logo.png',
-          width: 540,
-          height: 540,
-          alt: 'PokéBinder Logo',
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description: desc,
-      images: ['https://www.pokebinder.co.uk/pokebinder-logo.png'],
-    },
-    alternates: {
-      canonical: `https://www.pokebinder.co.uk/search?q=${encodeURIComponent(clean)}`,
-    },
-  };
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const query = searchParams?.q ?? '';
+export default async function Page({ searchParams }: Props) {
+  const query = searchParams?.q?.trim() ?? '';
   const results = await getSearchResults(query);
 
   return (
