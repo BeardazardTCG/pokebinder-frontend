@@ -9,6 +9,34 @@ import LiveScrapeStats from "@/components/LiveScrapeStats";
 import FeaturedCards from "@/components/FeaturedCards";
 import SignupPrompt from "@/components/SignupPrompt"; // ✅ added
 
+export const metadata = {
+  title: 'PokéBinder | UK Pokémon Card Prices & Collector Tools',
+  description: 'Live UK Pokémon card prices, trends, and tools. Track values, get smart suggestions, and level up your binder with PokéBinder.',
+  openGraph: {
+    title: 'PokéBinder | UK Pokémon Card Prices & Collector Tools',
+    description: 'Live UK Pokémon card prices, trends, and tools. Track values, get smart suggestions, and level up your binder with PokéBinder.',
+    url: 'https://www.pokebinder.co.uk',
+    siteName: 'PokéBinder',
+    images: [
+      {
+        url: 'https://www.pokebinder.co.uk/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'PokéBinder - UK Pokémon Price Tracker',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@pokebinderofficial',
+    title: 'PokéBinder | UK Pokémon Card Prices & Collector Tools',
+    description: 'Live UK Pokémon card prices, trends, and tools. Track values, get smart suggestions, and level up your binder.',
+    images: ['https://www.pokebinder.co.uk/og.png'],
+  },
+};
+
 const funFacts = [
   "✨ Caught feelings, not just prices",
   "✨ PSA 10? More like PTSD 10.",
