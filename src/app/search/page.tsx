@@ -11,13 +11,8 @@ export const metadata: Metadata = {
   description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-interface SearchPageProps {
-  params: {};
-  searchParams: { q?: string };
-}
-
-export default async function Page({ searchParams }: SearchPageProps) {
-  const query = searchParams?.q?.trim() ?? '';
+export default async function Page({ searchParams }: { searchParams: { q?: string } }) {
+  const query = searchParams.q?.trim() ?? '';
   const results = await getSearchResults(query);
 
   return (
