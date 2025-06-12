@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres'; // Or your actual DB client if different
+import { db } from '@/lib/db';
 
 export async function GET() {
   try {
-    const result = await sql`
-      SELECT DISTINCT ON (set_id) set_id, set_name, image
-      FROM mastercard_v2
-      WHERE language = 'en'
-      ORDER BY release_date DESC
-      LIMIT 12;
-    `;
+    const result = await db.query(
+      `SELECT DISTINCT ON (set_id) set_id, set_name, image
+       FROM mastercard_v2
+       WHERE language = 'en'
+       ORDER BY set_id, release_date DESC
+       LIMIT 12`
+    );
 
     const sets = result.rows.map(row => ({
       set_id: row.set_id,
