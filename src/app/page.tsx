@@ -1,10 +1,8 @@
 import HomeClient from "@/components/HomeClient";
 import SetLogoSlider from "@/components/SetLogoSlider";
 import FeaturedCards from "@/components/FeaturedCards";
-import SealedProducts from "@/components/SealedProducts";
 import SignupPrompt from "@/components/SignupPrompt";
-import ComingSoon from "@/components/ComingSoon";
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 import LiveScrapeStats from "@/components/LiveScrapeStats";
 import TopSocialBanner from "@/components/card/TopSocialBanner";
 import { Metadata } from "next";
