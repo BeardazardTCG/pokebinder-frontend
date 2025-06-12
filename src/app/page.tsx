@@ -44,8 +44,6 @@ export default function HomePage() {
       <LiveScrapeStats />
       <SetLogoSlider />
       <FeaturedCards />
-      <SealedProducts />
-      <SignupPrompt />
       <ComingSoon />
       <Footer />
     </>
