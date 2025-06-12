@@ -4,7 +4,7 @@ import { pool } from '@/lib/db';
 export async function GET() {
   try {
     const result = await pool.query(
-      `SELECT DISTINCT ON (set_id) set_id, set_name, image
+      `SELECT DISTINCT ON (set_id) set_id, set_name, card_image_url AS image
        FROM mastercard_v2
        WHERE language = 'en'
        ORDER BY set_id, release_date DESC
@@ -17,9 +17,11 @@ export async function GET() {
       image: row.image
     }));
 
+    console.log("✅ /api/latestsets fetched:", sets.length, "sets");
+
     return NextResponse.json(sets);
   } catch (error) {
-    console.error('Error fetching latest sets:', error);
+    console.error('🔥 Error in /api/latestsets:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
