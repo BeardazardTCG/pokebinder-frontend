@@ -1,18 +1,17 @@
+// FILE: /app/search/page.tsx
+
 import { getSearchResults } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
-import TopSocialBanner from '@/components/card/TopSocialBanner';
+import TopSocialBanner from '@/components/card/TopSocialBanner'; // ✅ Correct path
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { Metadata } from 'next';
 
-// ✅ Dynamic metadata generator for search-based SEO
-export async function generateMetadata({ searchParams }: { searchParams: { q?: string } }) {
-  const query = searchParams.q ?? 'Pokémon cards';
-  return {
-    title: `Search results for "${query}" | PokéBinder`,
-    description: `Live UK prices and listings for "${query}" Pokémon cards. See what your cards are worth now.`,
-  };
-}
+export const metadata: Metadata = {
+  title: 'Search Results | PokéBinder',
+  description: 'See live market prices and listings for your favourite Pokémon cards.',
+};
 
 export default async function Page({ searchParams }: any) {
   const query = searchParams?.q ?? '';
@@ -20,7 +19,7 @@ export default async function Page({ searchParams }: any) {
 
   return (
     <>
-      <TopSocialBanner />
+      <TopSocialBanner /> {/* ✅ Inserted at the top */}
       <Header />
 
       <main className="px-4 pb-16 pt-6 bg-[#fefefe]">
@@ -32,16 +31,19 @@ export default async function Page({ searchParams }: any) {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
+          {/* Left Sidebar */}
           <div className="hidden md:block">
             <SidebarBuyBox query={query} side="left" />
           </div>
 
+          {/* Main Results Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
             {results.map((card) => (
               <HalfCard key={card.unique_id} {...card} />
             ))}
           </div>
 
+          {/* Right Sidebar */}
           <div className="hidden md:block">
             <SidebarBuyBox query={query} side="right" />
           </div>
