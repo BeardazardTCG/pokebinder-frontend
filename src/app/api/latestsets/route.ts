@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/db';
+import { pool } from '@/lib/db';
 
 export async function GET() {
   try {
-    const result = await db.query(
+    const result = await pool.query(
       `SELECT DISTINCT ON (set_id) set_id, set_name, image
        FROM mastercard_v2
        WHERE language = 'en'
