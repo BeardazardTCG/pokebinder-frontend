@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     siteName: "PokéBinder",
     images: [
       {
-        url: "https://www.pokebinder.co.uk/banner.png",
+        url: "https://www.pokebinder.co.uk/pokebinder-logo.png",
         width: 1200,
         height: 630,
         alt: "PokéBinder Logo Banner"
