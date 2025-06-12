@@ -1,4 +1,5 @@
 'use client';
+
 import Script from 'next/script';
 import { FaTiktok, FaInstagram, FaYoutube, FaDiscord, FaCoffee } from 'react-icons/fa';
 import Link from 'next/link';
@@ -46,6 +47,10 @@ export default function TopSocialBanner() {
           <Link href="https://ko-fi.com/pokebinder" target="_blank" className="flex items-center gap-1 hover:text-amber-700">
             <FaCoffee className="text-base" />
             <span className="hidden md:inline">Support Us</span>
+          </Link>
+          <Link href="/updates" className="flex items-center gap-1 hover:text-blue-600">
+            <span className="text-base">📝</span>
+            <span className="hidden md:inline">Updates</span>
           </Link>
         </div>
       </div>
