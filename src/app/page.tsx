@@ -1,5 +1,6 @@
 "use client";
 
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -7,7 +8,7 @@ import { useRouter } from "next/navigation";
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import LiveScrapeStats from "@/components/LiveScrapeStats";
 import FeaturedCards from "@/components/FeaturedCards";
-import SignupPrompt from "@/components/SignupPrompt"; // ✅ added
+import SignupPrompt from "@/components/SignupPrompt";
 
 const funFacts = [
   "✨ Caught feelings, not just prices",
@@ -30,7 +31,7 @@ export default function Home() {
   const [factIndex, setFactIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [items, setItems] = useState<SealedItem[]>([]);
-  const [showSignup, setShowSignup] = useState(false); // ✅ added
+  const [showSignup, setShowSignup] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -55,17 +56,30 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>PokéBinder | UK Pokémon Card Prices & Collector Tools</title>
+        <meta name="description" content="Live UK Pokémon card prices, trends, and tools. Track values, get smart suggestions, and level up your binder with PokéBinder." />
+        <meta property="og:title" content="PokéBinder | UK Pokémon Card Prices & Collector Tools" />
+        <meta property="og:description" content="Live UK Pokémon card prices, trends, and tools." />
+        <meta property="og:url" content="https://www.pokebinder.co.uk" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.pokebinder.co.uk/banner.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="PokéBinder | UK Pokémon Card Prices & Collector Tools" />
+        <meta name="twitter:description" content="Live UK Pokémon card prices, trends, and tools." />
+        <meta name="twitter:image" content="https://www.pokebinder.co.uk/banner.png" />
+        <link rel="canonical" href="https://www.pokebinder.co.uk" />
+      </Head>
+
       <TopSocialBanner />
 
       <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6 bg-white text-black relative">
         <style>{`html, body { background-color: #fff; color: #000; color-scheme: light; }`}</style>
 
-        {/* Floating Feedback Button */}
         <Link href="/feedback" className="fixed bottom-6 right-6 z-50 bg-pink-600 text-white px-4 py-2 rounded-full shadow-md hover:brightness-110 text-sm font-semibold">
           💬 Found a bug or idea?
         </Link>
 
-        {/* Logo, Search, Pikachu */}
         <div className="relative inline-block w-full max-w-[600px] mx-auto mt-4">
           <Image src="/pokebinder-logo.png" alt="PokeBinder Logo" width={540} height={540} className="w-[80%] max-w-[540px] mx-auto mb-2" />
           <Image src="/beta-testing.png" alt="Beta Stamp" width={140} height={40} className="absolute top-0 right-[-30px] rotate-[-12deg] z-30 hidden sm:block" />
@@ -99,7 +113,6 @@ export default function Home() {
           {funFacts[factIndex]}
         </div>
 
-        {/* Live Scrape Stats */}
         <section className="w-full max-w-3xl mt-6 px-4">
           <div className="bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-gray-800 shadow-sm">
             <h2 className="text-sm font-semibold text-gray-500 mb-2">📊 Live Market Activity</h2>
@@ -107,14 +120,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Cards */}
         <section className="w-full max-w-6xl mt-12 px-4">
           <div className="border-t border-orange-300 mb-6"></div>
           <h2 className="text-xl font-bold text-orange-600 tracking-wide mb-4">🔥 Featured Cards</h2>
           <FeaturedCards />
         </section>
 
-        {/* Sealed Products */}
         <section className="w-full max-w-6xl px-4 mt-12">
           <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
           <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
@@ -141,7 +152,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Coming Soon */}
         <section className="w-full lg:w-[30%] min-w-[280px] bg-yellow-100 border-2 border-yellow-400 p-6 rounded-xl shadow-md relative rotate-[-2deg] mt-12">
           <h2 className="text-lg font-bold mb-3 text-gray-800 font-handwriting">Coming Soon to PokéBinder</h2>
           <ul className="text-sm text-gray-800 space-y-3 font-handwriting">
@@ -167,7 +177,6 @@ export default function Home() {
           )}
         </section>
 
-        {/* Footer */}
         <footer className="w-full border-t border-gray-300 pt-6 pb-12 text-center text-sm text-gray-600 px-4">
           <p>🔧 Hand-coded in the UK using PostgreSQL, Railway, Next.js, and live eBay + TCG scrapes.</p>
           <p>💡 Built by collectors. Built for collectors. No suits. No shortcuts.</p>
