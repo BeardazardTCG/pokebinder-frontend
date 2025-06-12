@@ -1,35 +1,57 @@
-import HomeClient from "@/components/HomeClient";
-import type { Metadata } from "next";
+// FILE: src/app/search/page.tsx
+
+import { getSearchResults } from '@/lib/db';
+import HalfCard from '@/components/card/HalfCard';
+import SidebarBuyBox from '@/components/card/SidebarBuyBox';
+import TopSocialBanner from '@/components/card/TopSocialBanner';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "PokéBinder | UK Pokémon Card Prices & Collector Tools",
-  description: "Live UK Pokémon card prices, trends, and tools. Track values, get smart suggestions, and level up your binder with PokéBinder.",
-  openGraph: {
-    title: "PokéBinder | UK Pokémon Card Prices & Collector Tools",
-    description: "Live UK Pokémon card prices, trends, and tools.",
-    url: "https://www.pokebinder.co.uk",
-    siteName: "PokéBinder",
-    images: [
-      {
-        url: "https://www.pokebinder.co.uk/pokebinder-logo.png",
-        width: 1200,
-        height: 630,
-        alt: "PokéBinder Logo Banner"
-      }
-    ],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "PokéBinder | UK Pokémon Card Prices & Collector Tools",
-    description: "Live UK Pokémon card prices, trends, and tools.",
-    images: ["https://www.pokebinder.co.uk/banner.png"],
-  },
-  alternates: {
-    canonical: "https://www.pokebinder.co.uk",
-  },
+  title: 'Search Results | PokéBinder',
+  description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-export default function HomePage() {
-  return <HomeClient />;
+type SearchPageProps = {
+  searchParams?: { q?: string };
+};
+
+export default async function Page({ searchParams }: SearchPageProps) {
+  const query = searchParams?.q ?? '';
+  const results = await getSearchResults(query);
+
+  return (
+    <>
+      <TopSocialBanner />
+      <Header />
+
+      <main className="px-4 pb-16 pt-6 bg-[#fefefe]">
+        <h1 className="text-3xl font-extrabold text-center mb-2 text-zinc-800">
+          Search Results
+        </h1>
+        <p className="text-center text-sm text-zinc-500 mb-8">
+          Showing results for: <strong className="text-orange-600">{query}</strong>
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
+          <div className="hidden md:block">
+            <SidebarBuyBox query={query} side="left" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
+            {results.map((card) => (
+              <HalfCard key={card.unique_id} {...card} />
+            ))}
+          </div>
+
+          <div className="hidden md:block">
+            <SidebarBuyBox query={query} side="right" />
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </>
+  );
 }
