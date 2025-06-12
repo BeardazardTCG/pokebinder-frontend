@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { pool } from '@/lib/db';
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const email = body.email;
+  const { email } = await req.json();
 
   if (!email || !email.includes('@')) {
     return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
   }
 
   const client = await pool.connect();
+
   try {
     await client.query(
       'INSERT INTO notify_list (email) VALUES ($1) ON CONFLICT DO NOTHING',
