@@ -1,6 +1,7 @@
 import HomeClient from "@/components/HomeClient";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "PokéBinder | UK Pokémon Card Prices & Collector Tools",
   description: "Live UK Pokémon card prices, trends, and tools. Track values, get smart suggestions, and level up your binder with PokéBinder.",
   openGraph: {
