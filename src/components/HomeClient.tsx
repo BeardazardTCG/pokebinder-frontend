@@ -9,6 +9,7 @@ import TopSocialBanner from '@/components/card/TopSocialBanner';
 import LiveScrapeStats from "@/components/LiveScrapeStats";
 import FeaturedCards from "@/components/FeaturedCards";
 import SignupPrompt from "@/components/SignupPrompt";
+import SetLogoSlider from '@/components/SetLogoSlider';
 
 const funFacts = [
   "✨ Caught feelings, not just prices",
@@ -118,6 +119,10 @@ export default function Home() {
             <h2 className="text-sm font-semibold text-gray-500 mb-2">📊 Live Market Activity</h2>
             <LiveScrapeStats />
           </div>
+        </section>
+
+        <section className="w-full max-w-6xl px-4 mt-12">
+          <SetLogoSlider />
         </section>
 
         <section className="w-full max-w-6xl mt-12 px-4">
