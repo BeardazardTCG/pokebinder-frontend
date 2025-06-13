@@ -1,4 +1,10 @@
-import HomeClient from "@/components/HomeClient";
+import CardCatchTrackerBlock from "@/components/CardCatchTrackerBlock";
+import FeaturedCards from "@/components/FeaturedCards";
+import SealedProducts from "@/components/SealedProducts";
+import SignupPrompt from "@/components/SignupPrompt";
+import SetLogoSlider from "@/components/SetLogoSlider";
+import Footer from "@/components/layout/Footer";
+
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -31,5 +37,15 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <HomeClient />;
+  return (
+    <>
+      {/* 🔍 Top: Search and Pikachu section still assumed separate */}
+      <CardCatchTrackerBlock />
+      <SetLogoSlider />
+      <FeaturedCards />
+      <SealedProducts />
+      <SignupPrompt />
+      <Footer />
+    </>
+  );
 }
