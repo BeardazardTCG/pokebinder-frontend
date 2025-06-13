@@ -46,38 +46,31 @@ export default function LiveScrapeStats() {
   });
 
   return (
-    <div className="bg-blue-800/40 px-6 py-6 rounded-2xl shadow-inner text-white text-base md:text-lg leading-relaxed space-y-4">
-      <div className="flex items-center justify-center gap-2">
+    <div className="bg-blue-800/40 px-6 py-6 rounded-2xl border border-white/15 shadow-inner text-white text-base leading-relaxed space-y-4">
+      {/* LIVE badge */}
+      <div className="flex justify-start items-center gap-2 mb-1">
         <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-        <span className="font-medium">
-          <strong className="text-white font-semibold">
-            {total.toLocaleString()}
-          </strong>{' '}
-          listings scanned
-        </span>
-        <span className="text-sm text-white/60">(updated {updated})</span>
+        <span className="text-xs text-white/60 tracking-wide uppercase font-semibold">Live Sync Active</span>
       </div>
 
-      <div className="flex justify-center gap-4 text-sm text-white/90">
-        <span>
-          <strong className="text-white font-semibold">
-            {sold.toLocaleString()}
-          </strong>{' '}
-          sold
+      {/* Total listings */}
+      <div className="text-center text-white">
+        <span className="text-lg md:text-2xl font-bold font-mono">
+          {total.toLocaleString()}
         </span>
-        <span>•</span>
+        <div className="text-sm text-white/70 mt-1">listings scanned (updated {updated})</div>
+      </div>
+
+      {/* Source breakdown */}
+      <div className="flex justify-center gap-6 text-sm text-white/80 font-mono">
         <span>
-          <strong className="text-white font-semibold">
-            {active.toLocaleString()}
-          </strong>{' '}
-          active
+          <strong className="text-white">{sold.toLocaleString()}</strong> sold
         </span>
-        <span>•</span>
         <span>
-          <strong className="text-white font-semibold">
-            {tcg.toLocaleString()}
-          </strong>{' '}
-          TCGPlayer
+          <strong className="text-white">{active.toLocaleString()}</strong> active
+        </span>
+        <span>
+          <strong className="text-white">{tcg.toLocaleString()}</strong> TCGPlayer
         </span>
       </div>
     </div>
