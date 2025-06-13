@@ -36,8 +36,12 @@ export default function SetLogoSlider() {
 
   return (
     <section className="w-full max-w-6xl px-4 mt-16">
-      <div className="border-t border-gray-200 mb-6"></div>
-      <h2 className="text-lg font-bold text-blue-600 mb-4">📂 Browse by Set</h2>
+      <div className="text-center mb-4">
+        <h2 className="text-xl font-bold text-blue-600 inline-block border-b-2 border-blue-300 pb-1">
+          📂 Browse by Set
+        </h2>
+      </div>
+
       <div className="relative">
         <button
           onClick={() => scroll('left')}
@@ -48,7 +52,7 @@ export default function SetLogoSlider() {
 
         <div
           ref={containerRef}
-          className="overflow-x-auto scroll-smooth no-scrollbar px-8"
+          className="hover:overflow-x-auto overflow-x-hidden scroll-smooth no-scrollbar px-8 transition-all"
           style={{ maxHeight: '360px' }}
         >
           <div className="flex flex-wrap content-start gap-x-6 gap-y-8 w-max py-2">
@@ -57,6 +61,7 @@ export default function SetLogoSlider() {
                 key={set.set_id}
                 href={`/set/${set.set_id}`}
                 className="flex flex-col items-center justify-start w-[110px]"
+                title={set.set_name}
               >
                 <div className="w-[100px] h-[100px] overflow-hidden bg-white">
                   <Image
@@ -64,10 +69,10 @@ export default function SetLogoSlider() {
                     alt={set.set_name}
                     width={100}
                     height={100}
-                    className="object-contain w-full h-full"
+                    className="object-scale-down p-1 w-full h-full"
                   />
                 </div>
-                <span className="block mt-1 text-xs text-center text-gray-700 leading-tight">
+                <span className="block mt-1 text-xs text-center text-gray-700 leading-tight truncate w-full">
                   {set.set_name}
                 </span>
               </Link>
