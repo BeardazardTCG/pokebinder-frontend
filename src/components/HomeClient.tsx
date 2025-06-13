@@ -127,7 +127,9 @@ export default function Home() {
 
         <section className="w-full max-w-6xl mt-12 px-4">
           <div className="border-t border-orange-300 mb-6"></div>
-          <h2 className="text-xl font-bold text-orange-600 tracking-wide mb-4">🔥 Featured Cards</h2>
+          <div className="mb-4 border-b-2 border-orange-300 pb-1">
+            <h2 className="text-xl font-bold text-orange-600">🔥 Featured Cards</h2>
+          </div>
           <FeaturedCards />
         </section>
 
