@@ -36,23 +36,23 @@ export default function SetLogoSlider() {
 
   return (
     <section className="w-full max-w-6xl px-4 mt-16">
-      <div className="text-center mb-4">
-        <h2 className="text-xl font-bold text-blue-600 inline-block border-b-2 border-blue-300 pb-1">
-          📂 Browse by Set
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-blue-600 inline-block pb-1">
+          <span className="mr-2 opacity-70">📂</span>Browse by Set
         </h2>
       </div>
 
-      <div className="relative">
+      <div className="relative bg-slate-50 border border-gray-100 rounded-xl px-4 py-6 shadow-sm">
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 z-10 h-full px-2 bg-gradient-to-r from-white to-transparent"
+          className="absolute top-1/2 -translate-y-1/2 left-0 z-10 px-2 py-1 bg-white/70 hover:bg-white rounded-r-md shadow"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
 
         <div
           ref={containerRef}
-          className="hover:overflow-x-auto overflow-x-hidden scroll-smooth no-scrollbar px-8 transition-all"
+          className="hover:overflow-x-auto overflow-x-hidden scroll-smooth no-scrollbar px-6"
           style={{ maxHeight: '360px' }}
         >
           <div className="flex flex-wrap content-start gap-x-6 gap-y-8 w-max py-2">
@@ -72,7 +72,7 @@ export default function SetLogoSlider() {
                     className="object-scale-down p-1 w-full h-full"
                   />
                 </div>
-                <span className="block mt-1 text-xs text-center text-gray-700 leading-tight truncate w-full">
+                <span className="block mt-1 text-xs text-center text-gray-700 leading-tight w-full line-clamp-2">
                   {set.set_name}
                 </span>
               </Link>
@@ -82,9 +82,9 @@ export default function SetLogoSlider() {
 
         <button
           onClick={() => scroll('right')}
-          className="absolute right-0 z-10 h-full px-2 bg-gradient-to-l from-white to-transparent"
+          className="absolute top-1/2 -translate-y-1/2 right-0 z-10 px-2 py-1 bg-white/70 hover:bg-white rounded-l-md shadow"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
     </section>
