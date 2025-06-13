@@ -1,9 +1,4 @@
 import HomeClient from "@/components/HomeClient";
-import SetLogoSlider from "@/components/SetLogoSlider";
-import FeaturedCards from "@/components/FeaturedCards";
-import SignupPrompt from "@/components/SignupPrompt";
-import Footer from "@/components/layout/Footer";
-import LiveScrapeStats from "@/components/LiveScrapeStats";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -36,13 +31,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <>
-      <HomeClient />
-      <LiveScrapeStats />
-      <SetLogoSlider />
-      <FeaturedCards />
-      <Footer />
-    </>
-  );
+  return <HomeClient />;
 }
