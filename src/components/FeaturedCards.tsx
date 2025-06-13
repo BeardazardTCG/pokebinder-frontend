@@ -2,6 +2,7 @@
 
 import useSWR from 'swr';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -38,8 +39,9 @@ export default function FeaturedCards() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
       {visibleCards.map((card) => (
-        <div
+        <Link
           key={card.unique_id}
+          href={`/card/${card.unique_id}`}
           className="bg-white w-full rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform p-4 text-center flex flex-col justify-between items-center h-full border border-gray-100"
         >
           <Image
@@ -71,16 +73,13 @@ export default function FeaturedCards() {
           </p>
 
           {card.url_used && (
-            <a
-              href={card.url_used}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-auto px-4 py-2 rounded-full shadow text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 text-black transition"
-            >
-              🛒 Buy Now
-            </a>
+            <div className="mt-auto">
+              <span className="inline-block px-4 py-2 rounded-full shadow text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 text-black transition">
+                🛒 Buy Now
+              </span>
+            </div>
           )}
-        </div>
+        </Link>
       ))}
     </div>
   );
