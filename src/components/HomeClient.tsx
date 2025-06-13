@@ -74,7 +74,7 @@ export default function Home() {
 
       <TopSocialBanner />
 
-      <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6 bg-[url('/Assets/bg/poke-pattern.png')] bg-repeat bg-[length:180px_180px] text-black relative">
+      <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-12 space-y-6 bg-white text-black relative">
         <style>{`html, body { background-color: #fff; color: #000; color-scheme: light; }`}</style>
 
         <Link href="/feedback" className="fixed bottom-6 right-6 z-50 bg-pink-600 text-white px-4 py-2 rounded-full shadow-md hover:brightness-110 text-sm font-semibold">
@@ -114,24 +114,26 @@ export default function Home() {
           {funFacts[factIndex]}
         </div>
 
-        <div className="w-full max-w-3xl mt-12 px-4 py-8 bg-[#2C52A0] text-white text-center rounded-xl shadow-md">
-          <h2 className="text-xl font-bold mb-2">📊 Live Market Activity</h2>
-          <LiveScrapeStats />
-        </div>
+        <section className="w-full max-w-3xl mt-6 px-4">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-gray-800 shadow-sm">
+            <h2 className="text-sm font-semibold text-gray-500 mb-2">📊 Live Market Activity</h2>
+            <LiveScrapeStats />
+          </div>
+        </section>
 
-        <section className="w-full max-w-6xl px-4 mt-16">
+        <section className="w-full max-w-6xl px-4 mt-12">
           <SetLogoSlider />
         </section>
 
-        <section className="w-full max-w-6xl mt-16 px-4">
-          <div className="border-t-4 border-orange-300 mb-6"></div>
-          <div className="mb-4 pb-1">
+        <section className="w-full max-w-6xl mt-12 px-4">
+          <div className="border-t border-orange-300 mb-6"></div>
+          <div className="mb-4 border-b-2 border-orange-300 pb-1">
             <h2 className="text-xl font-bold text-orange-600">🔥 Featured Cards</h2>
           </div>
           <FeaturedCards />
         </section>
 
-        <section className="w-full max-w-6xl px-4 mt-16">
+        <section className="w-full max-w-6xl px-4 mt-12">
           <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
           <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -157,7 +159,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="w-full lg:w-[30%] min-w-[280px] border-2 border-yellow-400 p-6 rounded-xl shadow-md relative rotate-[-2deg] mt-16 bg-[url('/Assets/logos/pokebinder.webp')] bg-repeat bg-[length:120px_120px] bg-opacity-10">
+        <section className="w-full lg:w-[30%] min-w-[280px] bg-yellow-100 border-2 border-yellow-400 p-6 rounded-xl shadow-md relative rotate-[-2deg] mt-12">
           <h2 className="text-lg font-bold mb-3 text-gray-800 font-handwriting">Coming Soon to PokéBinder</h2>
           <ul className="text-sm text-gray-800 space-y-3 font-handwriting">
             <li>⚡ Full English Pokémon card DB</li>
@@ -181,6 +183,12 @@ export default function Home() {
             </button>
           )}
         </section>
+
+        <footer className="w-full border-t border-gray-300 pt-6 pb-12 text-center text-sm text-gray-600 px-4">
+          <p>🔧 Hand-coded in the UK using PostgreSQL, Railway, Next.js, and live eBay + TCG scrapes.</p>
+          <p>💡 Built by collectors. Built for collectors. No suits. No shortcuts.</p>
+          <p>CardCatch x PokéBinder — Honest prices. Global reach.</p>
+        </footer>
       </main>
     </>
   );
