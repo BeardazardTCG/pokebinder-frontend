@@ -6,17 +6,22 @@ import SidebarBuyBox from '@/components/card/SidebarBuyBox';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Set View | PokéBinder',
   description: 'Browse all Pokémon cards in a specific set with live prices and listings.',
 };
 
-export default async function Page({ params }: { params: { set_id: string } }) {
+type PageProps = {
+  params: {
+    set_id: string;
+  };
+};
+
+export default async function Page({ params }: PageProps) {
   const setId = params.set_id;
   const cards = await getCardsBySetId(setId);
-
   const setName = cards?.[0]?.set_name ?? setId;
 
   return (
