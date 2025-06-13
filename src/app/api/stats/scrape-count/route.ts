@@ -1,27 +1,37 @@
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
-// 🔒 Direct connection string for now (works exactly like Beekeeper)
 const pool = new Pool({
   connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: { rejectUnauthorized: false },
 });
+
+// Optional: faster estimated row counts without scanning tables
+async function getEstimatedCount(client: any, table: string) {
+  const res = await client.query(`
+    SELECT reltuples::BIGINT AS estimate
+    FROM pg_class
+    WHERE relname = $1
+  `, [table]);
+  return parseInt(res.rows?.[0]?.estimate ?? '0', 10);
+}
 
 export async function GET() {
   let client;
   try {
     client = await pool.connect();
 
-    const { rows: soldRows } = await client.query('SELECT COUNT(*) FROM dailypricelog');
-    const { rows: activeRows } = await client.query('SELECT COUNT(*) FROM activedailypricelog');
-    const { rows: tcgRows } = await client.query('SELECT COUNT(*) FROM tcg_pricing_log');
+    const [sold, active, tcg] = await Promise.all([
+      getEstimatedCount(client, 'dailypricelog'),
+      getEstimatedCount(client, 'activedailypricelog'),
+      getEstimatedCount(client, 'tcg_pricing_log'),
+    ]);
 
-    const sold = parseInt(soldRows[0]?.count ?? '0', 10);
-    const active = parseInt(activeRows[0]?.count ?? '0', 10);
-    const tcg = parseInt(tcgRows[0]?.count ?? '0', 10);
     const total = sold + active + tcg;
+
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`✅ Scrape count API hit: ${total} total (${sold} sold, ${active} active, ${tcg} tcg)`);
+    }
 
     return NextResponse.json({
       sold,
@@ -42,4 +52,3 @@ export async function GET() {
     if (client) client.release();
   }
 }
-
