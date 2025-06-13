@@ -52,6 +52,10 @@ export default function TopSocialBanner() {
             <span className="text-base">📝</span>
             <span className="hidden md:inline">Updates</span>
           </Link>
+          <Link href="/blog" className="flex items-center gap-1 hover:text-green-700">
+            <span className="text-base">📚</span>
+            <span className="hidden md:inline">Blog</span>
+          </Link>
         </div>
       </div>
     </>
