@@ -46,7 +46,7 @@ export default function LiveScrapeStats() {
   });
 
   return (
-    <div className="bg-blue-800/40 px-6 py-6 rounded-2xl border border-white/15 shadow-inner text-white text-base leading-relaxed space-y-4">
+    <div className="bg-blue-800/40 bg-[url('/grid-overlay.svg')] bg-cover bg-center bg-blend-overlay opacity-95 px-6 py-6 rounded-2xl border border-white/15 shadow-inner text-white text-base leading-relaxed space-y-4">
       {/* LIVE badge */}
       <div className="flex justify-start items-center gap-2 mb-1">
         <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse" />
