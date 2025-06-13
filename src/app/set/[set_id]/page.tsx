@@ -6,23 +6,17 @@ import SidebarBuyBox from '@/components/card/SidebarBuyBox';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { type Metadata } from 'next';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Set View | PokéBinder',
   description: 'Browse all Pokémon cards in a specific set with live prices and listings.',
 };
 
-type PageProps = {
-  params: {
-    set_id: string;
-  };
-};
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: { set_id: string } }) {
   const setId = params.set_id;
   const cards = await getCardsBySetId(setId);
-  const setName = cards?.[0]?.set_name ?? setId;
+  const setName = cards?.[0]?.set_name ?? 'Unknown Set';
 
   return (
     <>
@@ -34,7 +28,7 @@ export default async function Page({ params }: PageProps) {
           {setName}
         </h1>
         <p className="text-center text-sm text-zinc-500 mb-8">
-          All cards from this set.
+          {cards.length > 0 ? 'All cards from this set.' : 'No cards found for this set.'}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
@@ -43,7 +37,7 @@ export default async function Page({ params }: PageProps) {
             <SidebarBuyBox query={setId} side="left" />
           </div>
 
-          {/* Main Results Grid */}
+          {/* Main Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
             {cards.map((card) => (
               <HalfCard key={card.unique_id} {...card} />
