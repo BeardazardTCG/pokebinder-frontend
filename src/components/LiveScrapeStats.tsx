@@ -17,24 +17,24 @@ export default function LiveScrapeStats() {
     '/api/stats/scrape-count',
     fetcher,
     {
-      refreshInterval: 30000,       // ⏱ every 30 seconds
-      dedupingInterval: 15000,      // 🧠 avoid repeated fetches
+      refreshInterval: 30000,
+      dedupingInterval: 15000,
       revalidateOnFocus: false,
     }
   );
 
   if (error) {
     return (
-      <div className="mt-8 text-center text-sm text-red-500">
-        ⚠️ Failed to load scrape stats.
+      <div className="mt-6 text-center text-sm text-red-300">
+        ⚠️ Tracker unavailable
       </div>
     );
   }
 
   if (!stats) {
     return (
-      <div className="mt-8 text-center text-sm text-gray-400">
-        Loading scrape stats...
+      <div className="mt-6 text-center text-sm text-white/70">
+        Loading tracker data...
       </div>
     );
   }
@@ -46,21 +46,39 @@ export default function LiveScrapeStats() {
   });
 
   return (
-    <div className="mt-8 text-center text-sm text-gray-700">
-      <div className="flex justify-center items-center gap-2 mb-1">
-        <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-        <span>
-          <strong className="text-md text-zinc-800">{total.toLocaleString()}</strong> total checks
+    <div className="bg-blue-800/40 px-6 py-6 rounded-2xl shadow-inner text-white text-base md:text-lg leading-relaxed space-y-4">
+      <div className="flex items-center justify-center gap-2">
+        <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+        <span className="font-medium">
+          <strong className="text-white font-semibold">
+            {total.toLocaleString()}
+          </strong>{' '}
+          listings scanned
         </span>
-        <span className="text-xs text-gray-400">(updated {updated})</span>
+        <span className="text-sm text-white/60">(updated {updated})</span>
       </div>
 
-      <div className="flex justify-center gap-4 text-xs text-gray-500">
-        <span><strong className="text-zinc-700">{sold.toLocaleString()}</strong> sold</span>
+      <div className="flex justify-center gap-4 text-sm text-white/90">
+        <span>
+          <strong className="text-white font-semibold">
+            {sold.toLocaleString()}
+          </strong>{' '}
+          sold
+        </span>
         <span>•</span>
-        <span><strong className="text-zinc-700">{active.toLocaleString()}</strong> active</span>
+        <span>
+          <strong className="text-white font-semibold">
+            {active.toLocaleString()}
+          </strong>{' '}
+          active
+        </span>
         <span>•</span>
-        <span><strong className="text-zinc-700">{tcg.toLocaleString()}</strong> TCG</span>
+        <span>
+          <strong className="text-white font-semibold">
+            {tcg.toLocaleString()}
+          </strong>{' '}
+          TCGPlayer
+        </span>
       </div>
     </div>
   );
