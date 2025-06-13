@@ -1,9 +1,4 @@
-import CardCatchTrackerBlock from "@/components/CardCatchTrackerBlock";
-import FeaturedCards from "@/components/FeaturedCards";
-import SignupPrompt from "@/components/SignupPrompt";
-import SetLogoSlider from "@/components/SetLogoSlider";
-import Footer from "@/components/layout/Footer";
-
+import HomeClient from "@/components/HomeClient";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -36,15 +31,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <>
-      {/* 🔍 Top: Search and Pikachu section still assumed separate */}
-      <CardCatchTrackerBlock />
-      <SetLogoSlider />
-      <FeaturedCards />
-      <SealedProducts />
-      <SignupPrompt />
-      <Footer />
-    </>
-  );
+  return <HomeClient />;
 }
