@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import useSWR from 'swr';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface SetLogo {
@@ -11,22 +12,15 @@ interface SetLogo {
   image: string;
 }
 
-export default function SetLogoSlider() {
-  const [sets, setSets] = useState<SetLogo[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
-  useEffect(() => {
-    async function fetchSets() {
-      try {
-        const res = await fetch('/api/latestsets');
-        const data = await res.json();
-        setSets(data);
-      } catch (err) {
-        console.error("Failed to load sets:", err);
-      }
-    }
-    fetchSets();
-  }, []);
+export default function SetLogoSlider() {
+  const { data: sets = [], error } = useSWR<SetLogo[]>('/api/latestsets', fetcher, {
+    revalidateOnFocus: false,
+    dedupingInterval: 5 * 60 * 1000, // 5 minutes
+  });
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
     if (!containerRef.current) return;
@@ -55,29 +49,33 @@ export default function SetLogoSlider() {
           className="hover:overflow-x-auto overflow-x-hidden scroll-smooth no-scrollbar px-6"
           style={{ maxHeight: '360px' }}
         >
-          <div className="flex flex-wrap content-start gap-x-6 gap-y-8 w-max py-2">
-            {sets.map((set) => (
-              <Link
-                key={set.set_id}
-                href={`/set/${set.set_id}`}
-                className="flex flex-col items-center justify-start w-[110px]"
-                title={set.set_name}
-              >
-                <div className="w-[100px] h-[100px] overflow-hidden bg-white">
-                  <Image
-                    src={set.image}
-                    alt={set.set_name}
-                    width={100}
-                    height={100}
-                    className="object-scale-down p-1 w-full h-full"
-                  />
-                </div>
-                <span className="block mt-1 text-xs text-center text-gray-700 leading-tight w-full line-clamp-2">
-                  {set.set_name}
-                </span>
-              </Link>
-            ))}
-          </div>
+          {!sets.length ? (
+            <div className="text-sm text-zinc-400 italic px-2">Loading sets...</div>
+          ) : (
+            <div className="flex flex-wrap content-start gap-x-6 gap-y-8 w-max py-2">
+              {sets.map((set) => (
+                <Link
+                  key={set.set_id}
+                  href={`/set/${set.set_id}`}
+                  className="flex flex-col items-center justify-start w-[110px]"
+                  title={set.set_name}
+                >
+                  <div className="w-[100px] h-[100px] overflow-hidden bg-white">
+                    <Image
+                      src={set.image}
+                      alt={set.set_name}
+                      width={100}
+                      height={100}
+                      className="object-scale-down p-1 w-full h-full"
+                    />
+                  </div>
+                  <span className="block mt-1 text-xs text-center text-gray-700 leading-tight w-full line-clamp-2">
+                    {set.set_name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         <button
