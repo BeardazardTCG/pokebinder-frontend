@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import TopSocialBanner from '@/components/card/TopSocialBanner';
-import LiveScrapeStats from "@/components/LiveScrapeStats";
+import CardCatchTrackerBlock from "@/components/CardCatchTrackerBlock"; // ✅ New
 import FeaturedCards from "@/components/FeaturedCards";
 import SignupPrompt from "@/components/SignupPrompt";
 import SetLogoSlider from '@/components/SetLogoSlider';
@@ -114,12 +114,8 @@ export default function Home() {
           {funFacts[factIndex]}
         </div>
 
-        <section className="w-full max-w-3xl mt-6 px-4">
-          <div className="bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-gray-800 shadow-sm">
-            <h2 className="text-sm font-semibold text-gray-500 mb-2">📊 Live Market Activity</h2>
-            <LiveScrapeStats />
-          </div>
-        </section>
+        {/* ✅ New CardCatch tracker section */}
+        <CardCatchTrackerBlock />
 
         <section className="w-full max-w-6xl px-4 mt-12">
           <SetLogoSlider />
