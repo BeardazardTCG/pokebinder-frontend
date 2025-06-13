@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 type ScrapeStats = {
   sold: number;
@@ -10,49 +10,23 @@ type ScrapeStats = {
   lastUpdated: string;
 };
 
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
 export default function LiveScrapeStats() {
-  const [stats, setStats] = useState<ScrapeStats | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const res = await fetch('/api/stats/scrape-count');
-        const contentType = res.headers.get('content-type');
-
-        if (!res.ok || !contentType?.includes('application/json')) {
-          throw new Error('Invalid API response');
-        }
-
-        const data = await res.json();
-
-        if (
-          typeof data.total !== 'number' ||
-          typeof data.sold !== 'number' ||
-          typeof data.active !== 'number' ||
-          typeof data.tcg !== 'number'
-        ) {
-          throw new Error('Invalid data structure');
-        }
-
-        setStats(data);
-        setError(null);
-      } catch (err: any) {
-        console.error('Failed to fetch scrape stats:', err.message || err);
-        setError(err.message || 'Failed to load data');
-        setStats(null);
-      }
-    };
-
-    fetchStats();
-    const interval = setInterval(fetchStats, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  const { data: stats, error } = useSWR<ScrapeStats>(
+    '/api/stats/scrape-count',
+    fetcher,
+    {
+      refreshInterval: 30000,       // ⏱ every 30 seconds
+      dedupingInterval: 15000,      // 🧠 avoid repeated fetches
+      revalidateOnFocus: false,
+    }
+  );
 
   if (error) {
     return (
       <div className="mt-8 text-center text-sm text-red-500">
-        ⚠️ {error}
+        ⚠️ Failed to load scrape stats.
       </div>
     );
   }
@@ -72,14 +46,22 @@ export default function LiveScrapeStats() {
   });
 
   return (
-    <div className="mt-8 text-center text-sm text-gray-600">
-      <span className="inline-block w-2 h-2 mr-2 rounded-full bg-green-500 animate-pulse" />
-      <strong>{total.toLocaleString()}</strong> total scrapes completed ·
-      <span className="ml-1 text-gray-500">
-        ({sold.toLocaleString()} eBay sold • {active.toLocaleString()} active • {tcg.toLocaleString()} TCG)
-      </span>
-      <div className="text-xs text-gray-400 mt-1">(as of {updated})</div>
+    <div className="mt-8 text-center text-sm text-gray-700">
+      <div className="flex justify-center items-center gap-2 mb-1">
+        <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+        <span>
+          <strong className="text-md text-zinc-800">{total.toLocaleString()}</strong> total checks
+        </span>
+        <span className="text-xs text-gray-400">(updated {updated})</span>
+      </div>
+
+      <div className="flex justify-center gap-4 text-xs text-gray-500">
+        <span><strong className="text-zinc-700">{sold.toLocaleString()}</strong> sold</span>
+        <span>•</span>
+        <span><strong className="text-zinc-700">{active.toLocaleString()}</strong> active</span>
+        <span>•</span>
+        <span><strong className="text-zinc-700">{tcg.toLocaleString()}</strong> TCG</span>
+      </div>
     </div>
   );
 }
-
