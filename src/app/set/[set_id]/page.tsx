@@ -1,17 +1,20 @@
-// FILE: /app/set/[set_id]/page.tsx
-
 import { getCardsBySetId } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Set View | PokéBinder',
-  description: 'Browse all Pokémon cards in a specific set with live prices and listings.',
-};
+// ✅ Use generateMetadata instead of export const metadata
+export async function generateMetadata({ params }: { params: { set_id: string } }): Promise<Metadata> {
+  const cards = await getCardsBySetId(params.set_id);
+  const setName = cards?.[0]?.set_name ?? 'Set View';
+  return {
+    title: `${setName} | PokéBinder`,
+    description: `Browse all Pokémon cards from the ${setName} set with live UK prices and listings.`,
+  };
+}
 
 export default async function Page({ params }: { params: { set_id: string } }) {
   const setId = params.set_id;
