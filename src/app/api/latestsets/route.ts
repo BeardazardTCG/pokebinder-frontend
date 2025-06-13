@@ -4,11 +4,10 @@ import { pool } from '@/lib/db';
 export async function GET() {
   try {
     const result = await pool.query(
-      `SELECT DISTINCT ON (set_id) set_id, set_name, card_image_url AS image
+      `SELECT DISTINCT ON (set_id) set_id, set_name, set_logo_url AS image
        FROM mastercard_v2
        WHERE language = 'en'
-       ORDER BY set_id, release_date DESC
-       LIMIT 12`
+       ORDER BY set_id, release_date DESC`
     );
 
     const sets = result.rows.map(row => ({
