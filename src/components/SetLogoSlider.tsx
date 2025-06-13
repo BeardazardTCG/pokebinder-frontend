@@ -35,7 +35,8 @@ export default function SetLogoSlider() {
   };
 
   return (
-    <section className="w-full max-w-6xl px-4 mt-12">
+    <section className="w-full max-w-6xl px-4 mt-16">
+      <div className="border-t border-gray-200 mb-6"></div>
       <h2 className="text-lg font-bold text-blue-600 mb-4">📂 Browse by Set</h2>
       <div className="relative">
         <button
@@ -48,8 +49,9 @@ export default function SetLogoSlider() {
         <div
           ref={containerRef}
           className="overflow-x-auto scroll-smooth no-scrollbar px-8"
+          style={{ maxHeight: '360px' }}
         >
-          <div className="grid grid-flow-col auto-cols-max gap-6 py-2" style={{ gridAutoRows: 'auto' }}>
+          <div className="flex flex-wrap content-start gap-x-6 gap-y-8 w-max py-2">
             {sets.map((set) => (
               <Link
                 key={set.set_id}
