@@ -34,7 +34,7 @@ export async function GET() {
         AND EXISTS (
           SELECT 1 FROM dailypricelog d
           WHERE d.unique_id = m.unique_id
-          AND d.created_at >= CURRENT_DATE - INTERVAL '5 days'
+          AND d.created_at >= CURRENT_DATE - INTERVAL '7 days'
         )
       ORDER BY (
         SELECT COUNT(*) FROM dailypricelog d
@@ -43,6 +43,11 @@ export async function GET() {
       ) DESC
       LIMIT 4;
     `);
+
+    if (result.rows.length === 0) {
+      console.warn("⚠️ No featured cards found in the last 7 days.");
+      return NextResponse.json({ cards: [], warning: 'No recent cards' });
+    }
 
     return NextResponse.json({ cards: result.rows });
   } catch (err) {
