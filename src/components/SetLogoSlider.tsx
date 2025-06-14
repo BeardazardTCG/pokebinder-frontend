@@ -29,13 +29,7 @@ export default function SetLogoSlider() {
   };
 
   return (
-    <section className="w-full bg-[url('/poke-pattern.png')] bg-repeat bg-center bg-contain px-4 pt-4 pb-8">
-      <div className="max-w-6xl mx-auto text-center mb-4">
-        <h2 className="text-xl md:text-2xl font-bold text-blue-700 flex items-center justify-center gap-2">
-          📁 Browse by Set
-        </h2>
-      </div>
-
+    <section className="w-full bg-[url('/poke-pattern.png')] bg-repeat bg-center bg-contain px-4 mt-[-2px] pb-8">
       <div className="relative max-w-6xl mx-auto px-2">
         <button
           onClick={() => scroll('left')}
@@ -56,15 +50,15 @@ export default function SetLogoSlider() {
                 <Link
                   key={set.set_id}
                   href={`/set/${set.set_id}`}
-                  className="flex flex-col items-center justify-start w-[110px] flex-shrink-0"
+                  className="flex flex-col items-center justify-start w-[140px] flex-shrink-0"
                   title={set.set_name}
                 >
-                  <div className="w-[110px] h-[110px] rounded-lg bg-white border border-gray-200 shadow-sm p-2 hover:scale-[1.05] transition">
+                  <div className="w-[140px] h-[140px] rounded-lg bg-white border border-gray-200 shadow-sm p-2 hover:scale-[1.05] transition">
                     <Image
                       src={set.image}
                       alt={set.set_name}
-                      width={100}
-                      height={100}
+                      width={130}
+                      height={130}
                       className="object-scale-down w-full h-full"
                     />
                   </div>
