@@ -1,11 +1,11 @@
-// /src/app/api/featured/route.ts
+// FILE: /app/api/featured/route.ts
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
+  connectionString: process.env.DATABASE_URL || '',
   ssl: { rejectUnauthorized: false },
 });
 
@@ -25,10 +25,16 @@ export async function GET() {
         m.price_range_seen_min,
         m.price_range_seen_max
       FROM mastercard_v2 m
-      WHERE m.clean_avg_value BETWEEN 7 AND 11
-      ORDER BY
-        (SELECT COUNT(*) FROM dailypricelog d WHERE d.unique_id = m.unique_id AND d.price IS NOT NULL) DESC,
-        (SELECT MAX(d2.created_at) FROM dailypricelog d2 WHERE d2.unique_id = m.unique_id) DESC
+      JOIN (
+        SELECT unique_id, COUNT(*) AS sale_count
+        FROM dailypricelog
+        WHERE created_at > NOW() - INTERVAL '7 days'
+        GROUP BY unique_id
+      ) d ON m.unique_id = d.unique_id
+      WHERE 
+        m.clean_avg_value BETWEEN 7 AND 11
+        AND m.card_image_url IS NOT NULL
+      ORDER BY d.sale_count DESC
       LIMIT 4;
     `);
 
