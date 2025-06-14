@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function CardCatchTrackerBlock() {
   return (
-    <section className="w-full bg-[#3B4CCA] pt-8 pb-4 px-4 text-white">
+    <section className="w-full bg-[#3B4CCA] pt-8 pb-2 px-4 text-white">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
         {/* Left: Live Tracker */}
         <LiveScrapeStats />
@@ -27,8 +27,8 @@ export default function CardCatchTrackerBlock() {
         <Image
           src="/Assets/logos/pokebinder-logo.png"
           alt="PokéBinder Logo"
-          width={130}
-          height={130}
+          width={160}
+          height={160}
           className="drop-shadow-lg"
         />
         <div className="h-[5px] bg-yellow-400 w-[25%] md:w-[35%] rounded" />
