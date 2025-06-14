@@ -45,7 +45,7 @@ For each card, we:
 - **Works for vintage and modern cards**
 
 Want to see it live?  
-[Search any card](https://www.pokebinder.co.uk/search?q=charizard) and scroll down to the “Market Overview” section.
+Hit a cards page and scroll down to the “Market Overview” section.
 
 We show you *what sold*, *when*, and *for how much*.
 
