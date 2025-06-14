@@ -28,8 +28,16 @@ export default function FeaturedCards() {
     return <div className="p-4 text-red-500">Failed to load featured cards.</div>;
   }
 
-  if (!data || !Array.isArray(data.cards)) {
+  if (!data) {
     return <div className="p-4 text-gray-500">Loading featured cards...</div>;
+  }
+
+  if (Array.isArray(data.cards) && data.cards.length === 0) {
+    return (
+      <div className="p-4 text-yellow-600 font-medium">
+        No hot cards to feature right now — check back soon!
+      </div>
+    );
   }
 
   const visibleCards = data.cards
