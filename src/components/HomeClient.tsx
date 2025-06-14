@@ -116,14 +116,16 @@ export default function Home() {
           {funFacts[factIndex]}
         </div>
 
-        {/* CardCatch Block */}
         <CardCatchTrackerBlock />
 
-        {/* Pokémon red divider line */}
-        <div className="w-full h-[6px] md:h-[8px] bg-[#CC0000]" />
-
-        {/* Logo strip */}
-        <SetLogoSlider />
+        {/* Logo Section with pattern bg */}
+        <section className="w-full bg-[url('/Assets/bg/poke-pattern.png')] bg-repeat bg-[length:200px_auto] relative">
+          <div className="h-2 bg-red-600" />
+          <div className="max-w-6xl mx-auto px-4 py-6">
+            <SetLogoSlider />
+          </div>
+          <div className="h-2 bg-red-600" />
+        </section>
 
         {/* Featured Cards */}
         <section className="w-full max-w-6xl mt-12 px-4">
