@@ -1,24 +1,21 @@
 // app/sitemap.xml/route.ts
 import { NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres';
+import { Pool } from 'pg';
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 const BASE_URL = 'https://www.pokebinder.co.uk';
 
 export async function GET() {
-  // Fetch all card slugs
-  const cardResult = await sql`SELECT unique_id FROM mastercard_v2 LIMIT 18000;`;
+  const cardResult = await pool.query('SELECT unique_id FROM mastercard_v2 LIMIT 18000;');
   const cardSlugs = cardResult.rows.map((row) => row.unique_id);
 
-  // Fetch all set slugs
-  const setResult = await sql`SELECT DISTINCT set_slug FROM sets LIMIT 1000;`;
+  const setResult = await pool.query('SELECT DISTINCT set_slug FROM sets LIMIT 1000;');
   const setSlugs = setResult.rows.map((row) => row.set_slug);
 
-  const staticPages = [
-    '',
-    'search?q=charizard',
-    'updates',
-    'blog'
-  ];
+  const staticPages = ['', 'search?q=charizard', 'updates', 'blog'];
 
   const urls = [
     ...staticPages.map((slug) => `${BASE_URL}/${slug}`),
