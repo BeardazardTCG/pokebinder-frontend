@@ -30,13 +30,13 @@ export default function HalfCard({
       className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden w-full max-w-[240px]"
     >
       <div className="flex flex-col items-center p-4">
-        <div className="bg-white p-1 rounded-xl border border-zinc-100 shadow group-hover:shadow-md">
+        <div className="bg-black p-2 rounded-lg shadow-sm">
           <Image
             src={card_image_url}
             alt={card_name}
             width={200}
             height={280}
-            className="object-contain rounded-md drop-shadow-sm"
+            className="object-contain rounded-md"
           />
         </div>
 
