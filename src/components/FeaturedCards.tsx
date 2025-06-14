@@ -1,20 +1,20 @@
 "use client";
 
 import useSWR from 'swr';
-import Image from 'next/image';
-import Link from 'next/link';
+import HalfCard from '@/components/card/HalfCard';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 type Card = {
   unique_id: string;
-  card_image_url: string;
   card_name: string;
-  card_number: string | number;
-  set_logo_url?: string | null;
-  set_name?: string;
-  clean_avg_value?: string | number | null;
-  url_used?: string;
+  card_number: string;
+  set_name: string;
+  set_logo_url: string | null;
+  card_image_url: string;
+  clean_avg_value: number | null;
+  price_range_seen_min: number | null;
+  price_range_seen_max: number | null;
 };
 
 export default function FeaturedCards() {
@@ -34,52 +34,23 @@ export default function FeaturedCards() {
 
   const visibleCards = data.cards
     .filter((card) => card && card.card_image_url && card.card_name)
-    .slice(0, 4); // show 4 cards max
+    .slice(0, 4);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {visibleCards.map((card) => (
-        <Link
+        <HalfCard
           key={card.unique_id}
-          href={`/card/${card.unique_id}`}
-          className="bg-white w-full rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform p-4 text-center flex flex-col justify-between items-center h-full border border-gray-100"
-        >
-          <Image
-            src={card.card_image_url}
-            alt={card.card_name}
-            width={200}
-            height={280}
-            className="rounded object-contain mb-4 drop-shadow-sm"
-            unoptimized
-          />
-          <p className="font-mono text-sm text-gray-600 mb-1">#{card.card_number}</p>
-
-          {card.set_logo_url && !card.set_logo_url.includes("null") ? (
-            <Image
-              src={card.set_logo_url}
-              alt={`${card.set_name} logo`}
-              width={90}
-              height={30}
-              className="mb-3"
-            />
-          ) : (
-            <p className="mb-3 text-xs italic text-gray-400">[No set logo]</p>
-          )}
-
-          <p className="text-green-700 font-bold text-lg mb-3">
-            {card.clean_avg_value != null && !isNaN(Number(card.clean_avg_value))
-              ? `£${Number(card.clean_avg_value).toFixed(2)}`
-              : '£—'}
-          </p>
-
-          {card.url_used && (
-            <div className="mt-auto">
-              <span className="inline-block px-4 py-2 rounded-full shadow text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 text-black transition">
-                🛒 Buy Now
-              </span>
-            </div>
-          )}
-        </Link>
+          unique_id={card.unique_id}
+          card_name={card.card_name}
+          card_number={card.card_number}
+          set_name={card.set_name}
+          set_logo_url={card.set_logo_url}
+          card_image_url={card.card_image_url}
+          clean_avg_value={card.clean_avg_value}
+          price_range_seen_min={card.price_range_seen_min}
+          price_range_seen_max={card.price_range_seen_max}
+        />
       ))}
     </div>
   );
