@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -17,16 +16,19 @@ const blogDirectory = path.join(process.cwd(), '/blog');
 export default function BlogPage() {
   const files = fs.readdirSync(blogDirectory);
 
-  const posts = files.map((filename) => {
-    const filePath = path.join(blogDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data, content } = matter(fileContents);
-    return {
-      title: data.title || filename.replace(/\.md$/, ''),
-      date: new Date(data.date).toLocaleDateString('en-GB'),
-      content,
-    };
-  });
+  const posts = files
+    .map((filename) => {
+      const filePath = path.join(blogDirectory, filename);
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { data, content } = matter(fileContents);
+      return {
+        title: data.title || filename.replace(/\.md$/, ''),
+        date: new Date(data.date).toLocaleDateString('en-GB'),
+        rawDate: data.date,
+        content,
+      };
+    })
+    .sort((a, b) => new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime());
 
   return (
     <>
