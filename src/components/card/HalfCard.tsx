@@ -27,9 +27,10 @@ export default function HalfCard({
   return (
     <Link
       href={`/card/${unique_id}`}
-      className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden w-full max-w-[240px]"
+      className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden w-full max-w-[240px] h-full"
     >
-      <div className="flex flex-col items-center p-4">
+      <div className="flex flex-col justify-between h-full p-4 text-center">
+        {/* Image */}
         <div className="bg-black p-2 rounded-lg shadow-sm">
           <Image
             src={card_image_url}
@@ -40,35 +41,35 @@ export default function HalfCard({
           />
         </div>
 
-        <div className="mt-3 w-full text-center">
-          <h3 className="text-base font-bold leading-snug text-zinc-800 group-hover:text-orange-700 transition break-words min-h-[2.5rem]">
+        {/* Card Info */}
+        <div className="mt-4 flex flex-col flex-grow justify-between">
+          <h3 className="text-lg font-extrabold leading-snug text-zinc-800 group-hover:text-orange-700 transition break-words min-h-[2.5rem]">
             {card_name}
           </h3>
 
-          {set_logo_url ? (
-            <div className="mt-2 mb-1 flex justify-center">
+          <div className="mt-2 mb-1 flex items-center justify-center gap-2 min-h-[3rem]">
+            {set_logo_url ? (
               <Image
                 src={set_logo_url}
                 alt={set_name}
-                width={48}
-                height={48}
+                width={40}
+                height={40}
                 className="object-contain drop-shadow-sm"
               />
-            </div>
-          ) : (
-            <div className="mt-2 mb-1 text-xs text-zinc-400 italic">No Logo</div>
-          )}
-
-          <p className="text-sm text-zinc-600 font-medium mb-1">#{card_number}</p>
+            ) : (
+              <span className="text-xs text-zinc-400 italic">No Logo</span>
+            )}
+            <span className="text-sm text-zinc-500 font-medium">#{card_number}</span>
+          </div>
 
           {clean_avg_value !== null && (
-            <div className="text-orange-600 font-semibold text-sm mt-1">
-              🔥 Live Market Estimate: £{clean_avg_value.toFixed(2)}
+            <div className="text-[15px] text-red-600 font-bold mt-2">
+              🔥 £{clean_avg_value.toFixed(2)}
             </div>
           )}
 
           {price_range_seen_min !== null && price_range_seen_max !== null && (
-            <p className="text-[11px] text-zinc-400 mt-0.5">
+            <p className="text-xs text-zinc-500 mt-0.5">
               Range: £{price_range_seen_min.toFixed(2)}–£{price_range_seen_max.toFixed(2)}
             </p>
           )}
