@@ -1,11 +1,12 @@
-// FILE: /app/api/featured/route.ts
+// /src/app/api/featured/route.ts
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
+// 🔧 Use your hardcoded Railway connection string
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || '',
+  connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
   ssl: { rejectUnauthorized: false },
 });
 
@@ -25,16 +26,21 @@ export async function GET() {
         m.price_range_seen_min,
         m.price_range_seen_max
       FROM mastercard_v2 m
-      JOIN (
-        SELECT unique_id, COUNT(*) AS sale_count
-        FROM dailypricelog
-        WHERE created_at > NOW() - INTERVAL '7 days'
-        GROUP BY unique_id
-      ) d ON m.unique_id = d.unique_id
       WHERE 
         m.clean_avg_value BETWEEN 7 AND 11
         AND m.card_image_url IS NOT NULL
-      ORDER BY d.sale_count DESC
+        AND m.card_name IS NOT NULL
+        AND m.card_name != ''
+        AND EXISTS (
+          SELECT 1 FROM dailypricelog d
+          WHERE d.unique_id = m.unique_id
+          AND d.date >= CURRENT_DATE - INTERVAL '5 days'
+        )
+      ORDER BY (
+        SELECT COUNT(*) FROM dailypricelog d
+        WHERE d.unique_id = m.unique_id
+        AND d.date >= CURRENT_DATE - INTERVAL '30 days'
+      ) DESC
       LIMIT 4;
     `);
 
