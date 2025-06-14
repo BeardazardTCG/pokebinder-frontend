@@ -29,7 +29,7 @@ export default function SetLogoSlider() {
   };
 
   return (
-    <section className="w-full bg-white bg-[url('/Assets/bg/poke-pattern.png')] bg-repeat bg-center bg-contain px-4 pt-0 pb-6">
+    <section className="w-full bg-[url('/poke-pattern.png')] bg-repeat bg-center bg-contain px-4 mt-[-2px] pb-8">
       <div className="relative max-w-6xl mx-auto px-2">
         <button
           onClick={() => scroll('left')}
