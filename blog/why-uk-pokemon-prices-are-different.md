@@ -55,4 +55,4 @@ Just honest data, made for the UK collector scene.
 
 ---
 **Try it now:**  
-[Search your card](https://www.pokebinder.co.uk) and see what it’s *actually* worth here.
+Search for yoy card in our database and see what it’s *actually* worth here.
