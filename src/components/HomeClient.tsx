@@ -10,6 +10,7 @@ import FeaturedCards from '@/components/FeaturedCards';
 import SignupPrompt from '@/components/SignupPrompt';
 import CardCatchTrackerBlock from '@/components/CardCatchTrackerBlock';
 import SetLogoSlider from '@/components/SetLogoSlider';
+import BlogPreviewGrid from '@/components/blog/BlogPreviewGrid';
 
 const funFacts = [
   "✨ Caught feelings, not just prices",
@@ -134,6 +135,14 @@ export default function Home() {
             <h2 className="text-xl font-bold text-orange-600">🔥 Featured Cards</h2>
           </div>
           <FeaturedCards />
+        </section>
+
+        {/* Blog Preview */}
+        <section className="w-full max-w-6xl mt-12 px-4">
+          <div className="mb-4 border-b-2 border-blue-400 pb-1">
+            <h2 className="text-xl font-bold text-blue-700">📚 From the Blog</h2>
+          </div>
+          <BlogPreviewGrid />
         </section>
 
         {/* Sealed Products */}
