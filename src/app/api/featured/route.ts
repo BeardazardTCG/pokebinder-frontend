@@ -1,17 +1,22 @@
-// /src/app/api/featured/route.ts
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
-// ✅ Your hardcoded DB connection
 const pool = new Pool({
   connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
   ssl: { rejectUnauthorized: false },
 });
 
 export async function GET() {
-  const client = await pool.connect();
+  let client;
+
+  try {
+    client = await pool.connect();
+  } catch (connectionError) {
+    console.error("❌ Failed to connect to DB:", connectionError);
+    return NextResponse.json({ cards: [], error: 'DB connection failed' }, { status: 500 });
+  }
 
   try {
     const result = await client.query(`
@@ -45,15 +50,15 @@ export async function GET() {
     `);
 
     if (result.rows.length === 0) {
-      console.warn("⚠️ No featured cards found in the last 7 days.");
-      return NextResponse.json({ cards: [], warning: 'No recent cards' });
+      console.warn("⚠️ No featured cards found.");
+      return NextResponse.json({ cards: [] });
     }
 
     return NextResponse.json({ cards: result.rows });
-  } catch (err) {
-    console.error("❌ Featured cards fetch failed:", err);
+  } catch (queryError) {
+    console.error("❌ Query failed:", queryError);
     return NextResponse.json({ cards: [], error: 'Query failed' }, { status: 500 });
   } finally {
-    client.release();
+    if (client) client.release();
   }
 }
