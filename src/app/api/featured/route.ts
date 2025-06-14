@@ -29,24 +29,27 @@ export async function GET() {
         m.card_image_url,
         m.clean_avg_value,
         m.price_range_seen_min,
-        m.price_range_seen_max
+        m.price_range_seen_max,
+        d.recent_count
       FROM mastercard_v2 m
+      JOIN (
+        SELECT unique_id, COUNT(*) AS recent_count
+        FROM dailypricelog
+        WHERE created_at >= CURRENT_DATE - INTERVAL '30 days'
+        GROUP BY unique_id
+      ) d ON d.unique_id = m.unique_id
       WHERE 
         m.clean_avg_value BETWEEN 7 AND 11
         AND m.card_image_url IS NOT NULL
         AND m.card_name IS NOT NULL
         AND m.card_name != ''
         AND EXISTS (
-          SELECT 1 FROM dailypricelog d
-          WHERE d.unique_id = m.unique_id
-          AND d.created_at >= CURRENT_DATE - INTERVAL '7 days'
+          SELECT 1 FROM dailypricelog dp
+          WHERE dp.unique_id = m.unique_id
+          AND dp.created_at >= CURRENT_DATE - INTERVAL '7 days'
         )
-      ORDER BY (
-        SELECT COUNT(*) FROM dailypricelog d
-        WHERE d.unique_id = m.unique_id
-        AND d.created_at >= CURRENT_DATE - INTERVAL '30 days'
-      ) DESC
-      LIMIT 4;
+      ORDER BY d.recent_count DESC
+      LIMIT 20;
     `);
 
     if (result.rows.length === 0) {
