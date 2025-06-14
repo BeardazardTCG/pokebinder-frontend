@@ -16,7 +16,7 @@ const funFacts = [
   "✨ PSA 10? More like PTSD 10.",
   "✨ Verified: Charizard still overrated",
   "✨ Not financial advice... but maybe?",
-  "✨ Minty fresh, like your browsing history",
+  "✨ Minty fresh",
   "✨ Now 60% less eBay search rage!",
   "✨ We know what 'NM' *really* means",
   "✨ Built by humans, powered by obsession",
