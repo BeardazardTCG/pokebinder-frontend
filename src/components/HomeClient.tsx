@@ -124,18 +124,29 @@ export default function Home() {
           <div className="h-2 bg-red-600" />
         </section>
 
-        {/* ✅ NEW FEATURED BLOCK */}
-        <section className="w-full bg-[#e60012] py-10 px-4">
-          <h2 className="text-white text-xl md:text-2xl font-bold text-center mb-6">
-            PokéBinder Recommends
-          </h2>
+       {/* ✅ Final Featured Block – Branded + Tight */}
+<section className="w-full bg-[#e60012] py-8 px-4">
+  {/* 🧢 PokéBinder Logo + Heading */}
+  <div className="flex items-center justify-center gap-3 mb-6">
+    <Image
+      src="/pokebinder-logo.png"
+      alt="PokéBinder Logo"
+      width={40}
+      height={40}
+      className="rounded-full drop-shadow-md"
+    />
+    <h2 className="text-white text-2xl font-bold">PokéBinder Recommends</h2>
+  </div>
 
-          <div className="bg-white rounded-2xl shadow-md max-w-6xl mx-auto px-4 py-6 md:px-8 md:py-8">
-            <FeaturedCards />
-          </div>
+  {/* 🔲 Card Container */}
+  <div className="bg-white rounded-2xl shadow-md max-w-6xl mx-auto px-4 py-5 md:px-6 md:py-6">
+    <FeaturedCards />
+  </div>
 
-          <div className="w-full h-[6px] bg-white rounded-full mt-10"></div>
-        </section>
+  {/* 🔻 Footer White Bar */}
+  <div className="w-full h-[6px] bg-white rounded-full mt-8"></div>
+</section>
+
 
         <section className="w-full max-w-6xl px-4 mt-12">
           <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
