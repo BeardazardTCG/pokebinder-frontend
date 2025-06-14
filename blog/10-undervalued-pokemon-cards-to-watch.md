@@ -74,6 +74,6 @@ Here are 10 Pokémon cards we’re watching in the UK right now:
 
 Want to track the rise?
 
-Use [PokéBinder](https://www.pokebinder.co.uk) to log prices, trends, and plan your next move.
+Use PokeBinder
 
 These are live values — verified, not guessed.
