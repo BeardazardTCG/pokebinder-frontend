@@ -47,27 +47,30 @@ export default function HalfCard({
             {card_name}
           </h3>
 
-          <div className="mt-2 mb-1 flex items-center justify-center gap-2 min-h-[3rem]">
+          {/* Set Logo + Card Number (Stacked) */}
+          <div className="flex flex-col items-center mt-2 mb-2">
             {set_logo_url ? (
               <Image
                 src={set_logo_url}
                 alt={set_name}
-                width={40}
-                height={40}
-                className="object-contain drop-shadow-sm"
+                width={36}
+                height={36}
+                className="object-contain drop-shadow-sm mb-1"
               />
             ) : (
-              <span className="text-xs text-zinc-400 italic">No Logo</span>
+              <span className="text-xs text-zinc-400 italic mb-1">No Logo</span>
             )}
-            <span className="text-sm text-zinc-500 font-medium">#{card_number}</span>
+            <p className="text-[13px] text-zinc-600 font-semibold">#{card_number}</p>
           </div>
 
+          {/* Live Estimate */}
           {clean_avg_value !== null && (
-            <div className="text-[15px] text-red-600 font-bold mt-2">
+            <div className="text-[15px] text-red-600 font-bold mt-1">
               🔥 £{clean_avg_value.toFixed(2)}
             </div>
           )}
 
+          {/* Price Range */}
           {price_range_seen_min !== null && price_range_seen_max !== null && (
             <p className="text-xs text-zinc-500 mt-0.5">
               Range: £{price_range_seen_min.toFixed(2)}–£{price_range_seen_max.toFixed(2)}
