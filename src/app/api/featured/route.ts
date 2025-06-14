@@ -48,7 +48,7 @@ export async function GET() {
           WHERE dp.unique_id = m.unique_id
           AND dp.created_at >= CURRENT_DATE - INTERVAL '7 days'
         )
-      ORDER BY d.recent_count DESC
+      ORDER BY RANDOM()
       LIMIT 20;
     `);
 
