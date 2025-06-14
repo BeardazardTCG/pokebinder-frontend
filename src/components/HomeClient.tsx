@@ -22,7 +22,7 @@ export default function CardCatchTrackerBlock() {
       </div>
 
       {/* Divider with PokéBinder logo */}
-      <div className="mt-10 mb-4 md:mt-12 md:mb-6 flex items-center justify-center gap-4 transition-all">
+      <div className="mt-10 mb-0 md:mt-12 md:mb-2 flex items-center justify-center gap-4 transition-all">
         <div className="h-[5px] bg-yellow-400 w-[25%] md:w-[35%] rounded" />
         <Image
           src="/Assets/logos/pokebinder-logo.png"
