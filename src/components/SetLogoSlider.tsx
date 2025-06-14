@@ -17,7 +17,7 @@ const fetcher = (url: string) => fetch(url).then(res => res.json());
 export default function SetLogoSlider() {
   const { data: sets = [], error } = useSWR<SetLogo[]>('/api/latestsets', fetcher, {
     revalidateOnFocus: false,
-    dedupingInterval: 5 * 60 * 1000, // 5 minutes
+    dedupingInterval: 5 * 60 * 1000,
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,17 +29,17 @@ export default function SetLogoSlider() {
   };
 
   return (
-    <section className="w-full max-w-6xl px-4 mt-16">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-blue-600 inline-block pb-1">
-          <span className="mr-2 opacity-70">📂</span>Browse by Set
+    <section className="w-full bg-[url('/poke-pattern.png')] bg-repeat bg-center bg-contain px-4 pt-4 pb-8">
+      <div className="max-w-6xl mx-auto text-center mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-blue-700 flex items-center justify-center gap-2">
+          📁 Browse by Set
         </h2>
       </div>
 
-      <div className="relative bg-slate-50 border border-gray-100 rounded-xl px-4 py-6 shadow-sm">
+      <div className="relative max-w-6xl mx-auto px-2">
         <button
           onClick={() => scroll('left')}
-          className="absolute top-1/2 -translate-y-1/2 left-0 z-10 px-2 py-1 bg-white/70 hover:bg-white rounded-r-md shadow"
+          className="absolute top-1/2 -translate-y-1/2 left-0 z-10 px-2 py-1 bg-white/80 hover:bg-white rounded-r-md shadow"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -47,29 +47,28 @@ export default function SetLogoSlider() {
         <div
           ref={containerRef}
           className="hover:overflow-x-auto overflow-x-hidden scroll-smooth no-scrollbar px-6"
-          style={{ maxHeight: '360px' }}
         >
           {!sets.length ? (
             <div className="text-sm text-zinc-400 italic px-2">Loading sets...</div>
           ) : (
-            <div className="flex flex-wrap content-start gap-x-6 gap-y-8 w-max py-2">
+            <div className="flex flex-nowrap gap-6 py-2">
               {sets.map((set) => (
                 <Link
                   key={set.set_id}
                   href={`/set/${set.set_id}`}
-                  className="flex flex-col items-center justify-start w-[110px]"
+                  className="flex flex-col items-center justify-start w-[110px] flex-shrink-0"
                   title={set.set_name}
                 >
-                  <div className="w-[100px] h-[100px] overflow-hidden bg-white">
+                  <div className="w-[110px] h-[110px] rounded-lg bg-white border border-gray-200 shadow-sm p-2 hover:scale-[1.05] transition">
                     <Image
                       src={set.image}
                       alt={set.set_name}
                       width={100}
                       height={100}
-                      className="object-scale-down p-1 w-full h-full"
+                      className="object-scale-down w-full h-full"
                     />
                   </div>
-                  <span className="block mt-1 text-xs text-center text-gray-700 leading-tight w-full line-clamp-2">
+                  <span className="block mt-2 text-xs text-center text-gray-700 leading-tight w-full line-clamp-2">
                     {set.set_name}
                   </span>
                 </Link>
@@ -80,7 +79,7 @@ export default function SetLogoSlider() {
 
         <button
           onClick={() => scroll('right')}
-          className="absolute top-1/2 -translate-y-1/2 right-0 z-10 px-2 py-1 bg-white/70 hover:bg-white rounded-l-md shadow"
+          className="absolute top-1/2 -translate-y-1/2 right-0 z-10 px-2 py-1 bg-white/80 hover:bg-white rounded-l-md shadow"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
