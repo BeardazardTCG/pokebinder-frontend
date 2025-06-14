@@ -25,16 +25,10 @@ const funFacts = [
   "✨ Built by humans, powered by obsession",
 ];
 
-type SealedItem = {
-  title: string;
-  price: number;
-  url: string;
-};
-
 export default function Home() {
   const [factIndex, setFactIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [items, setItems] = useState<SealedItem[]>([]);
+  const [items, setItems] = useState([]);
   const [showSignup, setShowSignup] = useState(false);
   const router = useRouter();
 
