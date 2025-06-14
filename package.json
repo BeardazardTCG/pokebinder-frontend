@@ -15,7 +15,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "swr": "^2.3.3",
-    "@vercel/postgres": "^0.5.4",
     "react-icons": "^4.12.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "0.263.0"
