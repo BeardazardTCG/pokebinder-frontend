@@ -12,9 +12,9 @@ type Card = {
   set_name: string;
   set_logo_url: string | null;
   card_image_url: string;
-  clean_avg_value: number | null;
-  price_range_seen_min: number | null;
-  price_range_seen_max: number | null;
+  clean_avg_value: string | number | null;
+  price_range_seen_min: string | number | null;
+  price_range_seen_max: string | number | null;
 };
 
 export default function FeaturedCards() {
@@ -47,9 +47,9 @@ export default function FeaturedCards() {
           set_name={card.set_name}
           set_logo_url={card.set_logo_url}
           card_image_url={card.card_image_url}
-          clean_avg_value={card.clean_avg_value}
-          price_range_seen_min={card.price_range_seen_min}
-          price_range_seen_max={card.price_range_seen_max}
+          clean_avg_value={card.clean_avg_value != null ? Number(card.clean_avg_value) : null}
+          price_range_seen_min={card.price_range_seen_min != null ? Number(card.price_range_seen_min) : null}
+          price_range_seen_max={card.price_range_seen_max != null ? Number(card.price_range_seen_max) : null}
         />
       ))}
     </div>
