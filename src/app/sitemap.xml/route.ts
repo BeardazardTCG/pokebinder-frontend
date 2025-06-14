@@ -12,10 +12,10 @@ const BASE_URL = 'https://www.pokebinder.co.uk';
 
 export async function GET() {
   try {
-    const cardResult = await pool.query('SELECT unique_id FROM mastercard LIMIT 18000;');
+    const cardResult = await pool.query('SELECT unique_id FROM mastercard_v2 LIMIT 18000;');
     const cardSlugs = cardResult.rows.map((row) => row.unique_id);
 
-    const setResult = await pool.query('SELECT DISTINCT set_code FROM mastercard LIMIT 1000;');
+    const setResult = await pool.query('SELECT DISTINCT set_code FROM mastercard_v2 LIMIT 1000;');
     const setSlugs = setResult.rows.map((row) => row.set_code);
 
     const staticPages = ['', 'search?q=charizard', 'updates', 'blog'];
