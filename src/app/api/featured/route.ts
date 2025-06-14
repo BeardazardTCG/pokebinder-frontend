@@ -14,25 +14,23 @@ export async function GET() {
 
   try {
     const result = await client.query(`
-  SELECT 
-    m.unique_id,
-    m.card_name,
-    m.card_number,
-    m.set_name,
-    m.set_logo_url,
-    m.card_image_url,
-    m.clean_avg_value,
-    a.url_used
-  FROM mastercard_v2 m
-  JOIN activedailypricelog a ON m.unique_id = a.unique_id
-  WHERE 
-    (m.hot_character = true OR m.tier IN (2, 3))
-    AND a.url_used IS NOT NULL
-    AND m.clean_avg_value IS NOT NULL
-  ORDER BY RANDOM()
-  LIMIT 4;
-`);
-
+      SELECT 
+        m.unique_id,
+        m.card_name,
+        m.card_number,
+        m.set_name,
+        m.set_logo_url,
+        m.card_image_url,
+        m.clean_avg_value,
+        m.price_range_seen_min,
+        m.price_range_seen_max
+      FROM mastercard_v2 m
+      WHERE m.clean_avg_value BETWEEN 7 AND 11
+      ORDER BY
+        (SELECT COUNT(*) FROM dailypricelog d WHERE d.unique_id = m.unique_id AND d.price IS NOT NULL) DESC,
+        (SELECT MAX(d2.created_at) FROM dailypricelog d2 WHERE d2.unique_id = m.unique_id) DESC
+      LIMIT 4;
+    `);
 
     return NextResponse.json({ cards: result.rows });
   } catch (err) {
