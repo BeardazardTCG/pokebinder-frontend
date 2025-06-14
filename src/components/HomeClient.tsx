@@ -5,14 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import FeaturedCards from '@/components/FeaturedCards';
 import SignupPrompt from '@/components/SignupPrompt';
 import CardCatchTrackerBlock from '@/components/CardCatchTrackerBlock';
 import SetLogoSlider from '@/components/SetLogoSlider';
-
-const BlogPreviewWrapper = dynamic(() => import('@/components/blog/BlogPreviewWrapper'), { ssr: false });
+import BlogPreviewGrid from '@/components/blog/BlogPreviewGrid';
 
 const funFacts = [
   "✨ Caught feelings, not just prices",
@@ -25,10 +23,16 @@ const funFacts = [
   "✨ Built by humans, powered by obsession",
 ];
 
+type SealedItem = {
+  title: string;
+  price: number;
+  url: string;
+};
+
 export default function Home() {
   const [factIndex, setFactIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<SealedItem[]>([]);
   const [showSignup, setShowSignup] = useState(false);
   const router = useRouter();
 
@@ -78,6 +82,7 @@ export default function Home() {
           💬 Found a bug or idea?
         </Link>
 
+        {/* Logo and Search */}
         <div className="relative inline-block w-full max-w-[600px] mx-auto mt-4">
           <Image src="/pokebinder-logo.png" alt="PokeBinder Logo" width={540} height={540} className="w-[80%] max-w-[540px] mx-auto mb-2" />
           <Image src="/beta-testing.png" alt="Beta Stamp" width={140} height={40} className="absolute top-0 right-[-30px] rotate-[-12deg] z-30 hidden sm:block" />
@@ -102,6 +107,7 @@ export default function Home() {
           <Image src="/pikachu-cap.png" alt="Pikachu" width={140} height={140} className="absolute right-[-45px] top-[-16px] z-10 animate-bounce-slow" />
         </div>
 
+        {/* Quick links + fact */}
         <div className="mt-2 text-sm text-gray-600 text-center">
           Try: <Link href="/card/g1-11" className="bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-xs sm:text-sm shadow hover:bg-blue-200 transition">Charizard EX</Link>,
           <Link href="/card/base1-10" className="ml-2 bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-xs sm:text-sm shadow hover:bg-blue-200 transition">Mewtwo</Link>
@@ -113,6 +119,7 @@ export default function Home() {
 
         <CardCatchTrackerBlock />
 
+        {/* Logo Section with pattern bg */}
         <section className="w-full bg-[url('/Assets/bg/poke-pattern.png')] bg-repeat bg-[length:200px_auto] relative">
           <div className="h-2 bg-red-600" />
           <div className="max-w-6xl mx-auto px-4 py-6">
@@ -121,6 +128,7 @@ export default function Home() {
           <div className="h-2 bg-red-600" />
         </section>
 
+        {/* Featured Cards */}
         <section className="w-full max-w-6xl mt-12 px-4">
           <div className="border-t border-orange-300 mb-6"></div>
           <div className="mb-4 border-b-2 border-orange-300 pb-1">
@@ -129,13 +137,15 @@ export default function Home() {
           <FeaturedCards />
         </section>
 
+        {/* Blog Preview */}
         <section className="w-full max-w-6xl mt-12 px-4">
           <div className="mb-4 border-b-2 border-blue-400 pb-1">
             <h2 className="text-xl font-bold text-blue-700">📚 From the Blog</h2>
           </div>
-          <BlogPreviewWrapper />
+          <BlogPreviewGrid />
         </section>
 
+        {/* Sealed Products */}
         <section className="w-full max-w-6xl px-4 mt-12">
           <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
           <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
@@ -162,6 +172,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Coming Soon / Signup */}
         <section className="w-full lg:w-[30%] min-w-[280px] bg-yellow-100 border-2 border-yellow-400 p-6 rounded-xl shadow-md relative rotate-[-2deg] mt-12">
           <h2 className="text-lg font-bold mb-3 text-gray-800 font-handwriting">Coming Soon to PokéBinder</h2>
           <ul className="text-sm text-gray-800 space-y-3 font-handwriting">
@@ -187,6 +198,7 @@ export default function Home() {
           )}
         </section>
 
+        {/* Footer */}
         <footer className="w-full border-t border-gray-300 pt-6 pb-12 text-center text-sm text-gray-600 px-4">
           <p>🔧 Hand-coded in the UK using PostgreSQL, Railway, Next.js, and live eBay + TCG scrapes.</p>
           <p>💡 Built by collectors. Built for collectors. No suits. No shortcuts.</p>
