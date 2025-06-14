@@ -42,7 +42,4 @@ We’re rolling out:
 
 ---
 
-📫 Want early access to PokéBinder Pro?  
-[Sign up now](https://www.pokebinder.co.uk/signup) to reserve your spot and unlock TCG code card bonuses.
-
 Let’s make this the go-to Pokémon site for UK collectors.
