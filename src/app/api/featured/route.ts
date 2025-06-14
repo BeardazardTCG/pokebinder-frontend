@@ -4,7 +4,7 @@ export const runtime = 'nodejs';
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
-// 🔧 Use your hardcoded Railway connection string
+// ✅ Your hardcoded DB connection
 const pool = new Pool({
   connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
   ssl: { rejectUnauthorized: false },
@@ -34,12 +34,12 @@ export async function GET() {
         AND EXISTS (
           SELECT 1 FROM dailypricelog d
           WHERE d.unique_id = m.unique_id
-          AND d.date >= CURRENT_DATE - INTERVAL '5 days'
+          AND d.created_at >= CURRENT_DATE - INTERVAL '5 days'
         )
       ORDER BY (
         SELECT COUNT(*) FROM dailypricelog d
         WHERE d.unique_id = m.unique_id
-        AND d.date >= CURRENT_DATE - INTERVAL '30 days'
+        AND d.created_at >= CURRENT_DATE - INTERVAL '30 days'
       ) DESC
       LIMIT 4;
     `);
