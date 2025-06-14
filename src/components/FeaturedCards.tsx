@@ -42,24 +42,38 @@ export default function FeaturedCards() {
 
   const visibleCards = data.cards
     .filter((card) => card && card.card_image_url && card.card_name)
+    .sort(() => 0.5 - Math.random()) // Shuffle for variety
     .slice(0, 4);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {visibleCards.map((card) => (
-        <HalfCard
-          key={card.unique_id}
-          unique_id={card.unique_id}
-          card_name={card.card_name}
-          card_number={card.card_number}
-          set_name={card.set_name}
-          set_logo_url={card.set_logo_url}
-          card_image_url={card.card_image_url}
-          clean_avg_value={card.clean_avg_value != null ? Number(card.clean_avg_value) : null}
-          price_range_seen_min={card.price_range_seen_min != null ? Number(card.price_range_seen_min) : null}
-          price_range_seen_max={card.price_range_seen_max != null ? Number(card.price_range_seen_max) : null}
-        />
-      ))}
-    </div>
+    <section className="w-full bg-[#e60012] py-10 px-4">
+      <h2 className="text-white text-xl md:text-2xl font-bold text-center mb-6">
+        PokéBinder Recommends
+      </h2>
+
+      <div className="bg-white rounded-2xl shadow-md max-w-6xl mx-auto px-4 py-6 md:px-8 md:py-8">
+        <div className="bg-black rounded-xl px-4 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {visibleCards.map((card) => (
+              <HalfCard
+                key={card.unique_id}
+                unique_id={card.unique_id}
+                card_name={card.card_name}
+                card_number={card.card_number}
+                set_name={card.set_name}
+                set_logo_url={card.set_logo_url}
+                card_image_url={card.card_image_url}
+                clean_avg_value={card.clean_avg_value != null ? Number(card.clean_avg_value) : null}
+                price_range_seen_min={card.price_range_seen_min != null ? Number(card.price_range_seen_min) : null}
+                price_range_seen_max={card.price_range_seen_max != null ? Number(card.price_range_seen_max) : null}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer white bar divider */}
+      <div className="w-full h-[6px] bg-white rounded-full mt-10"></div>
+    </section>
   );
 }
