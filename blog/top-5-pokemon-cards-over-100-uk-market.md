@@ -60,6 +60,6 @@ Here are 5 cards that recently sold for **over £100** in the UK:
 ---
 
 Want to track your own cards?  
-Get live UK prices on [PokéBinder](https://www.pokebinder.co.uk) — and join our collector tools before they go Pro.
+Get live UK prices on www.pokebinder.co.uk — and join our collector tools before they go Pro.
 
 🧠 Built by collectors. Built for the UK. No suits, no shortcuts.
