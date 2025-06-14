@@ -1,0 +1,46 @@
+import Link from "next/link";
+
+export default function BlogPreviewGrid() {
+  return (
+    <section className="w-full max-w-6xl px-4 mt-16">
+      <h2 className="text-xl font-bold text-zinc-800 mb-4">🧠 From the Blog</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Link
+          href="/blog/top-5-pokemon-cards-over-100-uk-market"
+          className="block border p-4 rounded-xl bg-white shadow hover:shadow-md transition"
+        >
+          <h3 className="font-bold text-zinc-900 mb-1">
+            Top 5 Pokémon Cards Selling Over £100
+          </h3>
+          <p className="text-sm text-zinc-600">
+            Charizard, Lugia, and more — tracked by real UK eBay data.
+          </p>
+        </Link>
+
+        <Link
+          href="/blog/why-uk-pokemon-prices-are-different"
+          className="block border p-4 rounded-xl bg-white shadow hover:shadow-md transition"
+        >
+          <h3 className="font-bold text-zinc-900 mb-1">
+            Why UK Card Prices Are Different
+          </h3>
+          <p className="text-sm text-zinc-600">
+            TCGPlayer says one thing. eBay UK says another. Here’s why.
+          </p>
+        </Link>
+
+        <Link
+          href="/blog/10-undervalued-pokemon-cards-to-watch"
+          className="block border p-4 rounded-xl bg-white shadow hover:shadow-md transition"
+        >
+          <h3 className="font-bold text-zinc-900 mb-1">
+            10 Undervalued Cards to Watch
+          </h3>
+          <p className="text-sm text-zinc-600">
+            Cards under £10 that could pop soon. We’re watching closely.
+          </p>
+        </Link>
+      </div>
+    </section>
+  );
+}
