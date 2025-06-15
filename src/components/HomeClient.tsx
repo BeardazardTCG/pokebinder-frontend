@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Head from 'next/head';
 import Image from 'next/image';
@@ -7,9 +7,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import FeaturedCards from '@/components/FeaturedCards';
-import SignupPrompt from '@/components/SignupPrompt';
 import CardCatchTrackerBlock from '@/components/CardCatchTrackerBlock';
 import SetLogoSlider from '@/components/SetLogoSlider';
+import ComingSoonBlock from '@/components/ComingSoonBlock';
 
 const funFacts = [
   "✨ Caught feelings, not just prices",
@@ -32,7 +32,6 @@ export default function Home() {
   const [factIndex, setFactIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [items, setItems] = useState<SealedItem[]>([]);
-  const [showSignup, setShowSignup] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -124,7 +123,6 @@ export default function Home() {
           <div className="h-2 bg-red-600" />
         </section>
 
-        {/* ✅ Final Featured Block – Branded, Polished, Tightened */}
         <section className="w-full bg-[#e60012] py-8 px-4">
           <div className="flex flex-col items-center text-center mb-6">
             <div className="flex items-center justify-center gap-3">
@@ -175,30 +173,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="w-full lg:w-[30%] min-w-[280px] bg-yellow-100 border-2 border-yellow-400 p-6 rounded-xl shadow-md relative rotate-[-2deg] mt-12">
-          <h2 className="text-lg font-bold mb-3 text-gray-800 font-handwriting">Coming Soon to PokéBinder</h2>
-          <ul className="text-sm text-gray-800 space-y-3 font-handwriting">
-            <li>⚡ Full English Pokémon card DB</li>
-            <li>🍃 Live prices from eBay & TCG</li>
-            <li>🔮 Historical price trends</li>
-            <li>🪨 Browse sets, eras, rarities</li>
-            <li>🔥 Affiliate sealed products</li>
-            <li>🧠 Grading AI, sell plugins, bundles</li>
-          </ul>
-
-          {showSignup ? (
-            <div className="mt-4">
-              <SignupPrompt />
-            </div>
-          ) : (
-            <button
-              className="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold transition-opacity opacity-90"
-              onClick={() => setShowSignup(true)}
-            >
-              Sign Up
-            </button>
-          )}
-        </section>
+        <ComingSoonBlock />
 
         <footer className="w-full border-t border-gray-300 pt-6 pb-12 text-center text-sm text-gray-600 px-4">
           <p>🔧 Hand-coded in the UK using PostgreSQL, Railway, Next.js, and live eBay + TCG scrapes.</p>
