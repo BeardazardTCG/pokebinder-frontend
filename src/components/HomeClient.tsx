@@ -148,31 +148,29 @@ export default function Home() {
           <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
         </section>
 
-        {/* 🧪 Coming Soon Block */}
-        <section className="w-full bg-[url('/Assets/logos/pokebinder.webp')] bg-repeat bg-[length:100px_auto] py-10 px-4 border-t-4 border-yellow-300">
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-6 items-center justify-center">
-            <div className="w-full md:w-1/2 text-center md:text-left">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3">Coming Soon to PokéBinder</h2>
-              <ul className="text-gray-700 text-sm space-y-2">
+        {/* 🔥 Final 'Coming Soon' Block */}
+        <section className="w-full bg-[url('/Assets/logos/pokebinder.webp')] bg-repeat bg-[length:160px_auto] px-4 py-12">
+          <div className="max-w-6xl mx-auto bg-white/90 rounded-2xl shadow-lg p-6 md:p-10 flex flex-col lg:flex-row justify-between gap-10 items-center border-2 border-yellow-300">
+            <div className="text-center lg:text-left max-w-xl">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">Coming Soon to PokéBinder</h2>
+              <ul className="text-sm text-gray-700 space-y-2">
                 <li>⚡ Full English Pokémon card DB</li>
-                <li>📈 Historical price trends + tracker</li>
-                <li>💸 Auto-listing tools for eBay sellers</li>
-                <li>🎯 Wishlist + Inventory integration</li>
-                <li>🌐 Grading AI, smart bundles, and more</li>
-                <li>🎁 Every 50 signups = 1 random bundle sent</li>
+                <li>📊 Historical price tracker</li>
+                <li>🛠️ Smart tools for sellers</li>
+                <li>🎯 Wishlist & Inventory integration</li>
+                <li>🧠 Grading AI, smart bundles, and more</li>
+                <li>🎁 Every 50 signups = random bundle giveaway!</li>
               </ul>
-              <div className="mt-4">
-                <SignupPrompt />
-              </div>
             </div>
-            <div className="w-full md:w-1/2 flex justify-center">
+            <div className="flex flex-col items-center gap-4">
               <Image
                 src="/Assets/codecard.png"
-                alt="PokéBinder TCG Code Card"
+                alt="PokéBinder Code Card"
                 width={320}
-                height={180}
-                className="rounded-xl border border-gray-300 shadow-xl"
+                height={200}
+                className="rounded-md border border-gray-300 shadow-md"
               />
+              <SignupPrompt />
             </div>
           </div>
         </section>
