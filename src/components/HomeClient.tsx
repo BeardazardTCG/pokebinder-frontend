@@ -10,6 +10,7 @@ import FeaturedCards from '@/components/FeaturedCards';
 import CardCatchTrackerBlock from '@/components/CardCatchTrackerBlock';
 import SetLogoSlider from '@/components/SetLogoSlider';
 import ComingSoonBlock from '@/components/ComingSoonBlock';
+import Footer from '@/components/layout/Footer';
 
 const funFacts = [
   "✨ Caught feelings, not just prices",
@@ -175,11 +176,7 @@ export default function Home() {
 
         <ComingSoonBlock />
 
-        <footer className="w-full border-t border-gray-300 pt-6 pb-12 text-center text-sm text-gray-600 px-4">
-          <p>🔧 Hand-coded in the UK using PostgreSQL, Railway, Next.js, and live eBay + TCG scrapes.</p>
-          <p>💡 Built by collectors. Built for collectors. No suits. No shortcuts.</p>
-          <p>CardCatch x PokéBinder — Honest prices. Global reach.</p>
-        </footer>
+        <Footer />
       </main>
     </>
   );
