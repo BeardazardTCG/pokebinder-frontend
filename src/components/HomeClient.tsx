@@ -124,7 +124,7 @@ export default function Home() {
           <div className="h-2 bg-red-600" />
         </section>
 
-        {/* ✅ Final Featured Block – Branded, Gradient, Themed */}
+        {/* ✅ Final Featured Block – Branded, Polished, Tightened */}
         <section className="w-full bg-[#e60012] py-8 px-4">
           <div className="flex flex-col items-center text-center mb-6">
             <div className="flex items-center justify-center gap-3">
@@ -146,11 +146,7 @@ export default function Home() {
             <FeaturedCards />
           </div>
 
-          <div className="mt-6 text-white text-sm text-center opacity-80">
-            Browse all cards → or explore the full index of trending listings.
-          </div>
-
-          <div className="w-full h-[6px] bg-white rounded-full mt-8"></div>
+          <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
         </section>
 
         <section className="w-full max-w-6xl px-4 mt-12">
