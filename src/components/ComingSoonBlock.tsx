@@ -28,27 +28,27 @@ export default function ComingSoonBlock() {
   };
 
   return (
-    <section className="w-full bg-gradient-to-b from-yellow-200 via-yellow-300 to-yellow-400 py-12 px-4 md:px-12 border-t-[6px] border-b-[6px] border-black">
+    <section className="w-full bg-[#FFEB3B] py-12 px-4 md:px-12 border-t-[6px] border-b-[6px] border-black">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
         {/* LEFT SIDE */}
         <div className="w-full md:w-1/2">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-2 flex items-center gap-2">
-            <span className="text-2xl">🚨</span> Coming Soon to PokéBinder
+            <span className="text-2xl">🎁</span> Win 50 Cards + Get Early Access
           </h2>
           <div className="w-12 h-[4px] bg-black mb-4 rounded" />
 
           <p className="text-black mb-4 text-base md:text-lg">
-            Sign up for early access and enter to win a 50-card giveaway bundle!<br />
-            <strong>One bundle sent every 50 signups.</strong>
+            We’re giving away a 50-card bundle every time 50 people sign up.<br />
+            Sign up now to get early access <strong>and</strong> instantly reveal a real TCG code.
           </p>
 
           <ul className="text-black text-base space-y-2 mb-6">
-            <li>✨ <strong>Smart Suggestions</strong></li>
-            <li>📈 <strong>Trend Tracker</strong></li>
-            <li>📦 <strong>Auto-Listing Tool</strong></li>
-            <li>🧩 <strong>Bundle Builder</strong></li>
-            <li>🔍 <strong>Grading AI</strong></li>
-            <li>🌍 <strong>Language Unifier</strong></li>
+            <li>🧠 <strong>Smart Suggestions</strong> – Know what to buy or sell next</li>
+            <li>📊 <strong>Trend Tracker</strong> – Track real-time price moves</li>
+            <li>🔧 <strong>Auto-Listing Tool</strong> – Sell faster, priced right</li>
+            <li>🧩 <strong>Bundle Builder</strong> – Create trade/sell lots in seconds</li>
+            <li>🧠 <strong>Grading AI</strong> – Auto-estimate condition from photos</li>
+            <li>🌍 <strong>Language Unifier</strong> – Match listings across all languages</li>
           </ul>
 
           {status === "success" && code ? (
@@ -70,7 +70,7 @@ export default function ComingSoonBlock() {
                 type="submit"
                 className="bg-black text-yellow-300 px-5 py-2 rounded-full text-sm font-bold hover:bg-zinc-800 transition"
               >
-                Sign Up
+                Claim My Reward
               </button>
             </form>
           )}
