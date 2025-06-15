@@ -32,23 +32,22 @@ export default function ComingSoonBlock() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
         {/* LEFT SIDE */}
         <div className="w-full md:w-1/2">
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-2 flex items-center gap-2">
-            <span className="text-2xl">🎁</span> Win 50 Cards + Get Early Access
+          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4 flex items-center gap-2">
+            <span className="text-3xl">🎉</span> Get a Free Code + Win 50 Cards
           </h2>
-          <div className="w-12 h-[4px] bg-black mb-4 rounded" />
 
-          <p className="text-black mb-4 text-base md:text-lg">
-            We’re giving away a 50-card bundle every time 50 people sign up.<br />
-            Sign up now to get early access <strong>and</strong> instantly reveal a real TCG code.
+          <p className="text-black mb-6 text-base md:text-lg leading-relaxed max-w-xl">
+            Sign up today and instantly unlock a real Pokémon TCG code — no spam, no strings.<br />
+            For every 50 signups, we randomly pick one trainer to win a <strong>50-card bundle</strong> 💥
           </p>
 
-          <ul className="text-black text-base space-y-2 mb-6">
-            <li>🧠 <strong>Smart Suggestions</strong> – Know what to buy or sell next</li>
-            <li>📊 <strong>Trend Tracker</strong> – Track real-time price moves</li>
-            <li>🔧 <strong>Auto-Listing Tool</strong> – Sell faster, priced right</li>
-            <li>🧩 <strong>Bundle Builder</strong> – Create trade/sell lots in seconds</li>
-            <li>🧠 <strong>Grading AI</strong> – Auto-estimate condition from photos</li>
-            <li>🌍 <strong>Language Unifier</strong> – Match listings across all languages</li>
+          <ul className="text-black text-base space-y-2 mb-8 max-w-xl">
+            <li>🧠 Smart Suggestions — <strong>Buy or sell the right cards</strong></li>
+            <li>📊 Trend Tracker — <strong>Spot value shifts in real time</strong></li>
+            <li>🔧 Auto-Listing Tool — <strong>Sell at the perfect price</strong></li>
+            <li>🧩 Bundle Builder — <strong>Build trades in seconds</strong></li>
+            <li>🧠 Grading AI — <strong>Estimate condition instantly</strong></li>
+            <li>🌍 Language Unifier — <strong>Match foreign listings automatically</strong></li>
           </ul>
 
           {status === "success" && code ? (
