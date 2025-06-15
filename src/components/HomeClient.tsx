@@ -124,29 +124,34 @@ export default function Home() {
           <div className="h-2 bg-red-600" />
         </section>
 
-       {/* ✅ Final Featured Block – Branded + Tight */}
-<section className="w-full bg-[#e60012] py-8 px-4">
-  {/* 🧢 PokéBinder Logo + Heading */}
-  <div className="flex items-center justify-center gap-3 mb-6">
-    <Image
-      src="/pokebinder-logo.png"
-      alt="PokéBinder Logo"
-      width={40}
-      height={40}
-      className="rounded-full drop-shadow-md"
-    />
-    <h2 className="text-white text-2xl font-bold">PokéBinder Recommends</h2>
-  </div>
+        {/* ✅ Final Featured Block – Branded, Gradient, Themed */}
+        <section className="w-full bg-[#e60012] py-8 px-4">
+          <div className="flex flex-col items-center text-center mb-6">
+            <div className="flex items-center justify-center gap-3">
+              <Image
+                src="/pokebinder-logo.png"
+                alt="PokéBinder Logo"
+                width={40}
+                height={40}
+                className="rounded-full drop-shadow-md"
+              />
+              <h2 className="text-white text-2xl font-bold">PokéBinder Recommends</h2>
+            </div>
+            <p className="text-white text-sm opacity-80 mt-2">
+              Clean picks from real UK sales — no bundles, no slabs, no fluff.
+            </p>
+          </div>
 
-  {/* 🔲 Card Container */}
-  <div className="bg-white rounded-2xl shadow-md max-w-6xl mx-auto px-4 py-5 md:px-6 md:py-6">
-    <FeaturedCards />
-  </div>
+          <div className="bg-gradient-to-br from-white via-orange-50 to-yellow-50 rounded-2xl shadow-lg max-w-6xl mx-auto px-4 py-6 md:px-6 md:py-6">
+            <FeaturedCards />
+          </div>
 
-  {/* 🔻 Footer White Bar */}
-  <div className="w-full h-[6px] bg-white rounded-full mt-8"></div>
-</section>
+          <div className="mt-6 text-white text-sm text-center opacity-80">
+            Browse all cards → or explore the full index of trending listings.
+          </div>
 
+          <div className="w-full h-[6px] bg-white rounded-full mt-8"></div>
+        </section>
 
         <section className="w-full max-w-6xl px-4 mt-12">
           <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
