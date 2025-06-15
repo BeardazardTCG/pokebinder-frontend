@@ -1,5 +1,4 @@
 'use client';
-
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -149,55 +148,33 @@ export default function Home() {
           <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
         </section>
 
-        <section className="w-full max-w-6xl px-4 mt-12">
-          <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
-          <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {items.map((item, i) => (
-                <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 shadow-md text-center flex flex-col justify-between h-full hover:shadow-lg hover:scale-[1.01] transition-transform">
-                  <p className="text-sm font-semibold mb-2 overflow-hidden text-ellipsis line-clamp-3 leading-snug text-gray-800 h-[4.5rem]">
-                    {item.title}
-                  </p>
-                  <p className="text-green-700 font-bold text-lg mt-1">
-                    £{item.price.toFixed(2)}
-                  </p>
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-4 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm"
-                  >
-                    Buy on eBay
-                  </a>
-                </div>
-              ))}
+        {/* 🧪 Coming Soon Block */}
+        <section className="w-full bg-[url('/Assets/logos/pokebinder.webp')] bg-repeat bg-[length:100px_auto] py-10 px-4 border-t-4 border-yellow-300">
+          <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-6 items-center justify-center">
+            <div className="w-full md:w-1/2 text-center md:text-left">
+              <h2 className="text-2xl font-bold text-gray-800 mb-3">Coming Soon to PokéBinder</h2>
+              <ul className="text-gray-700 text-sm space-y-2">
+                <li>⚡ Full English Pokémon card DB</li>
+                <li>📈 Historical price trends + tracker</li>
+                <li>💸 Auto-listing tools for eBay sellers</li>
+                <li>🎯 Wishlist + Inventory integration</li>
+                <li>🌐 Grading AI, smart bundles, and more</li>
+                <li>🎁 Every 50 signups = 1 random bundle sent</li>
+              </ul>
+              <div className="mt-4">
+                <SignupPrompt />
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 flex justify-center">
+              <Image
+                src="/Assets/codecard.png"
+                alt="PokéBinder TCG Code Card"
+                width={320}
+                height={180}
+                className="rounded-xl border border-gray-300 shadow-xl"
+              />
             </div>
           </div>
-        </section>
-
-        <section className="w-full lg:w-[30%] min-w-[280px] bg-yellow-100 border-2 border-yellow-400 p-6 rounded-xl shadow-md relative rotate-[-2deg] mt-12">
-          <h2 className="text-lg font-bold mb-3 text-gray-800 font-handwriting">Coming Soon to PokéBinder</h2>
-          <ul className="text-sm text-gray-800 space-y-3 font-handwriting">
-            <li>⚡ Full English Pokémon card DB</li>
-            <li>🍃 Live prices from eBay & TCG</li>
-            <li>🔮 Historical price trends</li>
-            <li>🪨 Browse sets, eras, rarities</li>
-            <li>🔥 Affiliate sealed products</li>
-            <li>🧠 Grading AI, sell plugins, bundles</li>
-          </ul>
-
-          {showSignup ? (
-            <div className="mt-4">
-              <SignupPrompt />
-            </div>
-          ) : (
-            <button
-              className="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold transition-opacity opacity-90"
-              onClick={() => setShowSignup(true)}
-            >
-              Sign Up
-            </button>
-          )}
         </section>
 
         <footer className="w-full border-t border-gray-300 pt-6 pb-12 text-center text-sm text-gray-600 px-4">
