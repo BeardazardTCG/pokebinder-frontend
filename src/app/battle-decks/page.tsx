@@ -2,47 +2,52 @@ import React from "react";
 import HalfCard from "@/components/card/HalfCard";
 import Link from "next/link";
 
-const mockCards = [
-  {
-    unique_id: "sv9-183",
-    card_name: "Iono's Bellibolt ex",
-    set_name: "Journey Together",
-    card_number: "183",
-    clean_avg_value: 11.11,
-    card_image_url: "https://images.pokemontcg.io/sv9/183.png",
-    set_logo_url: "https://images.pokemontcg.io/sv9/logo.png",
-    price_range_seen_min: 9.00,
-    price_range_seen_max: 14.00
+const decks = {
+  Control: {
+    Cheap: [
+      {
+        unique_id: "sv2-196",
+        card_name: "Gardevoir ex",
+        set_name: "Paldea Evolved",
+        card_number: "196",
+        clean_avg_value: 2.5,
+        card_image_url: "https://images.pokemontcg.io/sv2/196.png",
+        set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
+        price_range_seen_min: 1.5,
+        price_range_seen_max: 3.5
+      },
+      {
+        unique_id: "swsh6-147",
+        card_name: "Path to the Peak",
+        set_name: "Chilling Reign",
+        card_number: "147",
+        clean_avg_value: 1.2,
+        card_image_url: "https://images.pokemontcg.io/swsh6/147.png",
+        set_logo_url: "https://images.pokemontcg.io/swsh6/logo.png",
+        price_range_seen_min: 0.9,
+        price_range_seen_max: 2.0
+      }
+    ],
+    Balanced: [],
+    Premium: []
   },
-  {
-    unique_id: "swsh2-208",
-    card_name: "Tool Scrapper",
-    set_name: "Rebel Clash",
-    card_number: "208",
-    clean_avg_value: 4.09,
-    card_image_url: "https://images.pokemontcg.io/swsh2/208.png",
-    set_logo_url: "https://images.pokemontcg.io/swsh2/logo.png",
-    price_range_seen_min: 3.00,
-    price_range_seen_max: 5.00
+  Aggro: {
+    Cheap: [],
+    Balanced: [],
+    Premium: []
   },
-  {
-    unique_id: "ex10-!",
-    card_name: "Unown",
-    set_name: "Unseen Forces",
-    card_number: "!",
-    clean_avg_value: 12.52,
-    card_image_url: "https://images.pokemontcg.io/ex10/28.png",
-    set_logo_url: "https://images.pokemontcg.io/ex10/logo.png",
-    price_range_seen_min: 10.00,
-    price_range_seen_max: 16.00
+  Balanced: {
+    Cheap: [],
+    Balanced: [],
+    Premium: []
   }
-];
+};
 
-const DeckRow = ({ title }: { title: string }) => (
-  <section className="mb-8">
-    <h2 className="text-xl font-bold text-zinc-800 mb-2">{title}</h2>
+const DeckRow = ({ title, cards }: { title: string; cards: any[] }) => (
+  <section className="mb-10">
+    <h2 className="text-lg font-semibold text-zinc-800 mb-2">{title}</h2>
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-      {mockCards.map((card) => (
+      {cards.map((card) => (
         <HalfCard key={card.unique_id} {...card} />
       ))}
     </div>
@@ -51,25 +56,34 @@ const DeckRow = ({ title }: { title: string }) => (
 
 export default function BattleDeckPage() {
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4 text-center text-zinc-900">
+    <main className="max-w-6xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-extrabold mb-6 text-center text-zinc-900">
         Build Your Ultimate Battle Deck
       </h1>
-      <p className="text-center text-zinc-600 mb-10">
-        Explore themed decks by budget — quick picks to get you started.
+      <p className="text-center text-zinc-600 mb-12 max-w-xl mx-auto">
+        Explore competitive deck styles by strategy and budget. These aren’t just suggestions — they’re blueprints for victory.
       </p>
 
-      <DeckRow title="💸 Cheap Deck Picks" />
-      <DeckRow title="⚖️ Balanced Deck Picks" />
-      <DeckRow title="🔥 Premium Deck Picks" />
+      {Object.entries(decks).map(([style, tiers]) => (
+        <section key={style} className="mb-14">
+          <h2 className="text-2xl font-bold text-blue-800 mb-4">{style} Decks</h2>
+          {Object.entries(tiers).map(([tier, cards]) => (
+            <DeckRow
+              key={`${style}-${tier}`}
+              title={`${tier} ${style} Deck`}
+              cards={cards}
+            />
+          ))}
+        </section>
+      ))}
 
-      <div className="mt-12">
+      <div className="mt-16">
         <h2 className="text-xl font-bold mb-3 text-zinc-800">Watch Battle Tips 🎥</h2>
         <div className="aspect-video w-full rounded-xl overflow-hidden shadow">
           <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube.com/embed/videoseries?list=PLkz9o3L3RyG02VXrCK5-HjowYZzU8q0_7"
+            src="https://www.youtube.com/embed/videoseries?list=PL0TpTfQswHUEzrL9OeV1xTxWDL7ZBtmyU"
             title="Pokémon Battle Tips"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
