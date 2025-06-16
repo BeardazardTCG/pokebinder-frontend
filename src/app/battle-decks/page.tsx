@@ -9,7 +9,10 @@ const mockCards = [
     set_name: "Journey Together",
     card_number: "183",
     clean_avg_value: 11.11,
-    image_url: "https://images.pokemontcg.io/sv9/183.png"
+    card_image_url: "https://images.pokemontcg.io/sv9/183.png",
+    set_logo_url: "https://images.pokemontcg.io/sv9/logo.png",
+    price_range_seen_min: 9.00,
+    price_range_seen_max: 14.00
   },
   {
     unique_id: "swsh2-208",
@@ -17,7 +20,10 @@ const mockCards = [
     set_name: "Rebel Clash",
     card_number: "208",
     clean_avg_value: 4.09,
-    image_url: "https://images.pokemontcg.io/swsh2/208.png"
+    card_image_url: "https://images.pokemontcg.io/swsh2/208.png",
+    set_logo_url: "https://images.pokemontcg.io/swsh2/logo.png",
+    price_range_seen_min: 3.00,
+    price_range_seen_max: 5.00
   },
   {
     unique_id: "ex10-!",
@@ -25,7 +31,10 @@ const mockCards = [
     set_name: "Unseen Forces",
     card_number: "!",
     clean_avg_value: 12.52,
-    image_url: "https://images.pokemontcg.io/ex10/28.png"
+    card_image_url: "https://images.pokemontcg.io/ex10/28.png",
+    set_logo_url: "https://images.pokemontcg.io/ex10/logo.png",
+    price_range_seen_min: 10.00,
+    price_range_seen_max: 16.00
   }
 ];
 
