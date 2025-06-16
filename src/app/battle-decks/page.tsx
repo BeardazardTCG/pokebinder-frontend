@@ -83,7 +83,9 @@ const baseDeck = [
   }
 ];
 
-function applyPriceMod(deck, mod) {
+type DeckCard = typeof baseDeck[number];
+
+function applyPriceMod(deck: DeckCard[], mod: number): DeckCard[] {
   return deck.map(card => ({
     ...card,
     clean_avg_value: parseFloat((card.clean_avg_value + mod).toFixed(2))
