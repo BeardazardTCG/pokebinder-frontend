@@ -1,11 +1,23 @@
 import React from "react";
 import HalfCard from "@/components/card/HalfCard";
 import Link from "next/link";
-import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
 
 const baseDeck = [
-  // ... same card data remains unchanged
+  {
+    unique_id: "sv2-196",
+    card_name: "Gardevoir ex",
+    set_name: "Paldea Evolved",
+    card_number: "196",
+    clean_avg_value: 2.5,
+    card_image_url: "https://images.pokemontcg.io/sv2/196.png",
+    set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
+    price_range_seen_min: 1.5,
+    price_range_seen_max: 3.5,
+    ebay_url: "https://www.ebay.co.uk/itm/1234567890",
+    role: "Main Attacker"
+  }
 ];
 
 type DeckCard = typeof baseDeck[number];
@@ -35,7 +47,7 @@ const decks = {
   }
 };
 
-const DeckRow = ({ title, cards }: { title: string; cards: any[] }) => (
+const DeckRow = ({ title, cards }: { title: string; cards: DeckCard[] }) => (
   <section className="mb-12 bg-yellow-50 p-4 rounded-xl shadow">
     <h2 className="text-lg font-semibold text-zinc-800 mb-2">{title}</h2>
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
