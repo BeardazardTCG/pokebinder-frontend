@@ -34,7 +34,7 @@ const DeckRow = ({ title }: { title: string }) => (
     <h2 className="text-xl font-bold text-zinc-800 mb-2">{title}</h2>
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
       {mockCards.map((card) => (
-        <HalfCard key={card.unique_id} card={card} />
+        <HalfCard key={card.unique_id} {...card} />
       ))}
     </div>
   </section>
