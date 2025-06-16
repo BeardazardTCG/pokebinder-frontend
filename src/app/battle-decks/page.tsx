@@ -30,71 +30,84 @@ const decks = {
         price_range_seen_max: 2.0,
         ebay_url: "https://www.ebay.co.uk/itm/0987654321",
         role: "Trainer"
+      },
+      {
+        unique_id: "sv4-103",
+        card_name: "Manaphy",
+        set_name: "Brilliant Stars",
+        card_number: "41",
+        clean_avg_value: 1.0,
+        card_image_url: "https://images.pokemontcg.io/swsh9/41.png",
+        set_logo_url: "https://images.pokemontcg.io/swsh9/logo.png",
+        price_range_seen_min: 0.6,
+        price_range_seen_max: 1.2,
+        ebay_url: "https://www.ebay.co.uk/itm/1123581321",
+        role: "Support"
+      },
+      {
+        unique_id: "sv3-176",
+        card_name: "Boss's Orders",
+        set_name: "Obsidian Flames",
+        card_number: "176",
+        clean_avg_value: 1.7,
+        card_image_url: "https://images.pokemontcg.io/sv3/176.png",
+        set_logo_url: "https://images.pokemontcg.io/sv3/logo.png",
+        price_range_seen_min: 1.2,
+        price_range_seen_max: 2.0,
+        ebay_url: "https://www.ebay.co.uk/itm/6677889900",
+        role: "Disruptor"
+      },
+      {
+        unique_id: "sv2-179",
+        card_name: "Iono",
+        set_name: "Paldea Evolved",
+        card_number: "179",
+        clean_avg_value: 2.9,
+        card_image_url: "https://images.pokemontcg.io/sv2/179.png",
+        set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
+        price_range_seen_min: 2.0,
+        price_range_seen_max: 3.9,
+        ebay_url: "https://www.ebay.co.uk/itm/4561237890",
+        role: "Trainer"
+      },
+      {
+        unique_id: "sv3-182",
+        card_name: "Rare Candy",
+        set_name: "Obsidian Flames",
+        card_number: "182",
+        clean_avg_value: 0.8,
+        card_image_url: "https://images.pokemontcg.io/sv3/182.png",
+        set_logo_url: "https://images.pokemontcg.io/sv3/logo.png",
+        price_range_seen_min: 0.5,
+        price_range_seen_max: 1.0,
+        ebay_url: "https://www.ebay.co.uk/itm/7412589630",
+        role: "Setup"
       }
     ],
-    Balanced: [
-      {
-        unique_id: "sv1-165",
-        card_name: "Miraidon ex",
-        set_name: "Scarlet & Violet",
-        card_number: "165",
-        clean_avg_value: 7.8,
-        card_image_url: "https://images.pokemontcg.io/sv1/165.png",
-        set_logo_url: "https://images.pokemontcg.io/sv1/logo.png",
-        price_range_seen_min: 6.5,
-        price_range_seen_max: 9.5,
-        ebay_url: "https://www.ebay.co.uk/itm/2468101214",
-        role: "Main Attacker"
-      }
-    ],
-    Premium: [
-      {
-        unique_id: "swsh12-186",
-        card_name: "Lugia VSTAR",
-        set_name: "Silver Tempest",
-        card_number: "186",
-        clean_avg_value: 19.0,
-        card_image_url: "https://images.pokemontcg.io/swsh12/186.png",
-        set_logo_url: "https://images.pokemontcg.io/swsh12/logo.png",
-        price_range_seen_min: 16.0,
-        price_range_seen_max: 22.0,
-        ebay_url: "https://www.ebay.co.uk/itm/3141592653",
-        role: "Main Attacker"
-      }
-    ]
+    Balanced: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 4 })),
+    Premium: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 9 }))
   },
   Aggro: {
-    Cheap: [
-      {
-        unique_id: "swsh8-44",
-        card_name: "Zacian V",
-        set_name: "Celebrations",
-        card_number: "044",
-        clean_avg_value: 3.0,
-        card_image_url: "https://images.pokemontcg.io/swsh8/44.png",
-        set_logo_url: "https://images.pokemontcg.io/swsh8/logo.png",
-        price_range_seen_min: 2.5,
-        price_range_seen_max: 4.5,
-        ebay_url: "https://www.ebay.co.uk/itm/1122334455",
-        role: "Main Attacker"
-      }
-    ],
-    Balanced: [],
-    Premium: []
+    Cheap: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value - 1 })),
+    Balanced: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 1.5 })),
+    Premium: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 5 }))
   },
   Balanced: {
-    Cheap: [],
-    Balanced: [],
-    Premium: []
+    Cheap: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 0.2 })),
+    Balanced: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 2 })),
+    Premium: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 6 }))
   }
 };
 
 const DeckRow = ({ title, cards }: { title: string; cards: any[] }) => (
-  <section className="mb-10">
+  <section className="mb-12 bg-yellow-50 p-4 rounded-xl shadow">
     <h2 className="text-lg font-semibold text-zinc-800 mb-2">{title}</h2>
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
       {cards.map((card) => (
-        <HalfCard key={card.unique_id} {...card} />
+        <div key={card.unique_id}>
+          <HalfCard {...card} />
+          <p className="text-center text-sm text-zinc-500 mt-1 italic">{card.role}</p>
+        </div>
       ))}
     </div>
   </section>
@@ -129,7 +142,7 @@ export default function BattleDeckPage() {
           <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube.com/embed/videoseries?list=PL0TpTfQswHTX8u8GJcXt-7DDQYm9qNSlm"
+            src="https://www.youtube.com/embed/1BOyGpEJfEo"
             title="Pokémon Battle Tips"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
