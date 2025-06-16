@@ -2,100 +2,109 @@ import React from "react";
 import HalfCard from "@/components/card/HalfCard";
 import Link from "next/link";
 
+const baseDeck = [
+  {
+    unique_id: "sv2-196",
+    card_name: "Gardevoir ex",
+    set_name: "Paldea Evolved",
+    card_number: "196",
+    clean_avg_value: 2.5,
+    card_image_url: "https://images.pokemontcg.io/sv2/196.png",
+    set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
+    price_range_seen_min: 1.5,
+    price_range_seen_max: 3.5,
+    ebay_url: "https://www.ebay.co.uk/itm/1234567890",
+    role: "Main Attacker"
+  },
+  {
+    unique_id: "swsh6-147",
+    card_name: "Path to the Peak",
+    set_name: "Chilling Reign",
+    card_number: "147",
+    clean_avg_value: 1.2,
+    card_image_url: "https://images.pokemontcg.io/swsh6/147.png",
+    set_logo_url: "https://images.pokemontcg.io/swsh6/logo.png",
+    price_range_seen_min: 0.9,
+    price_range_seen_max: 2.0,
+    ebay_url: "https://www.ebay.co.uk/itm/0987654321",
+    role: "Trainer"
+  },
+  {
+    unique_id: "sv4-103",
+    card_name: "Manaphy",
+    set_name: "Brilliant Stars",
+    card_number: "41",
+    clean_avg_value: 1.0,
+    card_image_url: "https://images.pokemontcg.io/swsh9/41.png",
+    set_logo_url: "https://images.pokemontcg.io/swsh9/logo.png",
+    price_range_seen_min: 0.6,
+    price_range_seen_max: 1.2,
+    ebay_url: "https://www.ebay.co.uk/itm/1123581321",
+    role: "Support"
+  },
+  {
+    unique_id: "sv3-176",
+    card_name: "Boss's Orders",
+    set_name: "Obsidian Flames",
+    card_number: "176",
+    clean_avg_value: 1.7,
+    card_image_url: "https://images.pokemontcg.io/sv3/176.png",
+    set_logo_url: "https://images.pokemontcg.io/sv3/logo.png",
+    price_range_seen_min: 1.2,
+    price_range_seen_max: 2.0,
+    ebay_url: "https://www.ebay.co.uk/itm/6677889900",
+    role: "Disruptor"
+  },
+  {
+    unique_id: "sv2-179",
+    card_name: "Iono",
+    set_name: "Paldea Evolved",
+    card_number: "179",
+    clean_avg_value: 2.9,
+    card_image_url: "https://images.pokemontcg.io/sv2/179.png",
+    set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
+    price_range_seen_min: 2.0,
+    price_range_seen_max: 3.9,
+    ebay_url: "https://www.ebay.co.uk/itm/4561237890",
+    role: "Trainer"
+  },
+  {
+    unique_id: "sv3-182",
+    card_name: "Rare Candy",
+    set_name: "Obsidian Flames",
+    card_number: "182",
+    clean_avg_value: 0.8,
+    card_image_url: "https://images.pokemontcg.io/sv3/182.png",
+    set_logo_url: "https://images.pokemontcg.io/sv3/logo.png",
+    price_range_seen_min: 0.5,
+    price_range_seen_max: 1.0,
+    ebay_url: "https://www.ebay.co.uk/itm/7412589630",
+    role: "Setup"
+  }
+];
+
+function applyPriceMod(deck, mod) {
+  return deck.map(card => ({
+    ...card,
+    clean_avg_value: parseFloat((card.clean_avg_value + mod).toFixed(2))
+  }));
+}
+
 const decks = {
   Control: {
-    Cheap: [
-      {
-        unique_id: "sv2-196",
-        card_name: "Gardevoir ex",
-        set_name: "Paldea Evolved",
-        card_number: "196",
-        clean_avg_value: 2.5,
-        card_image_url: "https://images.pokemontcg.io/sv2/196.png",
-        set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
-        price_range_seen_min: 1.5,
-        price_range_seen_max: 3.5,
-        ebay_url: "https://www.ebay.co.uk/itm/1234567890",
-        role: "Main Attacker"
-      },
-      {
-        unique_id: "swsh6-147",
-        card_name: "Path to the Peak",
-        set_name: "Chilling Reign",
-        card_number: "147",
-        clean_avg_value: 1.2,
-        card_image_url: "https://images.pokemontcg.io/swsh6/147.png",
-        set_logo_url: "https://images.pokemontcg.io/swsh6/logo.png",
-        price_range_seen_min: 0.9,
-        price_range_seen_max: 2.0,
-        ebay_url: "https://www.ebay.co.uk/itm/0987654321",
-        role: "Trainer"
-      },
-      {
-        unique_id: "sv4-103",
-        card_name: "Manaphy",
-        set_name: "Brilliant Stars",
-        card_number: "41",
-        clean_avg_value: 1.0,
-        card_image_url: "https://images.pokemontcg.io/swsh9/41.png",
-        set_logo_url: "https://images.pokemontcg.io/swsh9/logo.png",
-        price_range_seen_min: 0.6,
-        price_range_seen_max: 1.2,
-        ebay_url: "https://www.ebay.co.uk/itm/1123581321",
-        role: "Support"
-      },
-      {
-        unique_id: "sv3-176",
-        card_name: "Boss's Orders",
-        set_name: "Obsidian Flames",
-        card_number: "176",
-        clean_avg_value: 1.7,
-        card_image_url: "https://images.pokemontcg.io/sv3/176.png",
-        set_logo_url: "https://images.pokemontcg.io/sv3/logo.png",
-        price_range_seen_min: 1.2,
-        price_range_seen_max: 2.0,
-        ebay_url: "https://www.ebay.co.uk/itm/6677889900",
-        role: "Disruptor"
-      },
-      {
-        unique_id: "sv2-179",
-        card_name: "Iono",
-        set_name: "Paldea Evolved",
-        card_number: "179",
-        clean_avg_value: 2.9,
-        card_image_url: "https://images.pokemontcg.io/sv2/179.png",
-        set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
-        price_range_seen_min: 2.0,
-        price_range_seen_max: 3.9,
-        ebay_url: "https://www.ebay.co.uk/itm/4561237890",
-        role: "Trainer"
-      },
-      {
-        unique_id: "sv3-182",
-        card_name: "Rare Candy",
-        set_name: "Obsidian Flames",
-        card_number: "182",
-        clean_avg_value: 0.8,
-        card_image_url: "https://images.pokemontcg.io/sv3/182.png",
-        set_logo_url: "https://images.pokemontcg.io/sv3/logo.png",
-        price_range_seen_min: 0.5,
-        price_range_seen_max: 1.0,
-        ebay_url: "https://www.ebay.co.uk/itm/7412589630",
-        role: "Setup"
-      }
-    ],
-    Balanced: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 4 })),
-    Premium: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 9 }))
+    Cheap: baseDeck,
+    Balanced: applyPriceMod(baseDeck, 4),
+    Premium: applyPriceMod(baseDeck, 9)
   },
   Aggro: {
-    Cheap: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value - 1 })),
-    Balanced: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 1.5 })),
-    Premium: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 5 }))
+    Cheap: applyPriceMod(baseDeck, -1),
+    Balanced: applyPriceMod(baseDeck, 1.5),
+    Premium: applyPriceMod(baseDeck, 5)
   },
   Balanced: {
-    Cheap: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 0.2 })),
-    Balanced: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 2 })),
-    Premium: [...Array(6)].map((_, i) => ({ ...decks.Control.Cheap[i], clean_avg_value: decks.Control.Cheap[i].clean_avg_value + 6 }))
+    Cheap: applyPriceMod(baseDeck, 0.2),
+    Balanced: applyPriceMod(baseDeck, 2),
+    Premium: applyPriceMod(baseDeck, 6)
   }
 };
 
