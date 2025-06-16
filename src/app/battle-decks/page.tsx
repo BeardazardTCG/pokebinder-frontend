@@ -14,7 +14,9 @@ const decks = {
         card_image_url: "https://images.pokemontcg.io/sv2/196.png",
         set_logo_url: "https://images.pokemontcg.io/sv2/logo.png",
         price_range_seen_min: 1.5,
-        price_range_seen_max: 3.5
+        price_range_seen_max: 3.5,
+        ebay_url: "https://www.ebay.co.uk/itm/1234567890",
+        role: "Main Attacker"
       },
       {
         unique_id: "swsh6-147",
@@ -25,14 +27,58 @@ const decks = {
         card_image_url: "https://images.pokemontcg.io/swsh6/147.png",
         set_logo_url: "https://images.pokemontcg.io/swsh6/logo.png",
         price_range_seen_min: 0.9,
-        price_range_seen_max: 2.0
+        price_range_seen_max: 2.0,
+        ebay_url: "https://www.ebay.co.uk/itm/0987654321",
+        role: "Trainer"
       }
     ],
-    Balanced: [],
-    Premium: []
+    Balanced: [
+      {
+        unique_id: "sv1-165",
+        card_name: "Miraidon ex",
+        set_name: "Scarlet & Violet",
+        card_number: "165",
+        clean_avg_value: 7.8,
+        card_image_url: "https://images.pokemontcg.io/sv1/165.png",
+        set_logo_url: "https://images.pokemontcg.io/sv1/logo.png",
+        price_range_seen_min: 6.5,
+        price_range_seen_max: 9.5,
+        ebay_url: "https://www.ebay.co.uk/itm/2468101214",
+        role: "Main Attacker"
+      }
+    ],
+    Premium: [
+      {
+        unique_id: "swsh12-186",
+        card_name: "Lugia VSTAR",
+        set_name: "Silver Tempest",
+        card_number: "186",
+        clean_avg_value: 19.0,
+        card_image_url: "https://images.pokemontcg.io/swsh12/186.png",
+        set_logo_url: "https://images.pokemontcg.io/swsh12/logo.png",
+        price_range_seen_min: 16.0,
+        price_range_seen_max: 22.0,
+        ebay_url: "https://www.ebay.co.uk/itm/3141592653",
+        role: "Main Attacker"
+      }
+    ]
   },
   Aggro: {
-    Cheap: [],
+    Cheap: [
+      {
+        unique_id: "swsh8-44",
+        card_name: "Zacian V",
+        set_name: "Celebrations",
+        card_number: "044",
+        clean_avg_value: 3.0,
+        card_image_url: "https://images.pokemontcg.io/swsh8/44.png",
+        set_logo_url: "https://images.pokemontcg.io/swsh8/logo.png",
+        price_range_seen_min: 2.5,
+        price_range_seen_max: 4.5,
+        ebay_url: "https://www.ebay.co.uk/itm/1122334455",
+        role: "Main Attacker"
+      }
+    ],
     Balanced: [],
     Premium: []
   },
@@ -83,7 +129,7 @@ export default function BattleDeckPage() {
           <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube.com/embed/videoseries?list=PL0TpTfQswHUEzrL9OeV1xTxWDL7ZBtmyU"
+            src="https://www.youtube.com/embed/videoseries?list=PL0TpTfQswHTX8u8GJcXt-7DDQYm9qNSlm"
             title="Pokémon Battle Tips"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
