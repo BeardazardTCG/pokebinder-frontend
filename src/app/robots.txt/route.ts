@@ -1,4 +1,4 @@
-// app/robots.txt/route.ts
+// src/app/robots.txt/route.ts
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
@@ -9,7 +9,7 @@ Disallow: /api/
 
 Allow: /
 
-Sitemap: https://www.pokebinder.co.uk/sitemap.xml
+Sitemap: https://www.pokebinder.co.uk/sitemap-index.xml
 `;
 
   return new NextResponse(content, {
