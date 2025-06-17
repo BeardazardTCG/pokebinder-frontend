@@ -1,5 +1,3 @@
-// FILE: /app/set/[set_id]/page.tsx
-
 import { getCardsBySetId } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
@@ -10,13 +8,14 @@ import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-interface PageProps {
-  params: { set_id: string };
-}
+// ✅ FIX: use correct Next.js app router PageProps format
+type Props = {
+  params: {
+    set_id: string;
+  };
+};
 
-export async function generateMetadata(
-  { params }: PageProps
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cards = await getCardsBySetId(params.set_id);
   const setName = cards.length > 0 ? cards[0].set_name : 'Set';
 
@@ -31,7 +30,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: Props) {
   const { set_id } = params;
   const cards = await getCardsBySetId(set_id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
