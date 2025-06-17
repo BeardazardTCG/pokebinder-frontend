@@ -25,7 +25,6 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Keep function named `SetPage`
 async function SetPage({ params }: { params: { set_id: string } }) {
   const { set_id } = params;
   const cards = await getCardsBySetId(set_id);
