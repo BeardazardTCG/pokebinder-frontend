@@ -6,6 +6,22 @@ import SidebarBuyBox from '@/components/card/SidebarBuyBox';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { set_id: string } }): Promise<Metadata> {
+  const cards = await getCardsBySetId(params.set_id);
+  const setName = cards.length > 0 ? cards[0].set_name : 'Set';
+
+  return {
+    title: `${setName} | PokéBinder`,
+    description: `Browse all cards from ${setName}, track live market prices, and spot collector trends.`,
+    openGraph: {
+      title: `${setName} | PokéBinder`,
+      description: `All ${cards.length} cards from ${setName} — with up-to-date UK prices.`,
+      url: `https://www.pokebinder.co.uk/set/${params.set_id}`,
+    },
+  };
+}
 
 export default async function Page({ params }: any) {
   const setId = params.set_id;
