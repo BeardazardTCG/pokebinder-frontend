@@ -9,9 +9,9 @@ import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(
-  { params }: { params: { set_id: string } }
+  context: { params: { set_id: string } }
 ): Promise<Metadata> {
-  const cards = await getCardsBySetId(params.set_id);
+  const cards = await getCardsBySetId(context.params.set_id);
   const setName = cards.length > 0 ? cards[0].set_name : 'Set';
 
   return {
@@ -20,12 +20,12 @@ export async function generateMetadata(
     openGraph: {
       title: `${setName} | PokéBinder`,
       description: `All ${cards.length} cards from ${setName} — with up-to-date UK prices.`,
-      url: `https://www.pokebinder.co.uk/set/${params.set_id}`,
+      url: `https://www.pokebinder.co.uk/set/${context.params.set_id}`,
     },
   };
 }
 
-async function SetPage({ params }: { params: { set_id: string } }) {
+const SetPage = async ({ params }: { params: { set_id: string } }) => {
   const { set_id } = params;
   const cards = await getCardsBySetId(set_id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
@@ -63,6 +63,6 @@ async function SetPage({ params }: { params: { set_id: string } }) {
       <Footer />
     </>
   );
-}
+};
 
 export default SetPage;
