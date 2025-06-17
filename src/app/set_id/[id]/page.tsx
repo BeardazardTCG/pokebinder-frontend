@@ -9,9 +9,9 @@ import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(
-  context: { params: { set_id: string } }
+  context: { params: { id: string } }
 ): Promise<Metadata> {
-  const cards = await getCardsBySetId(context.params.set_id);
+  const cards = await getCardsBySetId(context.params.id);
   const setName = cards.length > 0 ? cards[0].set_name : 'Set';
 
   return {
@@ -20,14 +20,14 @@ export async function generateMetadata(
     openGraph: {
       title: `${setName} | PokéBinder`,
       description: `All ${cards.length} cards from ${setName} — with up-to-date UK prices.`,
-      url: `https://www.pokebinder.co.uk/set/${context.params.set_id}`,
+      url: `https://www.pokebinder.co.uk/set_id/${context.params.id}`,
     },
   };
 }
 
-const SetPage = async ({ params }: { params: { set_id: string } }) => {
-  const { set_id } = params;
-  const cards = await getCardsBySetId(set_id);
+const SetPage = async ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+  const cards = await getCardsBySetId(id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
 
   return (
@@ -43,7 +43,7 @@ const SetPage = async ({ params }: { params: { set_id: string } }) => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
           <div className="hidden md:block">
-            <SidebarBuyBox query={set_id} side="left" />
+            <SidebarBuyBox query={id} side="left" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
             {cards.map((card) => (
@@ -51,7 +51,7 @@ const SetPage = async ({ params }: { params: { set_id: string } }) => {
             ))}
           </div>
           <div className="hidden md:block">
-            <SidebarBuyBox query={set_id} side="right" />
+            <SidebarBuyBox query={id} side="right" />
           </div>
         </div>
       </main>
