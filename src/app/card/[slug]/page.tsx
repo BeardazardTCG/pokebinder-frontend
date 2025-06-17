@@ -77,6 +77,14 @@ export default async function CardPage({ params }: any) {
     ]
   };
 
+  const imageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ImageObject",
+    contentUrl: card.card_image_url,
+    name: `${card.card_name} (${card.set_name})`,
+    description: `Image of ${card.card_name} from the ${card.set_name} set.`
+  };
+
   return (
     <>
       <script
@@ -86,6 +94,10 @@ export default async function CardPage({ params }: any) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(imageSchema) }}
       />
       <TopSocialBanner />
       <Header />
