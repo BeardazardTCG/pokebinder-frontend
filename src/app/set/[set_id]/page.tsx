@@ -8,7 +8,9 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata, ResolvingMetadata } from 'next';
 
-interface PageProps {
+export const dynamic = 'force-dynamic'; // ✅ Ensure fresh render and type sync
+
+export interface PageProps {
   params: { set_id: string };
 }
 
