@@ -11,7 +11,7 @@ export { pool };
 export async function getSearchResults(query: string) {
   const client = await pool.connect();
   try {
-    const keywords = query.toLowerCase().split(/[\s\-\/]+/).filter(Boolean);
+    const keywords = query.toLowerCase().split(/[\s\-/]+/).filter(Boolean);
     if (!keywords.length) {
       console.warn("🔍 No usable keywords in query");
       return [];
