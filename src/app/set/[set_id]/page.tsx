@@ -6,19 +6,18 @@ import SidebarBuyBox from '@/components/card/SidebarBuyBox';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic'; // ✅ Ensure fresh render and type sync
 
 export interface PageProps {
-  params: Promise<{ set_id: string }>;
+  params: { set_id: string };
 }
 
 export async function generateMetadata(
-  { params }: PageProps,
-  parent?: ResolvingMetadata
+  { params }: PageProps
 ): Promise<Metadata> {
-  const { set_id } = await params;
+  const set_id = params.set_id;
   const cards = await getCardsBySetId(set_id);
   const setName = cards.length > 0 ? cards[0].set_name : 'Set';
 
@@ -34,7 +33,7 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: PageProps) {
-  const { set_id } = await params;
+  const set_id = params.set_id;
   const cards = await getCardsBySetId(set_id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
 
