@@ -149,15 +149,16 @@ export default function Home() {
           <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
         </section>
 
-       {/* ✅ SEALED PRODUCT AFFILIATE BLOCK */}
-<section className="w-full bg-green-50 py-8 px-4 border-t-4 border-b-4 border-[#e53238]">
-  <div className="max-w-6xl mx-auto bg-white rounded-xl border-4 border-[#0064D2] shadow-md overflow-hidden">
-    <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-[#f2f8f6] border-b border-[#ccc]">
-      <h2 className="text-lg sm:text-xl font-bold text-[#e53238]">
-        🔗 PokéBinder × <span className="text-[#0064D2]">eBay</span> Sealed Picks
+       {/* ✅ FULLY POLISHED SEALED PRODUCT BLOCK */}
+<section className="w-full bg-[#f3fef8] py-8 px-4 border-t-4 border-[#e53238] border-b-4">
+  <div className="max-w-6xl mx-auto bg-white rounded-xl border-[3px] border-[#0064D2] shadow-lg">
+    <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-[#f2f8f6] border-b border-gray-200">
+      <h2 className="text-lg sm:text-xl font-bold text-[#e53238] flex items-center gap-2">
+        <img src="/ebay-logo.svg" alt="eBay Logo" className="w-6 h-6" />
+        Sealed Pokémon Deals (UK)
       </h2>
-      <span className="text-sm font-medium text-blue-700 bg-blue-100 px-3 py-1 rounded-full mt-2 sm:mt-0">
-        Affiliate Partner — Support us via eBay
+      <span className="text-sm font-medium text-blue-800 bg-blue-100 px-3 py-1 rounded-full mt-2 sm:mt-0">
+        Trusted via eBay – Affiliate Support
       </span>
     </div>
 
@@ -172,6 +173,7 @@ export default function Home() {
               src={item.img}
               alt={item.title}
               className="w-full h-32 object-contain mb-3"
+              loading="lazy"
             />
           )}
           <p className="text-sm font-semibold mb-2 text-gray-800 line-clamp-3 leading-snug h-[4.5rem]">
@@ -193,7 +195,6 @@ export default function Home() {
     </div>
   </div>
 </section>
-
 
         <ComingSoonBlock />
         <Footer />
