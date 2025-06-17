@@ -12,11 +12,11 @@ export async function GET() {
   const token = await getEbayAccessToken();
   if (!token) return NextResponse.json({ error: 'Failed to fetch eBay token' }, { status: 500 });
 
-  const campaignId = process.env.EBAY_CAMPAIGN_ID;
+  const campaignId = process.env.EBAY_CAMPAIGN_ID || '5339108925';
 
   const results = await Promise.all(
     KEYWORDS.map(async ({ title, query }) => {
-      const url = `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(query)}&filter=buyingOptions:{FIXED_PRICE}&limit=1&sort=price&fieldgroups=PRODUCT&buyerRegion=GB`;
+      const url = `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(query)}&filter=buyingOptions:{FIXED_PRICE},itemLocationCountry:GB&limit=4&sort=price&fieldgroups=PRODUCT`;
 
       const res = await fetch(url, {
         headers: {
@@ -31,21 +31,17 @@ export async function GET() {
       }
 
       const data = await res.json();
-      const item = data.itemSummaries?.[0];
+      const options = data.itemSummaries || [];
+      if (!options.length) return { title, price: 0, img: null, url: null };
 
-      if (!item) {
-        return { title, price: 0, img: null, url: null, warning: true };
-      }
-
-      const fullUrl = `${item.itemWebUrl}?campid=${campaignId}`;
-      const price = item.price.value;
-      const img = item.image?.imageUrl ?? null;
+      const item = options[Math.floor(Math.random() * options.length)];
+      const cleanUrl = `https://rover.ebay.com/rover/1/${campaignId}/0/1?ff3=4&pub=${campaignId}&toolid=10001&campid=${campaignId}&customid=pokebinder&mpre=${encodeURIComponent(item.itemWebUrl)}`;
 
       return {
         title: item.title,
-        price: parseFloat(price),
-        img,
-        url: fullUrl,
+        price: parseFloat(item.price.value),
+        img: item.image?.imageUrl ?? null,
+        url: cleanUrl,
         set: title,
       };
     })
