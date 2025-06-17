@@ -19,3 +19,4 @@ export async function GET() {
     return new NextResponse('Sitemap not found', { status: 404 });
   }
 }
+
