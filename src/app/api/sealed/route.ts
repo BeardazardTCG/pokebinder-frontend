@@ -10,40 +10,51 @@ const KEYWORDS = [
 
 export async function GET() {
   const token = await getEbayAccessToken();
-  if (!token) return NextResponse.json({ error: 'Failed to fetch eBay token' }, { status: 500 });
+  if (!token) {
+    return NextResponse.json({ error: 'Failed to fetch eBay token' }, { status: 500 });
+  }
 
   const campaignId = process.env.EBAY_CAMPAIGN_ID || '5339108925';
 
   const results = await Promise.all(
     KEYWORDS.map(async ({ title, query }) => {
-      const url = `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(query)}&filter=buyingOptions:{FIXED_PRICE},itemLocationCountry:GB&limit=4&sort=price&fieldgroups=PRODUCT`;
+      const url = `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(
+        query
+      )}&filter=buyingOptions:{FIXED_PRICE},itemLocationCountry:GB&limit=4&sort=price`;
 
-      const res = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      try {
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (!res.ok) {
-        console.error(`❌ eBay API error for ${title}:`, await res.text());
+        if (!res.ok) {
+          console.error(`❌ eBay API error for ${title}:`, await res.text());
+          return { title, price: 0, img: null, url: null, warning: true };
+        }
+
+        const data = await res.json();
+        const options = data.itemSummaries || [];
+        if (!options.length) return { title, price: 0, img: null, url: null };
+
+        const item = options[Math.floor(Math.random() * options.length)];
+
+        // ✅ Use the actual item URL + campid — don’t wrap in rover manually
+        const cleanUrl = `${item.itemWebUrl}?campid=${campaignId}`;
+
+        return {
+          title: item.title,
+          price: parseFloat(item.price.value),
+          img: item.image?.imageUrl ?? null,
+          url: cleanUrl,
+          set: title,
+        };
+      } catch (err) {
+        console.error(`❌ Failed to fetch listing for ${title}:`, err);
         return { title, price: 0, img: null, url: null, warning: true };
       }
-
-      const data = await res.json();
-      const options = data.itemSummaries || [];
-      if (!options.length) return { title, price: 0, img: null, url: null };
-
-      const item = options[Math.floor(Math.random() * options.length)];
-      const cleanUrl = `https://rover.ebay.com/rover/1/${campaignId}/0/1?ff3=4&pub=${campaignId}&toolid=10001&campid=${campaignId}&customid=pokebinder&mpre=${encodeURIComponent(item.itemWebUrl)}`;
-
-      return {
-        title: item.title,
-        price: parseFloat(item.price.value),
-        img: item.image?.imageUrl ?? null,
-        url: cleanUrl,
-        set: title,
-      };
     })
   );
 
