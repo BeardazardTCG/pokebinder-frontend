@@ -27,7 +27,7 @@ type FullCardProps = {
 
 export default function FullCard(props: FullCardProps) {
   const card = props.card;
-  const [showSignup, setShowSignup] = useState(false); // ✅ toggle for Notify Me
+  const [showSignup, setShowSignup] = useState(false);
 
   if (!card || !card.card_name) {
     return <div className="p-4 text-red-600">Card data is missing or incomplete.</div>;
@@ -43,26 +43,26 @@ export default function FullCard(props: FullCardProps) {
 
   return (
     <div className="flex flex-col items-start gap-6 rounded-xl bg-white p-6 shadow lg:flex-row border border-zinc-200 ring-1 ring-zinc-100">
-      
-      {/* COLUMN 1: CARD IMAGE */}
       <div className="w-[240px] rounded-lg bg-black p-2 sm:w-[320px] md:w-[360px]">
         <div className="overflow-hidden rounded-xl shadow-xl transition-transform duration-300 hover:scale-105 hover:rotate-1">
           <img
             src={card.card_image_url || '/placeholder.png'}
-            alt={card.card_name}
+            alt={`${card.card_name} (${card.card_number}) - ${card.set_name} | Pokémon TCG`}
             className="h-auto w-full rounded-xl"
+            width={300}
+            height={420}
+            loading="eager"
           />
         </div>
       </div>
 
-      {/* COLUMN 2: CARD DETAILS */}
       <div className="flex w-full max-w-[360px] flex-col gap-4 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800">
         <div className="relative rounded-xl border border-zinc-200 bg-white px-4 py-4 shadow-sm">
           <h1 className="text-2xl leading-tight font-extrabold text-zinc-800">{card.card_name}</h1>
           {card.set_logo_url && (
             <img
               src={card.set_logo_url}
-              alt="Set Logo"
+              alt={`Set logo for ${card.set_name}`}
               className="mt-1 h-6 w-auto object-contain"
             />
           )}
@@ -124,7 +124,7 @@ export default function FullCard(props: FullCardProps) {
           rel="noopener noreferrer"
           className="flex flex-col items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-sm font-semibold text-white shadow hover:bg-red-700"
         >
-          <img src="/Assets/logos/ebay logo.png" alt="eBay" className="h-8 w-8 object-contain" />
+          <img src="/Assets/logos/ebay logo.png" alt="eBay logo" className="h-8 w-8 object-contain" />
           <span>Buy Now on eBay</span>
         </a>
 
@@ -139,13 +139,11 @@ export default function FullCard(props: FullCardProps) {
         </div>
       </div>
 
-      {/* COLUMN 3: PRO FEATURES + ACTIONS */}
       <div className="flex w-full max-w-[360px] flex-col gap-4 rounded-xl border border-zinc-200 bg-gradient-to-br from-white to-zinc-50 p-4 shadow-sm ring-1 ring-zinc-100 text-sm text-zinc-800 relative">
-
         <div className="mb-2 flex items-center justify-between">
           <img
             src="/Assets/logos/pokebinder-logo.png"
-            alt="PokéBinder"
+            alt="PokéBinder logo"
             className="h-10 w-auto object-contain"
           />
           <div className="rotate-6 bg-yellow-300 px-2 py-1 text-xs font-bold text-zinc-800 shadow rounded">
