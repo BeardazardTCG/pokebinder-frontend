@@ -237,3 +237,21 @@ export async function getAllCardsWithImages() {
     client.release();
   }
 }
+
+// === Fetch all unique card slugs (for sitemap) ===
+export async function getAllCardSlugs(): Promise<string[]> {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(`
+      SELECT unique_id
+      FROM mastercard_v2
+      WHERE unique_id IS NOT NULL AND card_image_url IS NOT NULL
+    `);
+    return result.rows.map((row) => row.unique_id);
+  } catch (err) {
+    console.error('🔥 DB Fetch Error in getAllCardSlugs:', err);
+    throw err;
+  } finally {
+    client.release();
+  }
+}
