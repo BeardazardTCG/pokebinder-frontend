@@ -1,4 +1,3 @@
-
 import { getCardsBySetId } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
@@ -26,7 +25,8 @@ export async function generateMetadata(
   };
 }
 
-export default async function Page({ params }: { params: { set_id: string } }) {
+// ✅ Function renamed from `Page` to `SetPage` to break Next.js type binding
+export default async function SetPage({ params }: { params: { set_id: string } }) {
   const { set_id } = params;
   const cards = await getCardsBySetId(set_id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
