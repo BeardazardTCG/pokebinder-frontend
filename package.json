@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && tsx src/scripts/generateImageSitemap.ts",
+    "build": "next build && tsx src/scripts/generateImageSitemap.ts && tsx src/scripts/generateCardSitemap.ts",
     "start": "next start",
     "lint": "next lint",
-    "generate-sitemap": "tsx src/scripts/generateImageSitemap.ts"
+    "generate-image-sitemap": "tsx src/scripts/generateImageSitemap.ts",
+    "generate-card-sitemap": "tsx src/scripts/generateCardSitemap.ts"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
