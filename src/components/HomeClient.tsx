@@ -149,39 +149,60 @@ export default function Home() {
           <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
         </section>
 
-        {/* ✅ SEALED PRODUCT BLOCK */}
-        <section className="w-full max-w-6xl px-4 mt-12">
-          <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
-          <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {items.map((item, i) => (
-                <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 shadow-md text-center flex flex-col justify-between h-full hover:shadow-lg hover:scale-[1.01] transition-transform">
-                  {item.img && (
-                    <img
-                      src={item.img}
-                      alt={item.title}
-                      className="w-full h-32 object-contain mb-3"
-                    />
-                  )}
-                  <p className="text-sm font-semibold mb-2 overflow-hidden text-ellipsis line-clamp-3 leading-snug text-gray-800 h-[4.5rem]">
-                    {item.title}
-                  </p>
-                  <p className="text-green-700 font-bold text-lg mt-1">
-                    £{item.price.toFixed(2)}
-                  </p>
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-4 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm"
-                  >
-                    Buy on eBay
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* ✅ SEALED PRODUCT BLOCK (Affiliate + eBay styled) */}
+<section className="w-full max-w-6xl px-4 mt-12">
+  <div className="border-2 border-[#E53238] rounded-2xl shadow-lg bg-white overflow-hidden">
+    <div className="flex items-center justify-between bg-[#f8f8f8] px-4 py-3 border-b border-gray-200">
+      <div className="flex items-center gap-2">
+        <Image src="/pokebinder-logo.png" alt="PokéBinder Logo" width={30} height={30} className="rounded-full" />
+        <span className="text-lg sm:text-xl font-bold text-[#E53238]">
+          PokéBinder × eBay Sealed Picks
+        </span>
+      </div>
+      <div className="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-semibold shadow-sm hidden sm:block">
+        Affiliate Partner – Support us via eBay
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 py-6 bg-gradient-to-b from-[#fff] via-[#fefefe] to-[#fdfdfd]">
+      {items.map((item, i) => (
+        <div
+          key={i}
+          className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between h-full"
+        >
+          {item.img && (
+            <img
+              src={item.img}
+              alt={item.title}
+              className="w-full h-32 object-contain mb-3"
+            />
+          )}
+
+          <p className="text-sm font-medium text-gray-900 mb-1 leading-snug line-clamp-3">
+            {item.title}
+          </p>
+
+          <p className="text-green-700 font-bold text-lg mt-1">
+            £{item.price.toFixed(2)}
+          </p>
+
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-4 bg-[#0064D2] hover:bg-[#004fa4] text-white px-4 py-2 rounded-full font-semibold text-sm text-center"
+          >
+            Buy on eBay
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <div className="text-center text-xs text-gray-500 px-4 pb-4 sm:hidden">
+      Affiliate Partner – Support us via eBay
+    </div>
+  </div>
+</section>
 
         <ComingSoonBlock />
         <Footer />
