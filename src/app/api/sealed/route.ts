@@ -1,86 +1,55 @@
-import { NextResponse } from "next/server";
-import * as cheerio from "cheerio";
-
-const CAMP_ID = "5339108925";
+import { NextResponse } from 'next/server';
+import { getEbayAccessToken } from '@/lib/ebayAuth';
 
 const KEYWORDS = [
-  { title: "151 Booster Bundle", query: "pokemon 151 sealed bundle" },
-  { title: "Paldean Fates ETB", query: "paldean fates etb sealed" },
+  { title: "151 Booster Bundle", query: "pokemon 151 booster bundle sealed" },
+  { title: "Paldean Fates ETB", query: "paldean fates elite trainer box sealed" },
   { title: "Scarlet & Violet Booster Box", query: "scarlet violet booster box sealed" },
-  { title: "Celebrations Mini Tin", query: "celebrations mini tin sealed" },
+  { title: "Celebrations Mini Tin", query: "pokemon celebrations mini tin sealed" },
 ];
 
 export async function GET() {
-  console.log("🔍 Scraping eBay UK for sealed Buy It Now listings...");
+  const token = await getEbayAccessToken();
+  if (!token) return NextResponse.json({ error: 'Failed to fetch eBay token' }, { status: 500 });
 
-  const allItems = await Promise.all(
-    KEYWORDS.map(async (item) => {
-      const searchUrl = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(
-        item.query
-      )}&_sop=12&LH_BIN=1&LH_PrefLoc=1`;
+  const campaignId = process.env.EBAY_CAMPAIGN_ID;
 
-      try {
-        const res = await fetch(searchUrl);
-        const html = await res.text();
-        const $ = cheerio.load(html);
+  const results = await Promise.all(
+    KEYWORDS.map(async ({ title, query }) => {
+      const url = `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(query)}&filter=buyingOptions:{FIXED_PRICE}&limit=1&sort=price&fieldgroups=PRODUCT&buyerRegion=GB`;
 
-        const itemBlock = $("li.s-item")
-          .filter((_, el) => {
-            const title = $(el).find(".s-item__title").text().toLowerCase();
-            const href = $(el).find("a.s-item__link").attr("href") ?? "";
-            return (
-              Boolean(title) &&
-              !title.includes("shop on ebay") &&
-              href.includes("/itm/") &&
-              !href.includes("123456") &&
-              !title.includes("auction") &&
-              !title.includes("job lot") &&
-              !title.includes("broken") &&
-              !title.includes("bundle of")
-            );
-          })
-          .first();
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-        const title = itemBlock.find(".s-item__title").text().trim();
-        const rawUrl = itemBlock.find("a.s-item__link").attr("href") ?? "";
-
-        // fallback: regex scan for image URL directly from raw HTML
-        const match = html.match(/https:\/\/i\.ebayimg\.com\S+?s-l\d+\.webp/);
-        const img = match ? match[0] : null;
-
-        const priceText = itemBlock.find(".s-item__price").text().replace(/[^\d\.]/g, "");
-        const price = parseFloat(priceText) || 0;
-
-        if (!title || !rawUrl || !rawUrl.includes("/itm/")) {
-          console.warn(`⚠️ No valid listing for ${item.title}`);
-          return {
-            title: item.title,
-            price: 0,
-            img: null,
-            url: null,
-            set: item.title,
-            warning: true,
-          };
-        }
-
-        // ✅ SAFELY append campid param depending on existing query string
-        const fullUrl = rawUrl.includes("?")
-          ? `${rawUrl}&campid=${CAMP_ID}`
-          : `${rawUrl}?campid=${CAMP_ID}`;
-
-        return {
-          title,
-          price,
-          img,
-          url: fullUrl,
-          set: item.title,
-        };
-      } catch (err) {
-        console.error(`❌ Error scraping ${item.title}:`, err);
-        return null;
+      if (!res.ok) {
+        console.error(`❌ eBay API error for ${title}:`, await res.text());
+        return { title, price: 0, img: null, url: null, warning: true };
       }
+
+      const data = await res.json();
+      const item = data.itemSummaries?.[0];
+
+      if (!item) {
+        return { title, price: 0, img: null, url: null, warning: true };
+      }
+
+      const fullUrl = `${item.itemWebUrl}?campid=${campaignId}`;
+      const price = item.price.value;
+      const img = item.image?.imageUrl ?? null;
+
+      return {
+        title: item.title,
+        price: parseFloat(price),
+        img,
+        url: fullUrl,
+        set: title,
+      };
     })
   );
 
-  return NextResponse.json(allItems.filter(Boolean));
+  return NextResponse.json(results);
 }
