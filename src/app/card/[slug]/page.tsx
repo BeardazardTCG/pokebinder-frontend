@@ -32,7 +32,7 @@ export default async function CardPage({ params }: any) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: card.card_name,
+    name: `${card.card_name} ${card.card_number}`,
     image: card.card_image_url,
     description: `UK market value for ${card.card_name} from ${card.set_name}.`,
     sku: card.unique_id,
@@ -49,16 +49,43 @@ export default async function CardPage({ params }: any) {
       seller: {
         "@type": "Organization",
         name: "PokéBinder"
-      }
+      },
+      url: `https://www.pokebinder.co.uk/card/${card.unique_id}`
     }
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `What is the value of ${card.card_name} (${card.card_number})?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `As of now, the live UK market estimate is £${card.clean_avg_value}. This value updates daily using real eBay sales.`
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Where can I buy or sell this card?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Use PokéBinder to track prices, then click Buy Now to view trusted sellers on eBay UK."
+        }
+      }
+    ]
   };
 
   return (
     <>
-      {/* 🧠 Inject Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <TopSocialBanner />
       <Header />
