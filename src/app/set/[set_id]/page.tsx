@@ -1,5 +1,4 @@
-
-#import { getCardsBySetId } from '@/lib/db';
+import { getCardsBySetId } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
