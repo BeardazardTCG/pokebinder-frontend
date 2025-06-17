@@ -25,8 +25,8 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Function renamed from `Page` to `SetPage` to break Next.js type binding
-export default async function SetPage({ params }: { params: { set_id: string } }) {
+// ✅ Keep function named `SetPage`
+async function SetPage({ params }: { params: { set_id: string } }) {
   const { set_id } = params;
   const cards = await getCardsBySetId(set_id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
@@ -65,3 +65,5 @@ export default async function SetPage({ params }: { params: { set_id: string } }
     </>
   );
 }
+
+export default SetPage;
