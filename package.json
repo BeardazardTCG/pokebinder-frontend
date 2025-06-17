@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && tsx src/scripts/generateImageSitemap.ts && tsx src/scripts/generateCardSitemap.ts",
+    "build": "next build && tsx src/scripts/generateImageSitemap.ts && tsx src/scripts/generateCardSitemap.ts && tsx src/scripts/generateSitemapIndex.ts",
     "start": "next start",
     "lint": "next lint",
     "generate-image-sitemap": "tsx src/scripts/generateImageSitemap.ts",
-    "generate-card-sitemap": "tsx src/scripts/generateCardSitemap.ts"
+    "generate-card-sitemap": "tsx src/scripts/generateCardSitemap.ts",
+    "generate-sitemap-index": "tsx src/scripts/generateSitemapIndex.ts"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
