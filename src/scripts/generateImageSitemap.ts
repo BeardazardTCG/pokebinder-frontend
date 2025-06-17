@@ -1,3 +1,4 @@
+// ✅ generateImageSitemap.ts (final patched version)
 import fs from 'fs';
 import path from 'path';
 import { getAllCardsWithImages } from '@/lib/db';
@@ -26,16 +27,9 @@ async function run() {
 ${entries.join('\n')}
 </urlset>`;
 
-  // ✅ Write to file (for local/GitHub use)
   const filepath = path.join(process.cwd(), 'public', 'image-sitemap.xml');
   fs.writeFileSync(filepath, xml.trim());
-
-  // ✅ Print in chunks of ~1000 characters
-  console.log('=== START OF SITEMAP OUTPUT ===');
-  for (let i = 0; i < xml.length; i += 1000) {
-    console.log(xml.slice(i, i + 1000));
-  }
-  console.log('=== END OF SITEMAP OUTPUT ===');
+  console.log('✅ image-sitemap.xml generated.');
 }
 
 run();
