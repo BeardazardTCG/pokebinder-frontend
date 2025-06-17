@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -17,7 +19,11 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config: any) => {  // <-- Added explicit type here
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      '@': path.resolve(__dirname, 'src'), // ✅ force @ → src/
+    };
     config.resolve.fallback = {
       ...config.resolve.fallback,
       dns: false,
