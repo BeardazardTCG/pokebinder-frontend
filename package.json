@@ -4,21 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && tsx src/scripts/generateImageSitemap.ts",
     "start": "next start",
     "lint": "next lint",
     "generate-sitemap": "tsx src/scripts/generateImageSitemap.ts"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "0.263.0",
     "next": "15.3.2",
     "pg": "^8.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "swr": "^2.3.3",
     "react-icons": "^4.12.0",
-    "gray-matter": "^4.0.3",
-    "lucide-react": "0.263.0"
+    "swr": "^2.3.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
