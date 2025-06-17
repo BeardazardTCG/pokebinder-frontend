@@ -8,17 +8,16 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic'; // ✅ Ensure fresh render and type sync
+export const dynamic = 'force-dynamic';
 
-export interface PageProps {
+interface PageProps {
   params: { set_id: string };
 }
 
 export async function generateMetadata(
   { params }: PageProps
 ): Promise<Metadata> {
-  const set_id = params.set_id;
-  const cards = await getCardsBySetId(set_id);
+  const cards = await getCardsBySetId(params.set_id);
   const setName = cards.length > 0 ? cards[0].set_name : 'Set';
 
   return {
@@ -27,13 +26,13 @@ export async function generateMetadata(
     openGraph: {
       title: `${setName} | PokéBinder`,
       description: `All ${cards.length} cards from ${setName} — with up-to-date UK prices.`,
-      url: `https://www.pokebinder.co.uk/set/${set_id}`,
+      url: `https://www.pokebinder.co.uk/set/${params.set_id}`,
     },
   };
 }
 
 export default async function Page({ params }: PageProps) {
-  const set_id = params.set_id;
+  const { set_id } = params;
   const cards = await getCardsBySetId(set_id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
 
