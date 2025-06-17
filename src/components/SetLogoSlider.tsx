@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface SetLogo {
@@ -15,12 +15,25 @@ interface SetLogo {
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function SetLogoSlider() {
-  const { data: sets = [], error } = useSWR<SetLogo[]>('/api/latestsets', fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 5 * 60 * 1000,
-  });
-
   const containerRef = useRef<HTMLDivElement>(null);
+  const [sets, setSets] = useState<SetLogo[]>([]);
+
+  useEffect(() => {
+    const loadSets = async () => {
+      try {
+        const res = await fetch('/api/latestsets');
+        if (res.ok) {
+          const data = await res.json();
+          setSets(data);
+        } else {
+          console.error('Failed to fetch /api/latestsets');
+        }
+      } catch (err) {
+        console.error('Error loading sets:', err);
+      }
+    };
+    loadSets();
+  }, []);
 
   const scroll = (direction: 'left' | 'right') => {
     if (!containerRef.current) return;
