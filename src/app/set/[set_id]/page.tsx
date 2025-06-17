@@ -8,14 +8,12 @@ import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-// ✅ Fix: explicit interface for props
-interface PageProps {
+// ✅ Inline type works perfectly
+export async function generateMetadata({
+  params,
+}: {
   params: { set_id: string };
-}
-
-export async function generateMetadata(
-  { params }: PageProps
-): Promise<Metadata> {
+}): Promise<Metadata> {
   const cards = await getCardsBySetId(params.set_id);
   const setName = cards.length > 0 ? cards[0].set_name : 'Set';
 
@@ -30,8 +28,11 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Final fix here
-export default async function SetPage({ params }: PageProps) {
+export default async function SetPage({
+  params,
+}: {
+  params: { set_id: string };
+}) {
   const { set_id } = params;
   const cards = await getCardsBySetId(set_id);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
