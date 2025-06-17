@@ -219,3 +219,21 @@ export async function getCardsBySetId(setId: string) {
     client.release();
   }
 }
+
+// === Fetch all cards with images and unique IDs ===
+export async function getAllCardsWithImages() {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(`
+      SELECT unique_id, card_image_url
+      FROM mastercard_v2
+      WHERE card_image_url IS NOT NULL
+    `);
+    return result.rows;
+  } catch (err) {
+    console.error('🔥 DB Fetch Error in getAllCardsWithImages:', err);
+    throw err;
+  } finally {
+    client.release();
+  }
+}
