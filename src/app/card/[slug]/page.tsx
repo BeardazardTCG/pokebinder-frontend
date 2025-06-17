@@ -8,7 +8,6 @@ import MoreFromSetGrid from '@/components/card/MoreFromSetGrid';
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const card = await getCardFromDB(params.slug).catch(() => null);
-
   if (!card) return {};
 
   return {
@@ -60,10 +59,10 @@ export default async function CardPage({ params }: any) {
     mainEntity: [
       {
         "@type": "Question",
-        name: `What is the value of ${card.card_name} (${card.card_number})?`,
+        name: `How much is ${card.card_name} worth?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `As of now, the live UK market estimate is £${card.clean_avg_value}. This value updates daily using real eBay sales.`
+          text: "PokéBinder tracks live UK eBay sales to estimate fair market prices. Check the top of this page for the current value."
         }
       },
       {
@@ -71,7 +70,7 @@ export default async function CardPage({ params }: any) {
         name: "Where can I buy or sell this card?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Use PokéBinder to track prices, then click Buy Now to view trusted sellers on eBay UK."
+          text: "Use the Buy Now button on this page to view trusted eBay UK listings, or track price trends to sell at the right time."
         }
       }
     ]
