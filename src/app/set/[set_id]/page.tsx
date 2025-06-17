@@ -1,35 +1,15 @@
+// FILE: /app/set/[set_id]/page.tsx
+
 import { getCardsBySetId } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
-
-export async function generateMetadata(
-  props: { params: { set_id: string } }
-): Promise<Metadata> {
-  const cards = await getCardsBySetId(props.params.set_id);
-  const setName = cards.length > 0 ? cards[0].set_name : 'Set';
-
-  return {
-    title: `${setName} | PokéBinder`,
-    description: `Browse all cards from ${setName}, track live market prices, and spot collector trends.`,
-    openGraph: {
-      title: `${setName} | PokéBinder`,
-      description: `All ${cards.length} cards from ${setName} — with up-to-date UK prices.`,
-      url: `https://www.pokebinder.co.uk/set/${props.params.set_id}`,
-    },
-  };
-}
-
-export default async function SetPage(
-  props: { params: { set_id: string } }
-) {
-  const set_id = props.params.set_id;
-  const cards = await getCardsBySetId(set_id);
+export default async function Page({ params }: any) {
+  const setId = params.set_id;
+  const cards = await getCardsBySetId(setId);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
 
   return (
@@ -47,7 +27,7 @@ export default async function SetPage(
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
           <div className="hidden md:block">
-            <SidebarBuyBox query={set_id} side="left" />
+            <SidebarBuyBox query={setId} side="left" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
@@ -57,7 +37,7 @@ export default async function SetPage(
           </div>
 
           <div className="hidden md:block">
-            <SidebarBuyBox query={set_id} side="right" />
+            <SidebarBuyBox query={setId} side="right" />
           </div>
         </div>
       </main>
