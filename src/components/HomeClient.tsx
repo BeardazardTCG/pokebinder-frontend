@@ -27,6 +27,7 @@ type SealedItem = {
   title: string;
   price: number;
   url: string;
+  img: string | null;
 };
 
 export default function Home() {
@@ -148,12 +149,20 @@ export default function Home() {
           <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
         </section>
 
+        {/* ✅ SEALED PRODUCT BLOCK */}
         <section className="w-full max-w-6xl px-4 mt-12">
           <h2 className="text-lg font-bold text-yellow-600 mb-3">📦 Sealed Product Deals (Live from eBay)</h2>
           <div className="border border-yellow-300 bg-yellow-50 rounded-xl px-6 py-6 shadow-sm">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {items.map((item, i) => (
                 <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 shadow-md text-center flex flex-col justify-between h-full hover:shadow-lg hover:scale-[1.01] transition-transform">
+                  {item.img && (
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-32 object-contain mb-3"
+                    />
+                  )}
                   <p className="text-sm font-semibold mb-2 overflow-hidden text-ellipsis line-clamp-3 leading-snug text-gray-800 h-[4.5rem]">
                     {item.title}
                   </p>
@@ -175,7 +184,6 @@ export default function Home() {
         </section>
 
         <ComingSoonBlock />
-
         <Footer />
       </main>
     </>
