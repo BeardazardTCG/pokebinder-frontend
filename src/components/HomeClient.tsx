@@ -149,46 +149,51 @@ export default function Home() {
           <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
         </section>
 
-       {/* ✅ FULLY POLISHED SEALED PRODUCT BLOCK */}
-<section className="w-full bg-[#f3fef8] py-8 px-4 border-t-4 border-[#e53238] border-b-4">
-  <div className="max-w-6xl mx-auto bg-white rounded-xl border-[3px] border-[#0064D2] shadow-lg">
-    <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-[#f2f8f6] border-b border-gray-200">
-      <h2 className="text-lg sm:text-xl font-bold text-[#e53238] flex items-center gap-3">
-        <img src="Assets/logos/ebay logo.png" alt="eBay Logo" className="w-24 h-auto" />
-        Sealed Pokémon Deals (UK)
-      </h2>
-      <span className="text-sm font-medium text-blue-800 bg-blue-100 px-3 py-1 rounded-full mt-2 sm:mt-0">
-        Trusted via eBay – Affiliate Support
+       {/* ✅ eBay Affiliate Product Block – Branded, Bold, Trust-Enhanced */}
+<section className="w-full bg-yellow-50 py-10 px-4 border-t-8 border-yellow-400">
+  <div className="max-w-6xl mx-auto bg-white rounded-2xl border-[4px] border-[#0064D2] shadow-xl overflow-hidden">
+    
+    {/* Header */}
+    <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-5 bg-gradient-to-r from-yellow-100 to-yellow-200 border-b-2 border-yellow-400">
+      <div className="flex items-center gap-3">
+        <img src="/ebay-logo.svg" alt="eBay Logo" className="w-8 h-8" />
+        <h2 className="text-xl sm:text-2xl font-bold text-[#0064D2] tracking-tight">
+          Sealed Pokémon Deals (UK)
+        </h2>
+      </div>
+      <span className="mt-2 sm:mt-0 text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full shadow-sm">
+        Verified via eBay Affiliate
       </span>
     </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 py-6">
+    {/* Grid of Products */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 py-8 bg-white">
       {items.map((item, i) => (
         <div
           key={i}
-          className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm text-center flex flex-col justify-between h-full hover:shadow-md hover:scale-[1.01] transition-transform"
+          className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 shadow-sm text-center flex flex-col justify-between h-full hover:shadow-md hover:scale-[1.02] transition-transform duration-150"
         >
           {item.img && (
             <img
               src={item.img}
               alt={item.title}
-              className="w-full h-32 object-contain mb-3"
+              className="w-full h-36 object-contain mb-3 rounded"
               loading="lazy"
             />
           )}
-          <p className="text-sm font-semibold mb-2 text-gray-800 line-clamp-3 leading-snug h-[4.5rem]">
+          <p className="text-sm font-semibold text-gray-800 mb-2 line-clamp-3 leading-snug h-[4.5rem]">
             {item.title}
           </p>
-          <p className="text-green-700 font-bold text-lg mt-1">
+          <p className="text-green-700 font-extrabold text-lg mt-1">
             £{item.price.toFixed(2)}
           </p>
           <a
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mt-4 bg-[#0064D2] hover:bg-[#0047a6] text-white px-4 py-2 rounded-full font-bold text-sm"
+            className="inline-block mt-4 bg-[#e53238] hover:bg-[#b3241c] text-white px-4 py-2 rounded-full font-bold text-sm tracking-wide"
           >
-            Buy on eBay
+            🔗 Buy Now on eBay
           </a>
         </div>
       ))}
