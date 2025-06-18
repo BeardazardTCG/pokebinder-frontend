@@ -17,15 +17,16 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Center: Links */}
-        <div className="flex flex-col space-y-1 md:items-center">
-          <a href="/updates" className="hover:underline">Updates</a>
-          <a href="/blog" className="hover:underline">Blog</a>
-          <a href="/terms" className="hover:underline">Terms</a>
-          <a href="/contact" className="hover:underline">Contact</a>
+        {/* Center: Explore Links */}
+        <div className="flex flex-col space-y-1 md:items-center text-gray-300">
+          <p className="text-white font-semibold mb-1">Explore</p>
+          <a href="/updates" className="hover:underline">📢 Site Updates</a>
+          <a href="/blog" className="hover:underline">📚 Blog</a>
+          <a href="/terms" className="hover:underline">📄 Terms</a>
+          <a href="/contact" className="hover:underline">✉️ Contact</a>
         </div>
 
-        {/* Right: Donation */}
+        {/* Right: Donate */}
         <div className="flex flex-col items-start md:items-end space-y-2">
           <p className="text-yellow-300 font-semibold">Support PokéBinder</p>
           <a
