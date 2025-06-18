@@ -22,8 +22,6 @@ export default function Footer() {
           <p className="text-white font-semibold mb-1">Explore</p>
           <a href="/updates" className="hover:underline">📢 Site Updates</a>
           <a href="/blog" className="hover:underline">📚 Blog</a>
-          <a href="/terms" className="hover:underline">📄 Terms</a>
-          <a href="/contact" className="hover:underline">✉️ Contact</a>
         </div>
 
         {/* Right: Donate */}
