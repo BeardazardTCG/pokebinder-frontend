@@ -8,7 +8,11 @@ import MoreFromSetGrid from '@/components/card/MoreFromSetGrid';
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const card = await getCardFromDB(params.slug).catch(() => null);
-  if (!card) return {};
+  if (!card) return {
+    title: 'Card Not Found | PokéBinder',
+    description: 'No card data available.',
+    openGraph: { images: [] },
+  };
 
   return {
     title: `${card.card_name} | ${card.set_name} | PokéBinder`,
