@@ -1,3 +1,5 @@
+'use client';
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -5,6 +7,7 @@ import { Metadata } from 'next';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: 'Blog | PokéBinder',
@@ -32,6 +35,38 @@ export default function BlogPage() {
 
   return (
     <>
+      <Head>
+        {posts.map((post, idx) => {
+          const schema = {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            headline: post.title,
+            datePublished: post.rawDate,
+            author: {
+              "@type": "Person",
+              name: "PokéBinder Team"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "PokéBinder",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.pokebinder.co.uk/pokebinder-logo.png"
+              }
+            },
+            image: "https://www.pokebinder.co.uk/pokebinder-logo.png"
+          };
+
+          return (
+            <script
+              key={idx}
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+            />
+          );
+        })}
+      </Head>
+
       <TopSocialBanner />
       <Header />
       <main className="max-w-3xl mx-auto px-4 py-12">
