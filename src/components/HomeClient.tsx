@@ -156,7 +156,7 @@ export default function Home() {
     {/* Header */}
     <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-5 bg-gradient-to-r from-yellow-100 to-yellow-200 border-b-2 border-yellow-400">
       <div className="flex items-center gap-3">
-        <img src="/ebay-logo.svg" alt="eBay Logo" className="w-8 h-8" />
+        <img src="/ebay-logo.svg" alt="eBay Logo" className="w-16 h-16" />
         <h2 className="text-xl sm:text-2xl font-bold text-[#0064D2] tracking-tight">
           Sealed Pokémon Deals (UK)
         </h2>
