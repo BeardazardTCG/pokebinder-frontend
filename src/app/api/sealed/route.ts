@@ -22,6 +22,7 @@ export async function GET() {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        'X-EBAY-C-MARKETPLACE-ID': 'EBAY_GB', // ✅ Ensure GBP pricing
       },
     });
 
@@ -36,23 +37,20 @@ export async function GET() {
 
     const items = rawItems
       .filter((item) =>
-        item?.title &&
         /(booster|etb|pack)/i.test(item.title) &&
-        !/(coin|counter|damage|vstar|marker|code)/i.test(item.title) &&
-        item?.price?.currency === 'GBP' &&
-        item?.price?.value &&
-        item?.itemWebUrl
+        !/(coin|counter|damage|vstar|marker|code|not factory|display)/i.test(item.title)
       )
-      .map((item) => ({
-        title: item.title,
-        price: parseFloat(item.price.value),
-        img: item.image?.imageUrl || null,
-        url: `${item.itemWebUrl}?campid=5339108925`,
-      }))
       .sort(() => 0.5 - Math.random())
       .slice(0, 4);
 
-    return NextResponse.json(items);
+    const affiliateItems = items.map((item) => ({
+      title: item.title,
+      price: parseFloat(item.price.value),
+      img: item.image?.imageUrl || null,
+      url: `${item.itemWebUrl}?campid=5339108925`,
+    }));
+
+    return NextResponse.json(affiliateItems);
   } catch (err) {
     console.error('🔥 eBay sealed block failed:', err);
     return NextResponse.json([], { status: 200 });
