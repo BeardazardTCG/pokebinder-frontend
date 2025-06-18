@@ -154,7 +154,7 @@ export default function Home() {
   <div className="max-w-6xl mx-auto bg-white rounded-xl border-[3px] border-[#0064D2] shadow-lg">
     <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-[#f2f8f6] border-b border-gray-200">
       <h2 className="text-lg sm:text-xl font-bold text-[#e53238] flex items-center gap-3">
-        <img src="/Assets/logos/ebay.png" alt="eBay Logo" className="w-24 h-auto" />
+        <img src="Assets/logos/ebay logo.png" alt="eBay Logo" className="w-24 h-auto" />
         Sealed Pokémon Deals (UK)
       </h2>
       <span className="text-sm font-medium text-blue-800 bg-blue-100 px-3 py-1 rounded-full mt-2 sm:mt-0">
