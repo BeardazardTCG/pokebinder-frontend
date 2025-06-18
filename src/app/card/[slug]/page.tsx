@@ -31,7 +31,7 @@ export default async function CardPage({ params }: any) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: `${card.card_name} ${card.card_number}`,
+    name: `${card.card_name} #${card.card_number}`,
     image: card.card_image_url,
     description: `UK market value for ${card.card_name} from ${card.set_name}.`,
     sku: card.unique_id,
@@ -42,7 +42,7 @@ export default async function CardPage({ params }: any) {
     offers: {
       "@type": "Offer",
       priceCurrency: "GBP",
-      price: card.clean_avg_value,
+      price: card.clean_avg_value || "0.00",
       itemCondition: "https://schema.org/UsedCondition",
       availability: "https://schema.org/InStock",
       seller: {
@@ -86,18 +86,10 @@ export default async function CardPage({ params }: any) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(imageSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(imageSchema) }} />
+
       <TopSocialBanner />
       <Header />
       <main className="px-4 py-6 bg-white min-h-screen max-w-7xl mx-auto">
