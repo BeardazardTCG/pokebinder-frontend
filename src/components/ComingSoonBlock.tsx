@@ -42,12 +42,12 @@ export default function ComingSoonBlock() {
           </p>
 
           <ul className="text-black text-base space-y-2 mb-8 max-w-xl">
-            <li>🧠 Smart Suggestions — <strong>Buy or sell the right cards</strong></li>
-            <li>📊 Trend Tracker — <strong>Spot value shifts in real time</strong></li>
-            <li>🔧 Auto-Listing Tool — <strong>Sell at the perfect price</strong></li>
-            <li>🧩 Bundle Builder — <strong>Build trades in seconds</strong></li>
-            <li>🧠 Grading AI — <strong>Estimate condition instantly</strong></li>
-            <li>🌍 Language Unifier — <strong>Match foreign listings automatically</strong></li>
+            <li>🧠 <strong>Smart Suggestions</strong> — Buy or sell the right cards</li>
+            <li>📊 <strong>Trend Tracker</strong> — Spot value shifts in real time</li>
+            <li>🔧 <strong>Auto-Listing Tool</strong> — Sell at the perfect price</li>
+            <li>🧩 <strong>Bundle Builder</strong> — Build trades in seconds</li>
+            <li>🧠 <strong>Grading AI</strong> — Estimate condition instantly</li>
+            <li>🌍 <strong>Language Unifier</strong> — Match foreign listings automatically</li>
           </ul>
 
           {status === "success" && code ? (
@@ -56,22 +56,28 @@ export default function ComingSoonBlock() {
               <strong>Your code is shown on the card to the right →</strong>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                required
-                placeholder="Enter your email"
-                className="border border-gray-300 rounded-full px-4 py-2 text-sm w-full shadow-inner focus:outline-none focus:ring-2 focus:ring-black"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="bg-black text-yellow-300 px-5 py-2 rounded-full text-sm font-bold hover:bg-zinc-800 transition"
+            <>
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row gap-3 p-2 bg-white/80 rounded-lg shadow-md"
               >
-                Claim My Reward
-              </button>
-            </form>
+                <input
+                  type="email"
+                  required
+                  placeholder="Enter your email"
+                  className="border border-gray-300 rounded-full px-4 py-2 text-sm w-full shadow-inner focus:outline-none focus:ring-2 focus:ring-black"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="bg-black text-yellow-300 px-5 py-2 rounded-full text-sm font-bold hover:bg-zinc-800 transition"
+                >
+                  🎁 Get My Free Code
+                </button>
+              </form>
+              <p className="text-xs text-black mt-2">You’ll get your code instantly. No spam — just cards.</p>
+            </>
           )}
 
           {status === "error" && (
