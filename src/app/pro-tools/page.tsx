@@ -5,8 +5,29 @@ import Link from "next/link";
 import TopSocialBanner from "@/components/card/TopSocialBanner";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import { useState } from "react";
 
 export default function ProToolsPage() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [code, setCode] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      setStatus("success");
+      setCode(data.code);
+    } else {
+      setStatus("error");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -20,7 +41,7 @@ export default function ProToolsPage() {
       <TopSocialBanner />
       <Header />
 
-      <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-16 pt-8 bg-white text-black space-y-8">
+      <main className="flex flex-col items-center justify-center min-h-screen px-4 pb-16 pt-8 bg-white text-black space-y-12">
         {/* Hero */}
         <section className="text-center max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
@@ -29,13 +50,42 @@ export default function ProToolsPage() {
           <p className="text-gray-700 text-sm sm:text-base mt-2">
             Serious tools for serious collectors — trend alerts, pricing insights, listing automation, and more.
           </p>
-          <div className="mt-4">
-            <Link
-              href="/signup"
-              className="bg-yellow-400 text-black px-5 py-3 rounded-full text-sm font-semibold shadow hover:bg-yellow-300"
+        </section>
+
+        {/* Email Signup + Code Card Reward */}
+        <section className="w-full bg-yellow-100 border-t-4 border-b-4 border-yellow-300 py-10 px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
+              Get a Free TCG Code + Enter to Win 50 Cards
+            </h2>
+            <p className="text-sm sm:text-base text-gray-700 max-w-xl mx-auto">
+              Sign up now and we’ll email you a real Pokémon TCG code instantly. Every 50 signups, one trainer wins a 50-card bundle.
+            </p>
+            <form
+              onSubmit={handleSubmit}
+              className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3"
             >
-              Get Early Access + Win 50 Cards
-            </Link>
+              <input
+                type="email"
+                required
+                placeholder="Enter your email"
+                className="px-4 py-3 rounded-full border border-gray-300 shadow-sm w-full sm:w-[300px] focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="bg-yellow-400 text-black px-6 py-3 rounded-full font-semibold text-sm shadow hover:bg-yellow-300"
+              >
+                Get My Free Code
+              </button>
+            </form>
+            {status === "success" && code && (
+              <p className="mt-4 text-green-700 text-sm">✅ Your code: <strong>{code}</strong></p>
+            )}
+            {status === "error" && (
+              <p className="mt-4 text-red-600 text-sm">❌ Something went wrong. Please try again.</p>
+            )}
           </div>
         </section>
 
@@ -80,7 +130,7 @@ export default function ProToolsPage() {
         </section>
 
         {/* CTA again */}
-        <section className="text-center">
+        <section className="text-center px-4">
           <p className="text-sm text-gray-700 max-w-md mx-auto mb-3">
             PokéBinder Pro will launch with affordable monthly and lifetime plans. Our core tools will always remain free.
           </p>
