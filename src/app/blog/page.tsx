@@ -6,6 +6,7 @@ import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Head from 'next/head';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Blog | PokéBinder',
@@ -27,6 +28,7 @@ export default function BlogPage() {
         date: new Date(data.date).toLocaleDateString('en-GB'),
         rawDate: data.date,
         content,
+        slug: filename.replace(/\.md$/, ''),
       };
     })
     .sort((a, b) => new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime());
@@ -75,10 +77,16 @@ export default function BlogPage() {
 
         <div className="space-y-10">
           {posts.map((post, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-xl shadow">
+            <div key={idx} className="bg-white p-6 rounded-xl shadow hover:bg-gray-50 transition">
               <h2 className="text-2xl font-bold text-orange-600 mb-1">{post.title}</h2>
-              <p className="text-sm text-gray-500 mb-4">{post.date}</p>
-              <p className="text-gray-700 whitespace-pre-line">{post.content}</p>
+              <p className="text-sm text-gray-500 mb-2">{post.date}</p>
+              <p className="text-gray-700 mb-4">{post.content.slice(0, 150)}...</p>
+              <Link
+                className="text-blue-600 font-semibold hover:underline"
+                href={`/blog/${post.slug}`}
+              >
+                Read more →
+              </Link>
             </div>
           ))}
         </div>
