@@ -1,95 +1,65 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { Metadata } from 'next';
-import TopSocialBanner from '@/components/card/TopSocialBanner';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import Head from 'next/head';
-import Link from 'next/link';
+"use client";
 
-export const metadata: Metadata = {
-  title: 'Blog | PokéBinder',
-  description: 'Collector tips, price trends, sealed product insights, and behind-the-scenes updates.',
-};
+import fs from "fs";
+import path from "path";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import TopSocialBanner from "@/components/card/TopSocialBanner";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
-const blogDirectory = path.join(process.cwd(), '/blog');
+export default function BlogIndexPage() {
+  const [posts, setPosts] = useState<
+    { title: string; date: string; slug: string }[]
+  >([]);
 
-export default function BlogPage() {
-  const files = fs.readdirSync(blogDirectory);
+  useEffect(() => {
+    const blogFiles = [
+      // 🔧 manually list files in public/blog (or automate later)
+      "most-sold-pokemon-cards-this-week.md",
+    ];
 
-  const posts = files
-    .map((filename) => {
-      const filePath = path.join(blogDirectory, filename);
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      const { data, content } = matter(fileContents);
-      return {
-        title: data.title || filename.replace(/\.md$/, ''),
-        date: new Date(data.date).toLocaleDateString('en-GB'),
-        rawDate: data.date,
-        content,
-        slug: filename.replace(/\.md$/, ''),
-      };
-    })
-    .sort((a, b) => new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime());
+    const parsed = blogFiles.map((file) => {
+      const slug = file.replace(/\.md$/, "");
+      return fetch(`/blog/${file}`)
+        .then((res) => res.text())
+        .then((text) => {
+          const lines = text.split("\n");
+          const title = lines.find((l) => l.startsWith("title:"))?.replace("title:", "").trim() || slug;
+          const date = lines.find((l) => l.startsWith("date:"))?.replace("date:", "").trim() || "";
+          return { slug, title, date };
+        });
+    });
+
+    Promise.all(parsed).then(setPosts);
+  }, []);
 
   return (
     <>
-      <Head>
-        {posts.map((post, idx) => {
-          const schema = {
-            "@context": "https://schema.org",
-            "@type": "NewsArticle",
-            headline: post.title,
-            datePublished: post.rawDate,
-            author: {
-              "@type": "Person",
-              name: "PokéBinder Team"
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "PokéBinder",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://www.pokebinder.co.uk/pokebinder-logo.png"
-              }
-            },
-            image: "https://www.pokebinder.co.uk/pokebinder-logo.png"
-          };
-
-          return (
-            <script
-              key={idx}
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-            />
-          );
-        })}
-      </Head>
-
       <TopSocialBanner />
       <Header />
       <main className="max-w-3xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-extrabold mb-4 text-center">PokéBinder Blog</h1>
         <p className="text-center text-gray-500 mb-10">
-          Collector tips, price trends, and behind-the-scenes updates.
+          Collector tips, market trends, and verified price insights.
         </p>
 
-        <div className="space-y-10">
-          {posts.map((post, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-xl shadow hover:bg-gray-50 transition">
-              <h2 className="text-2xl font-bold text-orange-600 mb-1">{post.title}</h2>
-              <p className="text-sm text-gray-500 mb-2">{post.date}</p>
-              <p className="text-gray-700 mb-4">{post.content.slice(0, 150)}...</p>
+        <ul className="space-y-8">
+          {posts.map((post) => (
+            <li key={post.slug} className="bg-white p-6 rounded-xl shadow">
+              <h2 className="text-2xl font-bold text-orange-600 mb-1">
+                <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+              </h2>
+              <p className="text-sm text-gray-500">{post.date}</p>
               <Link
-                className="text-blue-600 font-semibold hover:underline"
                 href={`/blog/${post.slug}`}
+                className="text-blue-600 font-semibold hover:underline"
               >
                 Read more →
               </Link>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </main>
       <Footer />
     </>
