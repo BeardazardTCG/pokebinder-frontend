@@ -91,7 +91,7 @@ export default function Home() {
         {/* 🔥 Hero Explainer Block – Added 20 Jun */}
         <div className="text-center mt-2 sm:mt-4 px-4">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
-            🎒 Know What Your Pokémon Cards Are Worth
+             Know What Your Pokémon Cards Are Worth
           </h1>
           <p className="mt-2 text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             PokéBinder tracks live UK prices from real eBay and TCG sales — cleaned, trusted, updated daily.
