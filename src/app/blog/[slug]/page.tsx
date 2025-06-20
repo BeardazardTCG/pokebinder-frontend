@@ -7,8 +7,15 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const filePath = path.join(process.cwd(), 'blog', `${params.slug}.md`);
+export interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { slug } = props.params;
+  const filePath = path.join(process.cwd(), 'blog', `${slug}.md`);
   if (!fs.existsSync(filePath)) return {};
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
@@ -25,8 +32,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const filePath = path.join(process.cwd(), 'blog', `${params.slug}.md`);
+export default function BlogPostPage(props: PageProps) {
+  const { slug } = props.params;
+  const filePath = path.join(process.cwd(), 'blog', `${slug}.md`);
   if (!fs.existsSync(filePath)) return notFound();
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
@@ -38,7 +46,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       <Header />
       <main className="max-w-3xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-extrabold mb-4">{data.title}</h1>
-        <p className="text-sm text-gray-500 mb-6">{new Date(data.date).toLocaleDateString('en-GB')}</p>
+        <p className="text-sm text-gray-500 mb-6">
+          {new Date(data.date).toLocaleDateString('en-GB')}
+        </p>
         <article className="prose prose-p:leading-relaxed prose-headings:font-bold prose-img:rounded-lg max-w-none">
           {content.split('\n\n').map((para, i) => (
             <p key={i}>{para}</p>
