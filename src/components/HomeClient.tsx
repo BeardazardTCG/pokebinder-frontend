@@ -13,14 +13,7 @@ import ComingSoonBlock from '@/components/ComingSoonBlock';
 import Footer from '@/components/layout/Footer';
 
 const funFacts = [
-  "✨ Caught feelings, not just prices",
-  "✨ PSA 10? More like PTSD 10.",
-  "✨ Verified: Charizard still overrated",
-  "✨ Not financial advice... but maybe?",
-  "✨ Minty fresh, like your browsing history",
-  "✨ Now 60% less eBay search rage!",
-  "✨ We know what 'NM' *really* means",
-  "✨ Built by humans, powered by obsession",
+  // removed per user's request
 ];
 
 type SealedItem = {
@@ -31,17 +24,9 @@ type SealedItem = {
 };
 
 export default function Home() {
-  const [factIndex, setFactIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [items, setItems] = useState<SealedItem[]>([]);
   const router = useRouter();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFactIndex((prev) => (prev + 1) % funFacts.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const fetchSealed = async () => {
@@ -88,10 +73,9 @@ export default function Home() {
           <Image src="/beta-testing.png" alt="Beta Badge Mobile" width={120} height={40} className="block sm:hidden mx-auto mt-[-20px] rotate-[-12deg] opacity-90 z-30" />
         </div>
 
-        {/* 🔥 Hero Explainer Block – Added 20 Jun */}
         <div className="text-center mt-2 sm:mt-4 px-4">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
-             Know What Your Pokémon Cards Are Worth
+            Know What Your Pokémon Cards Are Worth
           </h1>
           <p className="mt-2 text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             PokéBinder tracks live UK prices from real eBay and TCG sales — cleaned, trusted, updated daily.
@@ -121,12 +105,37 @@ export default function Home() {
           <Link href="/card/base1-10" className="ml-2 bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-xs sm:text-sm shadow hover:bg-blue-200 transition">Mewtwo</Link>
         </div>
 
-        <div className="mt-3 text-sm sm:text-base text-yellow-700 bg-yellow-100 border border-yellow-300 px-4 py-2 rounded-full shadow text-center max-w-xs mx-auto min-h-[3rem] flex items-center justify-center text-balance text-wrap text-pretty">
-          {funFacts[factIndex]}
-        </div>
+        {/* Problem Block - Styled with poke-pattern background */}
+        <section className="w-full bg-[url('/Assets/bg/poke-pattern.png')] bg-repeat bg-[length:200px_auto]">
+          <div className="h-2 bg-red-600" />
+          <div className="max-w-5xl mx-auto text-center px-4 py-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              UK Collectors Deserve Better Than Slabs, Bundles, and Guesswork
+            </h2>
+            <p className="text-gray-800 text-sm sm:text-base max-w-2xl mx-auto mt-3">
+              PokéBinder cleans up the mess. We track real UK listings from eBay and TCGPlayer — no bundles, no slabs, no PSA noise. Just daily-updated prices from verified sold cards.
+            </p>
+            <p className="text-gray-800 text-sm sm:text-base max-w-2xl mx-auto mt-2">
+              What’s coming next? A full suite of tools for flippers and collectors:
+            </p>
+            <ul className="text-sm sm:text-base text-left max-w-xl mx-auto mt-4 space-y-2 text-gray-700">
+              <li><strong>Smart Suggestions</strong> — Know which cards to buy, hold, or sell</li>
+              <li><strong>Trend Tracker</strong> — Watch price shifts before they hit the market</li>
+              <li><strong>Auto-Listing Tool</strong> — Prep your eBay listings with live data</li>
+              <li><strong>Bundle Builder</strong> — Trade-ready groups, priced by the system</li>
+              <li><strong>Grading AI</strong> — Scan condition from photos (coming soon)</li>
+              <li><strong>Language Unifier</strong> — Match Japanese, German, and English listings automatically</li>
+            </ul>
+            <div className="text-center mt-6">
+              <Link href="/pro-tools" className="bg-yellow-400 text-black px-5 py-2 rounded-full text-sm font-semibold shadow hover:bg-yellow-300">
+                Pro Tools Launching Soon — Get Early Access
+              </Link>
+            </div>
+          </div>
+          <div className="h-2 bg-red-600" />
+        </section>
 
         <CardCatchTrackerBlock />
-
         <section className="w-full bg-[url('/Assets/bg/poke-pattern.png')] bg-repeat bg-[length:200px_auto] relative">
           <div className="h-2 bg-red-600" />
           <div className="max-w-6xl mx-auto px-4 py-6">
@@ -135,79 +144,7 @@ export default function Home() {
           <div className="h-2 bg-red-600" />
         </section>
 
-        <section className="w-full bg-[#e60012] py-8 px-4">
-          <div className="flex flex-col items-center text-center mb-6">
-            <div className="flex items-center justify-center gap-3">
-              <Image
-                src="/pokebinder-logo.png"
-                alt="PokéBinder Logo"
-                width={40}
-                height={40}
-                className="rounded-full drop-shadow-md"
-              />
-              <h2 className="text-white text-2xl font-bold">PokéBinder Recommends</h2>
-            </div>
-            <p className="text-white text-sm opacity-80 mt-2">
-              Clean picks from real UK sales — no bundles, no slabs, no fluff.
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-white via-orange-50 to-yellow-50 rounded-2xl shadow-lg max-w-6xl mx-auto px-4 py-6 md:px-6 md:py-6">
-            <FeaturedCards />
-          </div>
-
-          <div className="w-full h-[6px] bg-white rounded-full mt-6"></div>
-        </section>
-
-        <section className="w-full bg-yellow-50 py-10 px-4 border-t-8 border-yellow-400">
-          <div className="max-w-6xl mx-auto bg-white rounded-2xl border-[4px] border-[#0064D2] shadow-xl overflow-hidden">
-
-            <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-5 bg-gradient-to-r from-yellow-100 to-yellow-200 border-b-2 border-yellow-400">
-              <div className="flex items-center gap-3">
-                <img src="/ebay-logo.svg" alt="eBay Logo" className="w-16 h-16" />
-                <h2 className="text-xl sm:text-2xl font-bold text-[#0064D2] tracking-tight">
-                  Sealed Pokémon Deals (UK)
-                </h2>
-              </div>
-              <span className="mt-2 sm:mt-0 text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full shadow-sm">
-                Verified via eBay Affiliate
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 py-8 bg-white">
-              {items.map((item, i) => (
-                <div
-                  key={i}
-                  className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 shadow-sm text-center flex flex-col justify-between h-full hover:shadow-md hover:scale-[1.02] transition-transform duration-150"
-                >
-                  {item.img && (
-                    <img
-                      src={item.img}
-                      alt={item.title}
-                      className="w-full h-36 object-contain mb-3 rounded"
-                      loading="lazy"
-                    />
-                  )}
-                  <p className="text-sm font-semibold text-gray-800 mb-2 line-clamp-3 leading-snug h-[4.5rem]">
-                    {item.title}
-                  </p>
-                  <p className="text-green-700 font-extrabold text-lg mt-1">
-                    £{item.price.toFixed(2)}
-                  </p>
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-4 bg-[#e53238] hover:bg-[#b3241c] text-white px-4 py-2 rounded-full font-bold text-sm tracking-wide"
-                  >
-                    🔗 Buy Now on eBay
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
+        <FeaturedCards />
         <ComingSoonBlock />
         <Footer />
       </main>
