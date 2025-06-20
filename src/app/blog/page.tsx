@@ -16,8 +16,18 @@ export default function BlogIndexPage() {
   useEffect(() => {
     const blogFiles = [
       // 🔧 manually list files in public/blog (or automate later)
-      "most-sold-pokemon-cards-this-week.md",
-    ];
+    const blogFiles = [
+  "most-sold-pokemon-cards-this-week.md",
+  "10-undervalued-pokemon-cards-to-watch.md",
+  "top-5-undervalued-pokemon-cards-uk-2025.md",
+  "top-5-pokemon-cards-over-100-uk-market.md",
+  "how-we-calculate-daily-card-values.md",
+  "how-pokebinder-tracks-market-value.md",
+  "top-sealed-pokemon-sets-2025.md",
+  "why-ebay-sold-beats-tcg.md",
+  "why-uk-pokemon-prices-are-different.md"
+];
+
 
     const parsed = blogFiles.map((file) => {
       const slug = file.replace(/\.md$/, "");
