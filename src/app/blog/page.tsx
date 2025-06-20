@@ -1,7 +1,5 @@
 "use client";
 
-import fs from "fs";
-import path from "path";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import TopSocialBanner from "@/components/card/TopSocialBanner";
@@ -15,19 +13,16 @@ export default function BlogIndexPage() {
 
   useEffect(() => {
     const blogFiles = [
-      // 🔧 manually list files in public/blog (or automate later)
-    const blogFiles = [
-  "most-sold-pokemon-cards-this-week.md",
-  "10-undervalued-pokemon-cards-to-watch.md",
-  "top-5-undervalued-pokemon-cards-uk-2025.md",
-  "top-5-pokemon-cards-over-100-uk-market.md",
-  "how-we-calculate-daily-card-values.md",
-  "how-pokebinder-tracks-market-value.md",
-  "top-sealed-pokemon-sets-2025.md",
-  "why-ebay-sold-beats-tcg.md",
-  "why-uk-pokemon-prices-are-different.md"
-];
-
+      "most-sold-pokemon-cards-this-week.md",
+      "10-undervalued-pokemon-cards-to-watch.md",
+      "top-5-undervalued-pokemon-cards-uk-2025.md",
+      "top-5-pokemon-cards-over-100-uk-market.md",
+      "how-we-calculate-daily-card-values.md",
+      "how-pokebinder-tracks-market-value.md",
+      "top-sealed-pokemon-sets-2025.md",
+      "why-ebay-sold-beats-tcg.md",
+      "why-uk-pokemon-prices-are-different.md"
+    ];
 
     const parsed = blogFiles.map((file) => {
       const slug = file.replace(/\.md$/, "");
@@ -35,8 +30,10 @@ export default function BlogIndexPage() {
         .then((res) => res.text())
         .then((text) => {
           const lines = text.split("\n");
-          const title = lines.find((l) => l.startsWith("title:"))?.replace("title:", "").trim() || slug;
-          const date = lines.find((l) => l.startsWith("date:"))?.replace("date:", "").trim() || "";
+          const title =
+            lines.find((l) => l.startsWith("title:"))?.replace("title:", "").trim() || slug;
+          const date =
+            lines.find((l) => l.startsWith("date:"))?.replace("date:", "").trim() || "";
           return { slug, title, date };
         });
     });
