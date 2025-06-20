@@ -7,7 +7,13 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Metadata } from 'next';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const filePath = path.join(process.cwd(), 'blog', `${params.slug}.md`);
   if (!fs.existsSync(filePath)) return {};
 
@@ -25,7 +31,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage({ params }: PageProps) {
   const filePath = path.join(process.cwd(), 'blog', `${params.slug}.md`);
   if (!fs.existsSync(filePath)) return notFound();
 
