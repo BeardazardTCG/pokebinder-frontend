@@ -7,23 +7,13 @@ import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PaginationControls from '@/components/ui/PaginationControls';
-import { Metadata } from 'next';
 
-// ✅ Static page metadata
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Search Results | PokéBinder',
   description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-// ✅ Correct typing for Next.js App Router Page
-type SearchPageProps = {
-  searchParams?: {
-    q?: string;
-    page?: string;
-  };
-};
-
-export default async function SearchPage({ searchParams }: SearchPageProps) {
+export default async function Page({ searchParams }: { searchParams?: { q?: string; page?: string } }) {
   const query = searchParams?.q?.trim() || '';
   const page = parseInt(searchParams?.page || '1', 10);
   const pageSize = 20;
@@ -42,9 +32,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           {query ? `Results for “${query}”` : 'Search Results'}
         </h1>
         <p className="text-center text-sm text-zinc-500 mb-8">
-          {query
-            ? `${allResults.length} result${allResults.length !== 1 ? 's' : ''} found.`
-            : 'Enter a search term above.'}
+          {query ? `${allResults.length} result${allResults.length !== 1 ? 's' : ''} found.` : 'Enter a search term above.'}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
