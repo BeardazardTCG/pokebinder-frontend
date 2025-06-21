@@ -7,14 +7,20 @@ import TopSocialBanner from '@/components/card/TopSocialBanner';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PaginationControls from '@/components/ui/PaginationControls';
+import { Metadata } from 'next';
 
-interface Props {
-  searchParams: { q?: string; page?: string };
-}
+export const metadata: Metadata = {
+  title: 'Search Results | PokéBinder',
+  description: 'See live market prices and listings for your favourite Pokémon cards.',
+};
 
-export default async function SearchPage({ searchParams }: Props) {
-  const query = searchParams.q?.trim() || '';
-  const page = parseInt(searchParams.page || '1');
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
+  const query = typeof searchParams?.q === 'string' ? searchParams.q.trim() : '';
+  const page = parseInt(typeof searchParams?.page === 'string' ? searchParams.page : '1', 10);
   const pageSize = 20;
 
   const allResults = query ? await getSearchResults(query) : [];
@@ -31,7 +37,9 @@ export default async function SearchPage({ searchParams }: Props) {
           {query ? `Results for “${query}”` : 'Search Results'}
         </h1>
         <p className="text-center text-sm text-zinc-500 mb-8">
-          {query ? `${allResults.length} result${allResults.length !== 1 ? 's' : ''} found.` : 'Enter a search term above.'}
+          {query
+            ? `${allResults.length} result${allResults.length !== 1 ? 's' : ''} found.`
+            : 'Enter a search term above.'}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
