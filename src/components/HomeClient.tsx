@@ -101,50 +101,47 @@ export default function Home() {
           <Link href="/card/base1-10" className="ml-2 bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-xs sm:text-sm shadow hover:bg-blue-200 transition">Mewtwo</Link>
         </div>
 
-        <section className="w-full bg-[url('/Assets/bg/poke-pattern.png')] bg-repeat bg-[length:200px_auto]">
-          <div className="h-2 bg-red-600" />
-          <div className="max-w-6xl mx-auto text-center px-4 py-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-              UK Collectors Deserve Better Than Slabs, Bundles, and Guesswork
-            </h2>
-            <p className="text-gray-800 text-sm sm:text-base max-w-2xl mx-auto">
-              PokéBinder cleans up the mess. We track real UK listings from eBay and TCGPlayer — no bundles, no slabs, no PSA noise. Just daily-updated prices from verified sold cards.
-            </p>
-
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              <div className="flex flex-col items-center text-center px-4 py-4 border rounded-lg bg-white shadow-sm">
-                <h3 className="font-semibold text-gray-900">Smart Suggestions</h3>
-                <p className="text-sm text-gray-600 mt-1">Know which cards to buy, hold, or sell.</p>
+        {/* 🔓 Pro Tools Preview Grid */}
+        <section className="w-full bg-gray-50 py-10 px-4 border-t border-b border-gray-200">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {[
+              {
+                name: "Smart Suggestions",
+                desc: "Know which cards to buy, hold, or sell."
+              },
+              {
+                name: "Trend Tracker",
+                desc: "Watch price shifts before they hit the market."
+              },
+              {
+                name: "Auto-Listing Tool",
+                desc: "Prep your eBay listings with live data."
+              },
+              {
+                name: "Bundle Builder",
+                desc: "Trade-ready groups, priced by the system."
+              },
+              {
+                name: "Grading AI",
+                desc: "Scan condition from photos (coming soon)."
+              },
+              {
+                name: "Language Unifier",
+                desc: "Match Japanese, German, and English listings."
+              },
+            ].map((tool, i) => (
+              <div
+                key={i}
+                className="flex flex-col items-center text-center px-4 py-6 border rounded-xl bg-white shadow-sm hover:shadow-md transition relative"
+              >
+                <span className="absolute top-3 right-3 text-[10px] font-bold bg-red-500 text-white px-2 py-1 rounded-full shadow">PRO</span>
+                <h3 className="font-semibold text-gray-900 text-lg">
+                  {tool.name}
+                </h3>
+                <p className="text-sm text-gray-600 mt-1">{tool.desc}</p>
               </div>
-              <div className="flex flex-col items-center text-center px-4 py-4 border rounded-lg bg-white shadow-sm">
-                <h3 className="font-semibold text-gray-900">Trend Tracker</h3>
-                <p className="text-sm text-gray-600 mt-1">Watch price shifts before they hit the market.</p>
-              </div>
-              <div className="flex flex-col items-center text-center px-4 py-4 border rounded-lg bg-white shadow-sm">
-                <h3 className="font-semibold text-gray-900">Auto-Listing Tool</h3>
-                <p className="text-sm text-gray-600 mt-1">Prep your eBay listings with live data.</p>
-              </div>
-              <div className="flex flex-col items-center text-center px-4 py-4 border rounded-lg bg-white shadow-sm">
-                <h3 className="font-semibold text-gray-900">Bundle Builder</h3>
-                <p className="text-sm text-gray-600 mt-1">Trade-ready groups, priced by the system.</p>
-              </div>
-              <div className="flex flex-col items-center text-center px-4 py-4 border rounded-lg bg-white shadow-sm">
-                <h3 className="font-semibold text-gray-900">Grading AI</h3>
-                <p className="text-sm text-gray-600 mt-1">Scan condition from photos (coming soon).</p>
-              </div>
-              <div className="flex flex-col items-center text-center px-4 py-4 border rounded-lg bg-white shadow-sm">
-                <h3 className="font-semibold text-gray-900">Language Unifier</h3>
-                <p className="text-sm text-gray-600 mt-1">Match Japanese, German, and English listings.</p>
-              </div>
-            </div>
-
-            <div className="text-center mt-10">
-              <Link href="/pro-tools" className="bg-yellow-400 text-black px-6 py-3 rounded-full text-sm font-semibold shadow hover:bg-yellow-300">
-                Pro Tools Launching Soon — Get Early Access
-              </Link>
-            </div>
+            ))}
           </div>
-          <div className="h-2 bg-red-600" />
         </section>
 
         <CardCatchTrackerBlock />
