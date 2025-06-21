@@ -1,5 +1,4 @@
-// FILE: /app/set/[set_id]/page.tsx
-
+import Head from 'next/head';
 import { getCardsBySetId } from '@/lib/db';
 import HalfCard from '@/components/card/HalfCard';
 import SidebarBuyBox from '@/components/card/SidebarBuyBox';
@@ -12,8 +11,35 @@ export default async function Page({ params }: any) {
   const cards = await getCardsBySetId(setId);
   const setName = cards?.[0]?.set_name ?? 'Unknown Set';
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${setName} Pokémon Card List`,
+    numberOfItems: cards.length,
+    itemListElement: cards.slice(0, 30).map((card, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://www.pokebinder.co.uk/card/${card.unique_id}`,
+      name: `${card.card_name} (${card.card_number})`
+    }))
+  };
+
   return (
     <>
+      <Head>
+        <title>{`${setName} Pokémon Cards | Live UK Prices – PokéBinder`}</title>
+        <meta name="description" content={`Track market prices for all cards in the ${setName} Pokémon TCG set.`} />
+        <meta property="og:title" content={`${setName} Pokémon Cards | Live UK Prices`} />
+        <meta property="og:description" content={`See all cards from ${setName} with trusted market pricing.`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://www.pokebinder.co.uk/set/${setId}`} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={`${setName} Pokémon Cards`} />
+        <meta name="twitter:description" content={`Live UK prices and listings for ${setName}.`} />
+        <link rel="canonical" href={`https://www.pokebinder.co.uk/set/${setId}`} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      </Head>
+
       <TopSocialBanner />
       <Header />
 
