@@ -13,14 +13,7 @@ export const metadata = {
   description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-interface Props {
-  searchParams?: {
-    q?: string;
-    page?: string;
-  };
-}
-
-export default async function Page({ searchParams }: Props) {
+export default async function Page({ searchParams }: { searchParams: any }) {
   const query = searchParams?.q?.trim() || '';
   const page = parseInt(searchParams?.page || '1');
   const pageSize = 20;
