@@ -1,6 +1,3 @@
-"use client";
-
-import Head from 'next/head';
 import { Metadata } from 'next';
 import { getCardFromDB, getMoreFromSet } from '@/lib/db';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
@@ -98,17 +95,9 @@ export default async function CardPage({ params }: any) {
 
   return (
     <>
-      <Head>
-        <title>{`${card.card_name} - ${card.set_name} | UK Market Value`}</title>
-        <meta name="description" content={`Live UK pricing for ${card.card_name} from ${card.set_name}. Trusted by collectors.`} />
-        <meta property="og:title" content={`${card.card_name} - ${card.set_name} | UK Market Value`} />
-        <meta property="og:description" content={`Live UK pricing for ${card.card_name} from ${card.set_name}. Trusted by collectors.`} />
-        <meta property="og:image" content={card.card_image_url} />
-        <meta name="twitter:image" content={card.card_image_url} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(imageSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      </Head>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(imageSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <TopSocialBanner />
       <Header />
