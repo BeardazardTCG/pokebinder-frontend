@@ -1,3 +1,6 @@
+"use client";
+
+import Head from 'next/head';
 import { Metadata } from 'next';
 import { getCardFromDB, getMoreFromSet } from '@/lib/db';
 import TopSocialBanner from '@/components/card/TopSocialBanner';
@@ -35,26 +38,31 @@ export default async function CardPage({ params }: any) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: `${card.card_name} #${card.card_number}`,
+    name: `${card.card_name} - ${card.set_name} (${card.card_number})`,
     image: card.card_image_url,
-    description: `UK market value for ${card.card_name} from ${card.set_name}.`,
+    description: `Track UK market value for ${card.card_name} from ${card.set_name}. Updated daily from eBay sold listings.`,
     sku: card.unique_id,
     brand: {
       "@type": "Brand",
-      name: "Pokémon TCG"
+      name: "Pokémon"
     },
     offers: {
-      "@type": "Offer",
+      "@type": "AggregateOffer",
+      lowPrice: card.price_range_seen_min || card.clean_avg_value,
+      highPrice: card.price_range_seen_max || card.clean_avg_value,
       priceCurrency: "GBP",
-      price: card.clean_avg_value || "0.00",
-      itemCondition: "https://schema.org/UsedCondition",
-      availability: "https://schema.org/InStock",
-      seller: {
-        "@type": "Organization",
-        name: "PokéBinder"
-      },
-      url: `https://www.pokebinder.co.uk/card/${card.unique_id}`
+      offerCount: 1,
+      availability: "https://schema.org/InStock"
     }
+  };
+
+  const imageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ImageObject",
+    contentUrl: card.card_image_url,
+    name: `${card.card_name} (${card.set_name})`,
+    license: "https://www.pokebinder.co.uk",
+    creditText: "PokéBinder"
   };
 
   const faqSchema = {
@@ -76,23 +84,31 @@ export default async function CardPage({ params }: any) {
           "@type": "Answer",
           text: "Use the Buy Now button on this page to view trusted eBay UK listings, or track price trends to sell at the right time."
         }
+      },
+      {
+        "@type": "Question",
+        name: "Can I sell my card for this price?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You can use this price as a benchmark to list your card fairly. You might sell higher if your card is mint or popular."
+        }
       }
     ]
   };
 
-  const imageSchema = {
-    "@context": "https://schema.org",
-    "@type": "ImageObject",
-    contentUrl: card.card_image_url,
-    name: `${card.card_name} (${card.set_name})`,
-    description: `Image of ${card.card_name} from the ${card.set_name} set.`
-  };
-
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(imageSchema) }} />
+      <Head>
+        <title>{`${card.card_name} - ${card.set_name} | UK Market Value`}</title>
+        <meta name="description" content={`Live UK pricing for ${card.card_name} from ${card.set_name}. Trusted by collectors.`} />
+        <meta property="og:title" content={`${card.card_name} - ${card.set_name} | UK Market Value`} />
+        <meta property="og:description" content={`Live UK pricing for ${card.card_name} from ${card.set_name}. Trusted by collectors.`} />
+        <meta property="og:image" content={card.card_image_url} />
+        <meta name="twitter:image" content={card.card_image_url} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(imageSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      </Head>
 
       <TopSocialBanner />
       <Header />
