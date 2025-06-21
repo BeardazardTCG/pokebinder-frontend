@@ -9,18 +9,23 @@ import Footer from '@/components/layout/Footer';
 import PaginationControls from '@/components/ui/PaginationControls';
 import { Metadata } from 'next';
 
+// ✅ Static page metadata
 export const metadata: Metadata = {
   title: 'Search Results | PokéBinder',
   description: 'See live market prices and listings for your favourite Pokémon cards.',
 };
 
-export default async function SearchPage({
-  searchParams,
-}: {
-  searchParams?: Record<string, string | string[] | undefined>;
-}) {
-  const query = typeof searchParams?.q === 'string' ? searchParams.q.trim() : '';
-  const page = parseInt(typeof searchParams?.page === 'string' ? searchParams.page : '1', 10);
+// ✅ Correct typing for Next.js App Router Page
+type SearchPageProps = {
+  searchParams?: {
+    q?: string;
+    page?: string;
+  };
+};
+
+export default async function SearchPage({ searchParams }: SearchPageProps) {
+  const query = searchParams?.q?.trim() || '';
+  const page = parseInt(searchParams?.page || '1', 10);
   const pageSize = 20;
 
   const allResults = query ? await getSearchResults(query) : [];
