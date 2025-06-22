@@ -17,7 +17,7 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config: any) => {  // <-- Added explicit type here
+  webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       dns: false,
@@ -29,6 +29,23 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  async headers() {
+    return [
+      {
+        source: '/cards-sitemap.xml',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'all',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+    ];
   },
 };
 
