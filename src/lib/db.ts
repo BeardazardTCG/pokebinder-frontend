@@ -1,3 +1,5 @@
+// ✅ File: /lib/db.ts
+
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -140,6 +142,73 @@ export async function getCardFromDB(uniqueId: string) {
     };
   } catch (err) {
     console.error('🔥 DB Fetch Error in getCardFromDB:', err);
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
+// === Fetch card by card_name + set_slug + card_number ===
+export async function getCardByParts(character: string, setSlug: string, cardNumber: string) {
+  const client = await pool.connect();
+  try {
+    const res = await client.query(
+      `
+      SELECT 
+        m.unique_id,
+        m.card_name,
+        m.card_number,
+        m.card_image_url,
+        m.set_code,
+        m.set_name,
+        m.set_logo_url,
+        m.set_symbol_url,
+        m.clean_avg_value,
+        m.verified_sales_logged,
+        m.price_range_seen_min,
+        m.price_range_seen_max,
+        m.type,
+        d.sold_date,
+        d.median_price,
+        d.average_price
+      FROM mastercard_v2 m
+      LEFT JOIN dailypricelog d ON m.unique_id = d.unique_id
+      WHERE 
+        LOWER(m.card_name) = $1
+        AND m.set_slug = $2
+        AND m.card_number = $3
+      ORDER BY d.sold_date DESC
+      LIMIT 1
+      `,
+      [character.toLowerCase(), setSlug, cardNumber]
+    );
+
+    if (!res.rows.length) {
+      throw new Error(`Card not found for ${character}/${setSlug}/${cardNumber}`);
+    }
+
+    const card = res.rows[0];
+
+    return {
+      unique_id: card.unique_id,
+      set_code: card.set_code,
+      card_name: card.card_name,
+      card_number: card.card_number,
+      card_image_url: card.card_image_url,
+      set_logo_url: card.set_logo_url ?? null,
+      clean_avg_value: card.clean_avg_value !== null ? parseFloat(card.clean_avg_value) : null,
+      price: card.clean_avg_value !== null ? parseFloat(card.clean_avg_value) : null,
+      set_name: card.set_name,
+      sold_date: card.sold_date,
+      average_price: card.average_price !== null ? parseFloat(card.average_price) : null,
+      median_price: card.median_price !== null ? parseFloat(card.median_price) : null,
+      verified_sales_logged: card.verified_sales_logged !== null ? parseInt(card.verified_sales_logged) : null,
+      price_range_seen_min: card.price_range_seen_min !== null ? parseFloat(card.price_range_seen_min) : null,
+      price_range_seen_max: card.price_range_seen_max !== null ? parseFloat(card.price_range_seen_max) : null,
+      type: card.type ?? null,
+    };
+  } catch (err) {
+    console.error("🔥 DB Fetch Error in getCardByParts:", err);
     throw err;
   } finally {
     client.release();
