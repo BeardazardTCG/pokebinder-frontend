@@ -10,7 +10,7 @@ Allow: /cards-sitemap
 Allow: /
 
 Sitemap: https://www.pokebinder.co.uk/sitemap-index.xml
-Sitemap: https://www.pokebinder.co.uk/cards-sitemap
+Sitemap: https://www.pokebinder.co.uk/cards-sitemap.xml
 `;
 
   return new NextResponse(content, {
