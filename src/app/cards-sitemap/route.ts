@@ -1,36 +1,58 @@
+// src/app/cards-sitemap/route.ts
 import { NextResponse } from 'next/server';
-import { pool } from '@/lib/db';
+import { Pool } from 'pg';
+
+export const dynamic = 'force-static'; // ✅ Must be static to allow crawling
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
+  ssl: { rejectUnauthorized: false },
+});
+
+const BASE_URL = 'https://www.pokebinder.co.uk';
 
 export async function GET() {
-  const client = await pool.connect();
-
   try {
-    const res = await client.query(`
+    const flatCardResult = await pool.query('SELECT unique_id FROM mastercard_v2 LIMIT 18000;');
+    const seoCardResult = await pool.query(`
       SELECT card_name, set_slug, card_number
       FROM mastercard_v2
       WHERE card_image_url IS NOT NULL
+      LIMIT 18000;
     `);
+    const setResult = await pool.query('SELECT DISTINCT set_code FROM mastercard_v2 LIMIT 1000;');
 
-    const urls = res.rows.map(row => {
-      const char = row.card_name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      const set = row.set_slug;
-      const number = row.card_number;
-      return `<url><loc>https://pokebinder.co.uk/cards/${char}/${set}/${number}</loc></url>`;
-    }).join('\n');
+    const staticPages = ['', 'search?q=charizard', 'updates', 'blog'];
 
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
+    const urls = [
+      ...staticPages.map((slug) => `${BASE_URL}/${slug}`),
+      ...flatCardResult.rows.map((row) => `${BASE_URL}/card/${row.unique_id}`),
+      ...seoCardResult.rows.map((row) => {
+        const char = row.card_name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        return `${BASE_URL}/cards/${char}/${row.set_slug}/${row.card_number}`;
+      }),
+      ...setResult.rows.map((row) => `${BASE_URL}/set/${row.set_code}`),
+    ];
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((url) => `
+  <url>
+    <loc>${url}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>${url.includes('/card/') || url.includes('/cards/') ? '0.8' : '0.5'}</priority>
+  </url>`).join('')}
 </urlset>`;
 
-    return new NextResponse(xml, {
+    return new NextResponse(sitemap, {
       status: 200,
-      headers: { 'Content-Type': 'application/xml' },
+      headers: {
+        'Content-Type': 'application/xml',
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600', // ✅ Marks it as public
+      },
     });
-  } catch (err) {
-    console.error('❌ Error generating cards sitemap:', err);
-    return new NextResponse('Failed to generate sitemap', { status: 500 });
-  } finally {
-    client.release();
+  } catch (error: any) {
+    console.error('❌ Sitemap Error:', error);
+    return new NextResponse('Sitemap generation failed', { status: 500 });
   }
 }
