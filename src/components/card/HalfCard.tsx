@@ -26,7 +26,7 @@ export default function HalfCard({
 }: HalfCardProps) {
   return (
     <Link
-      href={`/card/${unique_id}`}
+      <Link href={`/cards/${card_name.toLowerCase()}/${set_name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/${card_number}`}
       className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden w-full max-w-[240px] h-full"
     >
       <div className="flex flex-col justify-between h-full p-4 text-center">
