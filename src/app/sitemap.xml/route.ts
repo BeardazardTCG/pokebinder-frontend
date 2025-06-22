@@ -1,10 +1,11 @@
+// src/app/cards-sitemap/route.ts
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-static'; // ✅ Required for sitemap crawling
 
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:ckQFRJkrJluWsJnHsDhlhvbtSridadDF@metro.proxy.rlwy.net:52025/railway',
   ssl: { rejectUnauthorized: false },
 });
 
@@ -21,7 +22,7 @@ export async function GET() {
     `);
     const setResult = await pool.query('SELECT DISTINCT set_code FROM mastercard_v2 LIMIT 1000;');
 
-    const staticPages = ['', 'search?q=charizard', 'updates', 'blog'];
+    const staticPages = ['', 'search', 'updates', 'blog'];
 
     const urls = [
       ...staticPages.map((slug) => `${BASE_URL}/${slug}`),
@@ -44,8 +45,10 @@ ${urls.map((url) => `
 </urlset>`;
 
     return new NextResponse(sitemap, {
+      status: 200,
       headers: {
         'Content-Type': 'application/xml',
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600',
       },
     });
   } catch (error: any) {
