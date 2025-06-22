@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   images: {
     domains: [
       'images.pokemontcg.io',
@@ -17,7 +18,7 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config) => {
+  webpack: (config: any) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       dns: false,
@@ -49,4 +50,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
