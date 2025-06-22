@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "PokéBinder | UK Pokémon Card Prices & Collector Tools",
     description: "Live UK Pokémon card prices, trends, and tools.",
-    url: "https://www.pokebinder.co.uk",
+    url: "https://pokebinder.co.uk",
     siteName: "PokéBinder",
     images: [
       {
