@@ -25,7 +25,6 @@ export default function HalfCard({
   price_range_seen_max,
 }: HalfCardProps) {
   return (
-    <Link
       <Link href={`/cards/${card_name.toLowerCase()}/${set_name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/${card_number}`}
       className="group block rounded-3xl border border-zinc-200 bg-gradient-to-br from-white via-orange-50 to-yellow-50 shadow-sm hover:shadow-xl hover:border-orange-300 transition duration-200 overflow-hidden w-full max-w-[240px] h-full"
     >
