@@ -307,7 +307,7 @@ export async function getAllCardsWithImages() {
   }
 }
 
-// === Fetch all unique card slugs (for sitemap) ===
+// === Fetch all unique card slugs (for old sitemap) ===
 export async function getAllCardSlugs(): Promise<string[]> {
   const client = await pool.connect();
   try {
@@ -323,8 +323,10 @@ export async function getAllCardSlugs(): Promise<string[]> {
   } finally {
     client.release();
   }
+}
 
-  export async function getAllSeoCardSlugs(): Promise<
+// ✅ === NEW: Fetch slugs for clean card URLs (for new sitemap) ===
+export async function getAllSeoCardSlugs(): Promise<
   { card_name: string; set_slug: string; card_number: string }[]
 > {
   const client = await pool.connect();
@@ -342,6 +344,4 @@ export async function getAllCardSlugs(): Promise<string[]> {
   } finally {
     client.release();
   }
-}
-
 }
