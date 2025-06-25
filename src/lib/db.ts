@@ -148,7 +148,7 @@ export async function getCardFromDB(uniqueId: string) {
   }
 }
 
-// === Fetch card by card_name + set_slug + card_number ===
+// === Fetch card by card_slug + set_slug + card_number ===
 export async function getCardByParts(character: string, setSlug: string, cardNumber: string) {
   const client = await pool.connect();
   try {
@@ -174,13 +174,13 @@ export async function getCardByParts(character: string, setSlug: string, cardNum
       FROM mastercard_v2 m
       LEFT JOIN dailypricelog d ON m.unique_id = d.unique_id
       WHERE 
-        LOWER(m.card_name) = $1
+        m.card_slug = $1
         AND m.set_slug = $2
         AND m.card_number = $3
       ORDER BY d.sold_date DESC
       LIMIT 1
       `,
-      [character.toLowerCase(), setSlug, cardNumber]
+      [character, setSlug, cardNumber]
     );
 
     if (!res.rows.length) {
