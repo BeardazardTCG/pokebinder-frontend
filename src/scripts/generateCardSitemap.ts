@@ -1,16 +1,20 @@
 import fs from 'fs';
 import path from 'path';
-import { getAllCardSlugs } from '@/lib/db'; // Must return an array of slug strings
+import { getAllSeoCardSlugs } from '@/lib/db'; // NEW: must return card_name, set_slug, card_number
 
 async function generateCardSitemap() {
   try {
-    const baseUrl = 'https://www.pokebinder.co.uk/card/';
-    const slugs: string[] = await getAllCardSlugs();
+    const baseUrl = 'https://www.pokebinder.co.uk/cards/';
+    const cards = await getAllSeoCardSlugs(); // must return { card_name, set_slug, card_number }[]
 
-    const urls = slugs.map((slug) => {
+    const urls = cards.map(({ card_name, set_slug, card_number }) => {
+      const char = card_name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
       return `
   <url>
-    <loc>${baseUrl}${slug}</loc>
+    <loc>${baseUrl}${char}/${set_slug}/${card_number}</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>`;
