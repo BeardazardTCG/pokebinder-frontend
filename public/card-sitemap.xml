@@ -1,0 +1,36 @@
+import fs from 'fs';
+import path from 'path';
+import { getAllSeoCardSlugs } from '@/lib/db';
+
+async function generateCardSitemap() {
+  try {
+    const baseUrl = 'https://www.pokebinder.co.uk/cards/';
+    const cards = await getAllSeoCardSlugs();
+
+    const urls = cards.map(({ card_name, set_slug, card_number }) => {
+      const char = card_name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+      return `
+  <url>
+    <loc>${baseUrl}${char}/${set_slug}/${card_number}</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+    });
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join('\n')}
+</urlset>`;
+
+    const outputPath = path.join(process.cwd(), 'public/card-sitemap.xml');
+    fs.writeFileSync(outputPath, sitemap.trim());
+    console.log(`✅ card-sitemap.xml written to ${outputPath}`);
+  } catch (err) {
+    console.error('❌ Error generating card sitemap:', err);
+  }
+}
+
+generateCardSitemap();
