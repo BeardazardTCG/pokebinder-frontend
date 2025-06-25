@@ -23,8 +23,29 @@ export default function SetLogoSlider() {
       try {
         const res = await fetch('/api/latestsets');
         if (res.ok) {
-          const data = await res.json();
-          setSets(data);
+          const data: SetLogo[] = await res.json();
+
+          // 🌟 FEATURED SETS TO PREPEND
+          const featuredSets: SetLogo[] = [
+            {
+              set_id: 'mcd18',
+              set_name: "McDonald's 2018 Promo",
+              image: '/Assets/sets/mcd18.webp',
+            },
+            {
+              set_id: 'mcd21',
+              set_name: "McDonald's 2021 Promo",
+              image: '/Assets/sets/mcd21.webp',
+            },
+            {
+              set_id: 'base',
+              set_name: "Base Set (Original)",
+              image: '/Assets/sets/base.webp',
+            },
+          ];
+
+          // 🧼 Merge featured + live API sets
+          setSets([...featuredSets, ...data]);
         } else {
           console.error('Failed to fetch /api/latestsets');
         }
