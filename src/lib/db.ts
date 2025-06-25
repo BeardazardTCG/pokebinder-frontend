@@ -323,4 +323,25 @@ export async function getAllCardSlugs(): Promise<string[]> {
   } finally {
     client.release();
   }
+
+  export async function getAllSeoCardSlugs(): Promise<
+  { card_name: string; set_slug: string; card_number: string }[]
+> {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(`
+      SELECT card_name, set_slug, card_number
+      FROM mastercard_v2
+      WHERE card_image_url IS NOT NULL
+      LIMIT 18000;
+    `);
+    return result.rows;
+  } catch (err) {
+    console.error('🔥 DB Fetch Error in getAllSeoCardSlugs:', err);
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
 }
