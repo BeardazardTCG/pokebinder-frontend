@@ -47,8 +47,30 @@ export default async function CardPage({ params }: any) {
       highPrice: card.price_range_seen_max || card.clean_avg_value,
       priceCurrency: "GBP",
       offerCount: 1,
-      availability: "https://schema.org/InStock"
-    }
+      availability: "https://schema.org/InStock",
+      priceValidUntil: "2025-12-31",
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "GB",
+        "returnPolicyCategory": "https://schema.org/NoReturns"
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "GB" },
+        "shippingRate": { "@type": "MonetaryAmount", "value": "0.00", "currency": "GBP" },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "d" },
+          "transitTime": { "@type": "QuantitativeValue", "minValue": 2, "maxValue": 5, "unitCode": "d" }
+        }
+      }
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "0",
+      reviewCount: "0"
+    },
+    review: []
   };
 
   const imageSchema = {
@@ -57,7 +79,10 @@ export default async function CardPage({ params }: any) {
     contentUrl: card.card_image_url,
     name: `${card.card_name} (${card.set_name})`,
     license: "https://www.pokebinder.co.uk",
-    creditText: "PokéBinder"
+    creditText: "PokéBinder",
+    acquireLicensePage: "https://www.pokebinder.co.uk",
+    copyrightNotice: "Image copyright PokéBinder",
+    creator: "PokéBinder"
   };
 
   const faqSchema = {
