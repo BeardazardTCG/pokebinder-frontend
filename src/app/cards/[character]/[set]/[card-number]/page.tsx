@@ -8,20 +8,31 @@ import MoreFromSetGrid from '@/components/card/MoreFromSetGrid';
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const card = await getCardByParts(params.character, params.set, params['card-number']).catch(() => null);
-  if (!card) return {
-    title: 'Card Not Found | PokéBinder',
-    description: 'No card data available.',
-    openGraph: { images: [] },
-  };
+  if (!card) {
+    return {
+      title: 'Card Not Found | PokéBinder',
+      description: 'No card data available.',
+      openGraph: { images: [] },
+    };
+  }
 
   return {
     title: `${card.card_name} | ${card.set_name} | PokéBinder`,
-    description: `Track real-time UK market prices for ${card.card_name} from ${card.set_name}.`,
+    description: `Track the real-time UK market value for ${card.card_name} from the ${card.set_name} set. Honest pricing from sold listings.`,
     openGraph: {
       title: `${card.card_name} | ${card.set_name}`,
-      description: `Live market prices for ${card.card_name} (${card.set_code} #${card.card_number})`,
+      description: `UK eBay market snapshot for ${card.card_name} (${card.set_code} #${card.card_number}) on PokéBinder.`,
+      images: [{ url: card.card_image_url, width: 800, height: 1120, alt: `${card.card_name} from ${card.set_name}` }],
+      type: "product",
+      url: `https://pokebinder.co.uk/cards/${params.character}/${params.set}/${params['card-number']}`
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${card.card_name} | ${card.set_name} | PokéBinder`,
+      description: `Live price data for ${card.card_name}. No inflated values – just clean UK collector insight.`,
       images: [card.card_image_url],
     },
+    metadataBase: new URL('https://pokebinder.co.uk')
   };
 }
 
