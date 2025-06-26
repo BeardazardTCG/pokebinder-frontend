@@ -10,11 +10,28 @@ export async function GET() {
        ORDER BY set_id, release_date DESC`
     );
 
-    const sets = result.rows.map(row => ({
-      set_id: row.set_id,
-      set_name: row.set_name,
-      image: row.image
-    }));
+    const sets = await Promise.all(
+      result.rows.map(async (row) => {
+        const cardsRes = await pool.query(
+          `SELECT card_slug, set_slug, card_number
+           FROM mastercard_v2
+           WHERE set_id = $1 AND card_slug IS NOT NULL
+           LIMIT 6`,
+          [row.set_id]
+        );
+
+        const cards = cardsRes.rows.map(card => ({
+          url: `/cards/${card.card_slug}/${card.set_slug}/${card.card_number}`
+        }));
+
+        return {
+          set_id: row.set_id,
+          set_name: row.set_name,
+          image: row.image,
+          cards
+        };
+      })
+    );
 
     console.log("✅ /api/latestsets fetched:", sets.length, "sets");
 
