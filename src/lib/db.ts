@@ -148,10 +148,11 @@ export async function getCardFromDB(uniqueId: string) {
   }
 }
 
-// === Fetch card by card_slug + set_slug + card_number ===
 export async function getCardByParts(character: string, setSlug: string, cardNumber: string) {
   const client = await pool.connect();
   try {
+    const safeCharacter = decodeURIComponent(character).toLowerCase().replace(/\s+/g, '-');
+
     const res = await client.query(
       `
       SELECT 
@@ -180,11 +181,11 @@ export async function getCardByParts(character: string, setSlug: string, cardNum
       ORDER BY d.sold_date DESC
       LIMIT 1
       `,
-      [character, setSlug, cardNumber]
+      [safeCharacter, setSlug, cardNumber]
     );
 
     if (!res.rows.length) {
-      throw new Error(`Card not found for ${character}/${setSlug}/${cardNumber}`);
+      throw new Error(`Card not found for ${safeCharacter}/${setSlug}/${cardNumber}`);
     }
 
     const card = res.rows[0];
