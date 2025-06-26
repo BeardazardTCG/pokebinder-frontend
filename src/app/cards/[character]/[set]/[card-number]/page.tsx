@@ -26,6 +26,8 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 }
 
 export default async function CardPage({ params }: any) {
+  console.log("🪵 ROUTE PARAMS:", params);
+
   const { character, set, ['card-number']: cardNumber } = params;
 
   const card = await getCardByParts(character, set, cardNumber).catch(() => null);
