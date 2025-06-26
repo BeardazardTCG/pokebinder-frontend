@@ -27,15 +27,15 @@ export default async function Page({ params }: any) {
   return (
     <>
       <Head>
-        <title>{`${setName} Pokémon Cards | Live UK Prices – PokéBinder`}</title>
-        <meta name="description" content={`Track market prices for all cards in the ${setName} Pokémon TCG set.`} />
-        <meta property="og:title" content={`${setName} Pokémon Cards | Live UK Prices`} />
-        <meta property="og:description" content={`See all cards from ${setName} with trusted market pricing.`} />
+        <title>{`${setName} Pokémon Card List | Track UK Values – PokéBinder`}</title>
+        <meta name="description" content={`Browse all ${setName} cards with live UK prices based on real eBay sales. Trusted daily updates from PokéBinder.`} />
+        <meta property="og:title" content={`${setName} Pokémon Card List`} />
+        <meta property="og:description" content={`Track live market values for cards in the ${setName} set. Accurate UK pricing for collectors.`} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://www.pokebinder.co.uk/set/${setId}`} />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={`${setName} Pokémon Cards`} />
-        <meta name="twitter:description" content={`Live UK prices and listings for ${setName}.`} />
+        <meta name="twitter:description" content={`Check UK eBay-based prices for every card in ${setName}.`} />
         <link rel="canonical" href={`https://www.pokebinder.co.uk/set/${setId}`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Head>
@@ -43,14 +43,19 @@ export default async function Page({ params }: any) {
       <TopSocialBanner />
       <Header />
 
-      <main className="px-4 pb-16 pt-6 bg-[#fefefe]">
-        <h1 className="text-3xl font-extrabold text-center mb-2 text-zinc-800">
-          {setName}
+      <section className="text-center py-6 px-4 max-w-4xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-800 mb-2">
+          {setName} – Pokémon Card List & UK Prices
         </h1>
-        <p className="text-center text-sm text-zinc-500 mb-8">
-          {cards.length > 0 ? 'All cards from this set.' : 'No cards found for this set.'}
+        <p className="text-sm sm:text-base text-zinc-600 mb-4">
+          Explore every card from <strong>{setName}</strong> with up-to-date UK pricing based on real eBay sales. Trusted data for collectors, players, and sellers.
         </p>
+        <p className="text-xs text-zinc-400 italic">
+          {cards.length} cards found • Daily values • 100% UK focused
+        </p>
+      </section>
 
+      <main className="px-4 pb-16 pt-6 bg-[#fefefe]">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-8 max-w-7xl mx-auto">
           <div className="hidden md:block">
             <SidebarBuyBox query={setId} side="left" />
