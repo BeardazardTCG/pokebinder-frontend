@@ -23,7 +23,6 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       title: `${card.card_name} | ${card.set_name}`,
       description: `UK eBay market snapshot for ${card.card_name} (${card.set_code} #${card.card_number}) on PokéBinder.`,
       images: [{ url: card.card_image_url, width: 800, height: 1120, alt: `${card.card_name} from ${card.set_name}` }],
-      type: "product",
       url: `https://pokebinder.co.uk/cards/${params.character}/${params.set}/${params['card-number']}`
     },
     twitter: {
