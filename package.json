@@ -2,7 +2,6 @@
   "name": "cardcatch",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build && tsx src/scripts/generateImageSitemap.ts && tsx src/scripts/generateCardSitemap.ts && tsx src/scripts/generateSitemapIndex.ts",
