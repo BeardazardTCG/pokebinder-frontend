@@ -253,42 +253,24 @@ export async function getCardsBySetId(setId: string) {
   const client = await pool.connect();
   try {
     const res = await client.query(
-      `
-      SELECT 
-        unique_id,
-        card_name,
-        card_number,
-        card_image_url,
-        set_name,
-        set_logo_url,
-        clean_avg_value,
-        price_range_seen_min,
-        price_range_seen_max
-      FROM mastercard_v2
-      WHERE set_id = $1
-      ORDER BY card_number::int NULLS LAST
-      `,
-      [setId]
-    );
+  `
+  SELECT 
+    unique_id,
+    card_name,
+    card_number,
+    card_image_url,
+    set_name,
+    set_logo_url,
+    clean_avg_value,
+    price_range_seen_min,
+    price_range_seen_max
+  FROM mastercard_v2
+  WHERE set_id = $1
+  ORDER BY card_number NULLS LAST
+  `,
+  [setId]
+);
 
-    return res.rows.map(card => ({
-      unique_id: card.unique_id,
-      card_name: card.card_name,
-      card_number: card.card_number,
-      card_image_url: card.card_image_url,
-      set_name: card.set_name,
-      set_logo_url: card.set_logo_url ?? null,
-      clean_avg_value: card.clean_avg_value !== null ? parseFloat(card.clean_avg_value) : null,
-      price_range_seen_min: card.price_range_seen_min !== null ? parseFloat(card.price_range_seen_min) : null,
-      price_range_seen_max: card.price_range_seen_max !== null ? parseFloat(card.price_range_seen_max) : null,
-    }));
-  } catch (err) {
-    console.error('🔥 DB Fetch Error in getCardsBySetId:', err);
-    throw err;
-  } finally {
-    client.release();
-  }
-}
 
 // === Fetch all cards with images and unique IDs ===
 export async function getAllCardsWithImages() {
