@@ -56,7 +56,7 @@ export default function LiveScrapeStats() {
       {/* Total listings */}
       <div className="text-center text-white">
         <span className="text-lg md:text-2xl font-bold font-mono">
-          {total.toLocaleString()}
+          {total ? total.toLocaleString() : ''}
         </span>
         <div className="text-sm text-white/70 mt-1">listings scanned (updated {updated})</div>
       </div>
@@ -64,13 +64,13 @@ export default function LiveScrapeStats() {
       {/* Source breakdown */}
       <div className="flex justify-center gap-6 text-sm text-white/80 font-mono">
         <span>
-          <strong className="text-white">{sold.toLocaleString()}</strong> sold
+          <strong className="text-white">{sold ? sold.toLocaleString() : ''}</strong> sold
         </span>
         <span>
-          <strong className="text-white">{active.toLocaleString()}</strong> active
+          <strong className="text-white">{active ? active.toLocaleString() : ''}</strong> active
         </span>
         <span>
-          <strong className="text-white">{tcg.toLocaleString()}</strong> TCGPlayer
+          {tcg ? tcg.toLocaleString() : ''}
         </span>
       </div>
     </div>
